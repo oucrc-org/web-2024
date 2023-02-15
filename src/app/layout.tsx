@@ -61,33 +61,35 @@ export const metadata = {
 export default async function Layout({ children }: { children: ReactNode }) {
   const gtagId = clientEnv.GTAG_ID;
   return (
-    <>
-      {/*
+    <html lang="ja">
+      <body>
+        {/*
         アナリティクス設定
       */}
-      <Script
-        strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${gtagId}`}
-      />
-      <Script
-        id="gtag-init"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${gtagId}`}
+        />
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
            window.dataLayer = window.dataLayer || [];
            function gtag(){dataLayer.push(arguments);}
            gtag('js', new Date());
            gtag('config', '${gtagId}');
            `,
-        }}
-      />
-      <div className={`${notoSansJP} ${roboto} flex min-h-screen flex-col`}>
-        <Header />
-        <div className="grow pt-16">
-          <div className="container mx-auto mb-32 px-10">{children}</div>
+          }}
+        />
+        <div className={`${notoSansJP} ${roboto} flex min-h-screen flex-col`}>
+          <Header />
+          <div className="grow pt-16">
+            <div className="container mx-auto mb-32 px-10">{children}</div>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </>
+      </body>
+    </html>
   );
 }
