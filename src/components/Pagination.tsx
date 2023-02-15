@@ -1,11 +1,12 @@
 import Link from 'next/link';
 
-export interface PaginationProps {
+interface PaginationProps {
   path: string;
   page: number;
   total: number;
   perPage: number;
 }
+
 const Pagination = ({ path, page, total, perPage }: PaginationProps) => {
   const getArrayJumpTo = (totalCount: number, countPerPage: number) => {
     return Array.from(Array(Math.ceil(totalCount / countPerPage)).keys()).map(

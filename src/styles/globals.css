@@ -3,18 +3,12 @@
 @tailwind utilities;
 
 @layer utilities {
-#navigation > * {
+  .navigation > * {
     @apply h-full inline-block mr-4 pt-5 text-sm text-primary transition duration-300 ease-in-out;
   }
-  
-  #navigation > .active {
+  .navigation > .active {
     @apply border-b-2 border-primary;
   }
-  
-  .navbar {
-    @apply bg-white font-bold hidden w-full h-full py-64 top-0 left-0 opacity-90;
-  }
-  
   .hamburger {
     border: 0;
     clip: rect(0 0 0 0);

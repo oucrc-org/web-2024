@@ -2,7 +2,7 @@ import { ARTICLE_PER_PAGE } from '@/config/const';
 import { Article } from '@/types/micro-cms';
 import { MicroCMSListResponse } from 'microcms-js-sdk';
 import Link from 'next/link';
-import Pagination, { PaginationProps } from './Pagination';
+import Pagination from './Pagination';
 
 interface ArticleListProps {
   paginationPath: string;
