@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const Footer = () => {
   return (
-    <div className="z-30 h-48 w-full grow-0 bg-footer sm:h-64">
+    <div className="z-10 h-48 w-full grow-0 bg-footer sm:h-64">
       <Link href="/">
         <picture>
           <source
