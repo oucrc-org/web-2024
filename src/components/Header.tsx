@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -6,15 +8,15 @@ export default function Header() {
   const [opened, setOpened] = useState(false);
   return (
     <header>
-      <div className="bg-white text-lg flex flex-row h-16 justify-between opacity-90 px-3 shadow-md fixed w-full z-40">
+      <div className="fixed z-40 flex h-16 w-full flex-row justify-between bg-white px-3 text-lg opacity-90 shadow-md">
         {/* ロゴ */}
         <Link href="/" className="m-2 flex flex-row items-center">
           <picture>
             <source type="image/webp" srcSet="/images/common/oucrc-logo.webp" />
             <Image
-              width={300}
-              height={70}
-              className="h-10 hidden md:block mr-2"
+              width={40}
+              height={40}
+              className="mr-2 hidden h-10 md:block"
               src="/images/common/oucrc-logo.png"
               alt="ロゴ"
             />
@@ -36,8 +38,8 @@ export default function Header() {
         {/* ▲ ロゴ */}
 
         {/* ▼ PC ナビゲーション */}
-        <div className="hidden md:flex flex-grow justify-end">
-          <nav id="navigation" className="self-center h-full">
+        <div className="hidden grow justify-end md:flex">
+          <nav id="navigation" className="h-full self-center">
             <Link
               href="/"
               className="border-b-2 border-white hover:border-divider"
@@ -67,7 +69,7 @@ export default function Header() {
         {/* <!-- ▲ PC ナビゲーション --> */}
 
         {/* <!-- ▼ スマホ ハンバーガーメニュー --> */}
-        <div className="h-auto flex flex-row">
+        <div className="flex h-auto flex-row">
           <button
             className="focus:outline-none"
             onClick={() => setOpened(!opened)}
@@ -96,9 +98,9 @@ export default function Header() {
       </div>
 
       {opened && (
-        <div className="navbar fixed text-center text-xl z-40">
+        <div className="navbar fixed z-40 text-center text-xl">
           {/* <!-- ▼ スマホ ナビゲーション --> */}
-          <nav className="self-center h-full">
+          <nav className="h-full self-center">
             <div className="py-5">
               <Link
                 href="/"
