@@ -3,42 +3,38 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import Hamburger from './Hamburger';
 
-export default function Header() {
+const Header = () => {
   const [opened, setOpened] = useState(false);
   return (
     <header>
       <div className="fixed z-40 flex h-16 w-full flex-row justify-between bg-white px-3 text-lg opacity-90 shadow-md">
         {/* ロゴ */}
-        <Link href="/" className="m-2 flex flex-row items-center">
-          <div>
-            <picture>
-              <source
-                type="image/webp"
-                srcSet="/images/common/oucrc-logo.webp"
-              />
-              <Image
-                width={40}
-                height={40}
-                className="mr-2 hidden h-10 md:block"
-                src="/images/common/oucrc-logo.png"
-                alt="ロゴ"
-              />
-            </picture>
-            <picture>
-              <source
-                type="image/webp"
-                srcSet="/images/common/oucrc-label.webp"
-              />
-              <Image
-                width={300}
-                height={70}
-                className="h-8"
-                src="/images/common/oucrc-label.png"
-                alt="岡山大学電子計算機研究会"
-              />
-            </picture>
-          </div>
+        <Link href="/" className="m-2 flex items-center">
+          <picture>
+            <source type="image/webp" srcSet="/images/common/oucrc-logo.webp" />
+            <Image
+              width={40}
+              height={40}
+              className="mr-2 hidden h-10 md:block"
+              src="/images/common/oucrc-logo.png"
+              alt="ロゴ"
+            />
+          </picture>
+          <picture>
+            <source
+              type="image/webp"
+              srcSet="/images/common/oucrc-label.webp"
+            />
+            <Image
+              width={238}
+              height={32}
+              className="h-8"
+              src="/images/common/oucrc-label.png"
+              alt="岡山大学電子計算機研究会"
+            />
+          </picture>
         </Link>
         {/* ▲ ロゴ */}
 
@@ -74,38 +70,21 @@ export default function Header() {
         {/* ▲ PC ナビゲーション */}
 
         {/* ▼ スマホ ハンバーガーメニュー */}
-        <div className="flex h-auto flex-row">
+        <div className="flex md:hidden">
           <button
             className="focus:outline-none"
             onClick={() => setOpened(!opened)}
             type="button"
+            aria-label={'タップしてメニューを' + opened ? '閉じる' : '開く'}
           >
-            {opened ? (
-              <Image
-                v-if="flag"
-                src="/images/header/close.svg"
-                width="18"
-                height="18"
-                alt="キャンセル"
-                className="m-2 md:hidden"
-              />
-            ) : (
-              <Image
-                src="/images/header/hamburger.svg"
-                width="18"
-                height="18"
-                alt="メニュー"
-                className="m-2 block md:hidden"
-              />
-            )}
-            <span className="hamburger">ハンバーガーメニュー</span>
+            <Hamburger opened={opened} />
           </button>
         </div>
         {/* ▲ スマホ ハンバーガーメニュー */}
       </div>
 
       {opened && (
-        <div className="fixed top-0 left-0 z-40 hidden h-full w-full bg-white py-64 text-center text-xl font-bold opacity-90">
+        <div className="fixed top-0 left-0 z-30 h-full w-full bg-white py-64 text-center text-xl font-bold opacity-90">
           {/* ▼ スマホ ナビゲーション */}
           <nav className="h-full self-center">
             <div className="py-5">
@@ -145,4 +124,6 @@ export default function Header() {
       )}
     </header>
   );
-}
+};
+
+export default Header;

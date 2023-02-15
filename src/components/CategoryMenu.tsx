@@ -1,7 +1,7 @@
 import { getAllCategories } from '@/utils/micro-cms';
 import Link from 'next/link';
 
-export default async function CategoryMenu() {
+const CategoryMenu = async () => {
   const categories = await getAllCategories();
   return (
     <div className="flex gap-4">
@@ -14,4 +14,6 @@ export default async function CategoryMenu() {
       ))}
     </div>
   );
-}
+};
+
+export default CategoryMenu;
