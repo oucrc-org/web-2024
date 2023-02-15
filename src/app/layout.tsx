@@ -53,6 +53,16 @@ export const metadata = {
     creatorId: '551682037', // 不変のTwitterユーザID
     images: [ogImageUrl],
   },
+
+  /**
+   * TODO: 正式切り替え時にクロール許可
+   */
+  robots: {
+    index: false,
+    googleBot: {
+      index: false,
+    },
+  },
 };
 
 /**
