@@ -1,4 +1,4 @@
-import { getAllArticles, getArticle, getArticles } from '@/utils/micro-cms';
+import { getAllArticles, getArticle } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import { buildMetadata } from '@/utils/metadata';
 
@@ -24,9 +24,5 @@ export default async function ArticlePage({ params }: Params) {
   const articleId = params.articleId;
   const article = await getArticle(articleId);
 
-  return (
-    <div>
-      <pre>{JSON.stringify(article, null, '\t')}</pre>
-    </div>
-  );
+  return <div>{article.title}</div>;
 }
