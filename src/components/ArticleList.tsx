@@ -6,11 +6,15 @@ import Pagination from './Pagination';
 
 interface ArticleListProps {
   paginationPath: string;
-  page: number;
+  pageNumber: number;
   data: MicroCMSListResponse<Article>;
 }
 
-const ArticleList = ({ paginationPath, page, data }: ArticleListProps) => {
+const ArticleList = ({
+  paginationPath,
+  pageNumber,
+  data,
+}: ArticleListProps) => {
   return (
     <div>
       {data.contents.map((article) => (
@@ -21,7 +25,7 @@ const ArticleList = ({ paginationPath, page, data }: ArticleListProps) => {
         </Link>
       ))}
       <Pagination
-        page={page}
+        pageNumber={pageNumber}
         path={paginationPath}
         total={data.totalCount}
         perPage={ARTICLE_PER_PAGE}
