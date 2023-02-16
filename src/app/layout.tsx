@@ -83,7 +83,9 @@ export default async function Layout({ children }: { children: ReactNode }) {
            `,
           }}
         />
-        <div className={`${notoSansJP} ${roboto} flex min-h-screen flex-col`}>
+        <div
+          className={`${notoSansJP.className} ${roboto.className} flex min-h-screen flex-col`}
+        >
           <Header />
           <div className="grow pt-16">
             <div className="container mx-auto mb-32 px-10">{children}</div>
