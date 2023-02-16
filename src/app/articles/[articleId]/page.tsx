@@ -17,8 +17,18 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params: { articleId },
 }: Params): Promise<Metadata> {
-  const { title } = await getArticle(articleId);
-  return { title };
+  const { title, body, twitter_comment, image } = await getArticle(articleId);
+  // TODO: twitter_commentがない場合HTMLが混入する対策
+  const description = twitter_comment ?? body.slice(0, 140);
+  if (image) {
+    const { url, width, height } = image;
+    return {
+      title,
+      description,
+      openGraph: { images: [{ url, width, height }] },
+    };
+  }
+  return { title, description };
 }
 
 export default async function ArticlePage({ params: { articleId } }: Params) {
