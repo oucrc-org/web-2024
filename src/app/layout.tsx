@@ -15,7 +15,7 @@ const roboto = Roboto({
   subsets: ['latin'],
 });
 
-const title = 'OUCRC | 岡山大学電子計算機研究会';
+const siteName = 'サイト名';
 const description = `岡山大学電子計算機研究会は、パソコンを使ってプログラミングやDTMをしたり、電子工作や3Dプリンターなど "モノづくり" をしている部活です！部にはVRゴーグルやタブレットなどの機材があり、デバッグなども気軽にできます！また、電子工作のパーツや3Dプリンターなどもあるため、ハードルなく "モノづくり" の世界に入ることができます！そして、息抜きにはゲーム大会を開いたり、漫画を読むこともできます。岡大に入学して部活動・サークル選びに迷っている方は、ぜひ一度遊びに来てください！`;
 const ogImageUrl =
   'https://images.microcms-assets.io/assets/9db8326938b34b1381d6805cc5e10b04/e4434ebf7e8a426aaaa71f16dea02a74/cover.jpg';
@@ -25,7 +25,7 @@ const ogImageUrl =
  * @see https://beta.nextjs.org/docs/api-reference/metadata#icons
  */
 export const metadata = {
-  title,
+  title: { default: siteName, template: `%s - ${siteName}` },
   description,
   icons: {
     icon: '/favicon.ico',
@@ -34,7 +34,7 @@ export const metadata = {
   openGraph: {
     type: 'website',
     locale: 'ja_JP',
-    siteName: title,
+    siteName,
     description,
     images: [
       {
@@ -47,21 +47,12 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title,
+    title: siteName,
     description,
+    site: '@oucrc',
     creator: '@oucrc',
     creatorId: '551682037', // 不変のTwitterユーザID
     images: [ogImageUrl],
-  },
-
-  /**
-   * TODO: 正式切り替え時にクロール許可
-   */
-  robots: {
-    index: false,
-    googleBot: {
-      index: false,
-    },
   },
 };
 
