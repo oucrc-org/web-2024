@@ -1,6 +1,5 @@
 import { getAllCategories, getArticles, getCategory } from '@/utils/micro-cms';
 import { Metadata } from 'next';
-import { buildMetadata } from '@/utils/metadata';
 import ArticleList from '@/components/ArticleList';
 
 export const revalidate = 600;
@@ -18,7 +17,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const category = await getCategory(params.categoryId);
-  return buildMetadata({ title: `${category.category}の記事一覧` });
+  return { title: `${category.category}の記事一覧` };
 }
 
 export default async function ArticlePage({ params }: Params) {

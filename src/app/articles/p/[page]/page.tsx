@@ -1,6 +1,5 @@
 import { getAllArticles, getArticles } from '@/utils/micro-cms';
 import { Metadata } from 'next';
-import { buildMetadata } from '@/utils/metadata';
 import ArticleList from '@/components/ArticleList';
 import { ARTICLE_PER_PAGE } from '@/config/const';
 
@@ -22,7 +21,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  return buildMetadata({ title: `記事一覧 ${params.page}ページ目` });
+  return { title: `記事一覧 ${params.page}ページ目` };
 }
 
 export default async function ArticlePage({

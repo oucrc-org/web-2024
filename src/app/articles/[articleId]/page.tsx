@@ -1,6 +1,5 @@
 import { getAllArticles, getArticle } from '@/utils/micro-cms';
 import { Metadata } from 'next';
-import { buildMetadata } from '@/utils/metadata';
 
 export const revalidate = 600;
 
@@ -10,19 +9,22 @@ type Params = {
 
 export async function generateStaticParams() {
   const articles = await getAllArticles();
-  return articles.contents.map(({ id }) => ({
-    articleId: id,
+  return articles.contents.map(({ id: articleId }) => ({
+    articleId,
   }));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const article = await getArticle(params.articleId);
-  return buildMetadata({ title: article.title });
+  const { title } = await getArticle(params.articleId);
+  return { title };
 }
 
-export default async function ArticlePage({ params }: Params) {
-  const articleId = params.articleId;
-  const article = await getArticle(articleId);
+export default async function ArticlePage({ params: { articleId } }: Params) {
+  const { title } = await getArticle(articleId);
 
-  return <div>{article.title}</div>;
+  return (
+    <div>
+      <h1>{title}</h1>
+    </div>
+  );
 }
