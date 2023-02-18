@@ -10,9 +10,16 @@ import { DOMAIN } from '@/config/const';
  */
 export const notifyUpdateToSlack = async (parsedBody: MicroCMSWebhookBody) => {
   const { api, type, contents } = parsedBody;
-  const action =
-    type === 'new' ? '新規作成' : type === 'edit' ? '更新' : '削除';
-  const needsToTweet = api === 'article' && type === 'new';
+  let action = type === 'new' ? '新規作成' : type === 'edit' ? '更新' : '削除';
+  // 下書き公開時は"edit"なのでステータスも判定する
+  const isDraftMadePublic =
+    contents.old?.status.includes('DRAFT') &&
+    contents.new.status.includes('PUBLISH');
+  if (isDraftMadePublic) {
+    action = '下書きから公開状態に変更';
+  }
+  const needsToTweet =
+    (api === 'article' && type === 'new') || isDraftMadePublic;
   const url = DOMAIN + getPathByWebhook(parsedBody);
   const newContent = contents.new.publishValue;
   const tweetText = `【記事が投稿されました】\n${newContent?.title}\n${
@@ -29,7 +36,7 @@ export const notifyUpdateToSlack = async (parsedBody: MicroCMSWebhookBody) => {
         ? [
             Blocks.Divider(),
             Blocks.Section({
-              text: '以下のボタンからツイートしてください。',
+              text: '以下のボタンからツイートしてください。文章は自動で入力されます。',
             }),
             Blocks.Section({
               text: `ツイート内容:\n\`\`\`${tweetText}\n${url}\`\`\``,
