@@ -1,0 +1,69 @@
+name: PRのLighthouseスコアチェック
+# 以下のワークフローを引用、Netlify用に一部変更・翻訳
+# https://github.com/OskarAhl/Lighthouse-github-action-comment/blob/main/.github/workflows/lighthouse-on-vercel-preview-url.yml
+
+on: [pull_request]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    name: Lighthouse分析と結果コメント投稿
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v3
+      - name: コメントを追加
+        id: loading_comment_to_pr
+        uses: marocchino/sticky-pull-request-comment@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ github.event.issue.number }}
+          header: lighthouse
+          message: |
+            Lighthouseで分析中...
+      - name: プレビューURLを取得
+        uses: josephduffy/wait-for-netlify-action@v1
+        id: wait_for_netlify_preview
+        with:
+          site_name: 'oucrc-web-2023'
+      - name: Lighthouseでページを分析
+        id: lighthouse_audit
+        uses: treosh/lighthouse-ci-action@v3
+        with:
+          urls: |
+            ${{ steps.wait_for_netlify_preview.outputs.url }}
+          uploadArtifacts: true
+          # 結果を一時的に公開ストレージにアップするか
+          temporaryPublicStorage: true
+      - name: スコアを整形する
+        id: format_lighthouse_score
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const result = ${{ steps.lighthouse_audit.outputs.manifest }}[0].summary
+            const links = ${{ steps.lighthouse_audit.outputs.links }}
+            const formatResult = (res) => Math.round((res * 100))
+            Object.keys(result).forEach(key => result[key] = formatResult(result[key]))
+            const score = res => res >= 90 ? '🟢' : res >= 50 ? '🟠' : '🔴'
+            const comment = [
+                `[Lighthouse分析結果](${Object.values(links)[0]}):`,
+                '| 項目 | スコア |',
+                '| --- | --- |',
+                `| ${score(result.performance)} パフォーマンス | ${result.performance} |`,
+                `| ${score(result.accessibility)} アクセシビリティ | ${result.accessibility} |`,
+                `| ${score(result['best-practices'])} ベストプラクティス | ${result['best-practices']} |`,
+                `| ${score(result.seo)} SEO | ${result.seo} |`,
+                `| ${score(result.pwa)} PWA | ${result.pwa} |`,
+                ' ',
+                `*分析したURL: [${Object.keys(links)[0]}](${Object.keys(links)[0]})*`
+            ].join('\n')
+             core.setOutput("comment", comment);
+      - name: Lighthouse結果をコメント
+        id: comment_to_pr
+        uses: marocchino/sticky-pull-request-comment@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ github.event.issue.number }}
+          header: lighthouse
+          message: |
+            ${{ steps.format_lighthouse_score.outputs.comment }}
