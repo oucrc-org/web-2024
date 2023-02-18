@@ -3,9 +3,14 @@ import type {
   MicroCMSImage,
   MicroCMSDate,
 } from 'microcms-js-sdk';
+import { z } from 'zod';
 
 type Maybe<T> = T | null;
 type MicroCMSBase = MicroCMSContentId & MicroCMSDate;
+
+export const microCMSEndpoints = ['article', 'news', 'member'] as const;
+export const microCMSEndpointName = z.enum(microCMSEndpoints);
+export type MicroCMSEndpointName = z.infer<typeof microCMSEndpointName>;
 
 /**
  * ===================================================
@@ -85,3 +90,37 @@ export type Article = {
   twitter_comment: Maybe<string>;
   image: Maybe<MicroCMSImage>;
 } & MicroCMSBase;
+
+// ========================================================
+
+const webhookContent = z.object({
+  id: z.string(),
+  status: z.array(z.enum(['PUBLISH', 'DRAFT'])),
+  draftKey: z.string().nullable(),
+  /**
+   * ジェネリックを付けようとすると
+   * APIの型を全てzod化する必要があるのでany
+   */
+  publishValue: z.record(z.any()).nullable(),
+  draftValue: z.record(z.any()).nullable(),
+});
+
+/**
+ * microCMSから送信されるWebhookのbody
+ * zodで定義してバリデーション可能にする
+ * @see https://document.microcms.io/manual/webhook-setting
+ */
+export const microCMSWebhookBody = z
+  .object({
+    service: z.string(),
+    api: microCMSEndpointName,
+    /** API関連の操作時はnull */
+    id: z.string().nullable(),
+    type: z.enum(['new', 'edit', 'delete']),
+    contents: z.object({
+      old: webhookContent.nullable(),
+      new: webhookContent,
+    }),
+  })
+  .passthrough(); // 将来的な仕様変更でフィールドが増えても有効に
+export type MicroCMSWebhookBody = z.infer<typeof microCMSWebhookBody>;
