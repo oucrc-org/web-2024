@@ -15,5 +15,21 @@ export const env = {
   ...envsafe({
     MICROCMS_API_KEY: str({}),
     MICROCMS_SERVICE_DOMAIN: str({}),
+    /**
+     * article更新時に送信するWebhookを検証するためのシークレット
+     */
+    MICROCMS_ARTICLE_WEBHOOK_SECRET: str({}),
+    /**
+     * member更新時に送信するWebhookを検証するためのシークレット
+     */
+    MICROCMS_MEMBER_WEBHOOK_SECRET: str({}),
+    /**
+     * news更新時に送信するWebhookを検証するためのシークレット
+     */
+    MICROCMS_NEWS_WEBHOOK_SECRET: str({}),
+    /**
+     * 更新通知用Slack WebhookのURL
+     */
+    SLACK_NOTICE_WEBHOOK_URL: str({}),
   }),
 };
