@@ -12,13 +12,21 @@ export const allowOnlyPostingObjectBody = async (
   next: (
     /** 後続処理の都合でanyだがobject型が保証されている */
     body: any
-  ) => void | Promise<void | Response>
+  ) => void | Promise<void | Response>,
+  /** POSTではない場合の処理 */
+  executeIfNotPost?: () => void | Promise<
+    void | Response | NextApiResponse<any>
+  >
 ) => {
   try {
     if (req.method !== 'POST') {
-      return res
-        .status(constants.HTTP_STATUS_METHOD_NOT_ALLOWED)
-        .json({ message: 'Only POST is allowed' });
+      if (executeIfNotPost) {
+        return await executeIfNotPost();
+      } else {
+        return res
+          .status(constants.HTTP_STATUS_METHOD_NOT_ALLOWED)
+          .json({ message: 'Only POST is allowed' });
+      }
     }
     const body = req.body;
     /**

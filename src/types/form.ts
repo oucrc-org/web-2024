@@ -16,6 +16,10 @@ export type FormConfig<T> = {
   nameRecord: Record<keyof T, string>;
 };
 
+/**
+ * 問い合わせフォームのバリデーション用定義
+ * GoogleフォームのID等は [@/config/form](../config/form.ts) 参照
+ */
 export const contactFormInput = z.object({
   name: zStringMinMax(2, 20),
   email: z.string().email('有効なメールアドレスを入力してください。'),
@@ -24,6 +28,10 @@ export const contactFormInput = z.object({
 
 export type ContactFormInput = z.infer<typeof contactFormInput>;
 
+/**
+ * 入部フォームのバリデーション用定義
+ * GoogleフォームのID等は [@/config/form](../config/form.ts) 参照
+ */
 export const joinFormInput = z.object({
   studentNumber: z
     .string()

@@ -8,6 +8,7 @@ import InputControl from './form/InputControl';
 import { useRouter } from 'next/navigation';
 
 const JoinForm = () => {
+  const apiPath = '/api/form/join';
   // 以降のフォームコンポーネントに渡す型
   type FormType = JoinFormInput;
   const form = useTypeSafeForm<FormType>({
@@ -26,7 +27,7 @@ const JoinForm = () => {
   const onSubmit = async (data: FormType) => {
     const body = JSON.stringify(data);
     return await toast.promise(
-      fetch(`/api/form/join`, {
+      fetch(apiPath, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body,
@@ -39,7 +40,7 @@ const JoinForm = () => {
       }),
       {
         loading: '通信中です...',
-        success: 'お問い合わせありがとうございました。',
+        success: '申込みが完了しました。',
         error: (e) => {
           console.error(e);
           return '通信に失敗しました。';
@@ -107,6 +108,18 @@ const JoinForm = () => {
                 送信
               </button>
             </div>
+            <p className="mt-16 text-sm leading-7">
+              フォームから送信できない場合は、
+              <a
+                href={apiPath}
+                className="font-bold text-blue-500"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                こちら
+              </a>
+              から送信をお願いします。
+            </p>
           </div>
         </form>
       </FormProvider>

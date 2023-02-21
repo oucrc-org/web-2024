@@ -4,6 +4,11 @@ import { postToGoogleForm } from '@/utils/form';
 import { constants } from 'http2';
 import { NextApiRequest, NextApiResponse } from 'next';
 
+/**
+ * Googleフォームとの通信を担うAPIルート
+ * POST: JSONを投げると[formType]に応じて送信
+ * POST以外: [formType]に応じてフォームページに転送
+ */
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -14,20 +19,33 @@ export default async function handler(
    */
   const formType = req.query.formType as string;
   if (Object.keys(FORMS).includes(formType)) {
-    return await allowOnlyPostingObjectBody(req, res, async (body) => {
-      return await postToGoogleForm(FORMS[formType as keyof typeof FORMS], body)
-        .then(() => {
-          return res
-            .status(constants.HTTP_STATUS_OK)
-            .json({ message: 'Contact form sent' });
-        })
-        .catch((e) => {
-          console.log(e);
-          return res
-            .status(e ?? constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
-            .json({ message: e.message ?? e });
-        });
-    });
+    const config = FORMS[formType as keyof typeof FORMS];
+    return await allowOnlyPostingObjectBody(
+      req,
+      res,
+      async (body) => {
+        return await postToGoogleForm(config, body)
+          .then(() => {
+            return res
+              .status(constants.HTTP_STATUS_OK)
+              .json({ message: 'Contact form sent' });
+          })
+          .catch((e) => {
+            console.log(e);
+            return res
+              .status(e ?? constants.HTTP_STATUS_INTERNAL_SERVER_ERROR)
+              .json({ message: e.message ?? e });
+          });
+      },
+      // POSTでない場合はフォーム自体へリダイレクト
+      async () => {
+        // `writeHead`だと転送できない
+        // TODO: `ERR_HTTP_HEADERS_SENT`エラー対応
+        res.redirect(
+          `https://docs.google.com/forms/d/e/${config.formId}/viewform`
+        );
+      }
+    );
   } else {
     return res
       .status(constants.HTTP_STATUS_NOT_FOUND)

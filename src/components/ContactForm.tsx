@@ -8,6 +8,7 @@ import InputControl from './form/InputControl';
 import { useRouter } from 'next/navigation';
 
 const ContactForm = () => {
+  const apiPath = '/api/form/contact';
   // 以降のフォームコンポーネントに渡す型
   type FormType = ContactFormInput;
   const form = useTypeSafeForm<FormType>({
@@ -22,7 +23,7 @@ const ContactForm = () => {
   const onSubmit = async (data: FormType) => {
     const body = JSON.stringify(data);
     return await toast.promise(
-      fetch(`/api/form/contact`, {
+      fetch(apiPath, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body,
@@ -79,6 +80,18 @@ const ContactForm = () => {
                 送信
               </button>
             </div>
+            <p className="mt-16 text-sm leading-7">
+              フォームから送信できない場合は、
+              <a
+                href={apiPath}
+                className="font-bold text-blue-500"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                こちら
+              </a>
+              から送信をお願いします。
+            </p>
           </div>
         </form>
       </FormProvider>

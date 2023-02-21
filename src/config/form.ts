@@ -1,6 +1,10 @@
 import { ContactFormInput, FormConfig, JoinFormInput } from '@/types/form';
 import { env } from '@/utils/server-env';
 
+/**
+ * 問い合わせフォームのGoogleフォームのID等
+ * バリデーションは [@/types/form](../types/form.ts) 参照
+ */
 const contactFormConfig: FormConfig<ContactFormInput> = {
   formId: env.GOOGLE_FORM_ID_CONTACT,
   nameRecord: {
@@ -9,6 +13,11 @@ const contactFormConfig: FormConfig<ContactFormInput> = {
     body: 'entry.1197263570',
   },
 };
+
+/**
+ * 入部フォームのGoogleフォームのID等
+ * バリデーションは [@/types/form](../types/form.ts) 参照
+ */
 const joinFormConfig: FormConfig<JoinFormInput> = {
   formId: env.GOOGLE_FORM_ID_JOIN,
   nameRecord: {
@@ -22,6 +31,10 @@ const joinFormConfig: FormConfig<JoinFormInput> = {
   },
 };
 
+/**
+ * これをAPIルートで使うことで
+ * 複数フォームの送信に対応
+ */
 export const FORMS = {
   contact: contactFormConfig,
   join: joinFormConfig,
