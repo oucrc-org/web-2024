@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { twJoin } from 'tailwind-merge';
 
 interface PaginationProps {
   path: string;
@@ -14,18 +15,16 @@ const Pagination = ({ path, pageNumber, total, perPage }: PaginationProps) => {
     );
   };
   return (
-    <div className="mx-auto my-2 flex flex-row justify-center gap-x-3">
+    <div className="btn btn-group mx-auto my-2">
       {pageNumber > 1 && (
         <Link href={`${path}/p/${pageNumber - 1}`}>
-          <div className="text-xl text-subtext">&lt;</div>
+          <div className="btn btn-md">&lt;</div>
         </Link>
       )}
       {getArrayJumpTo(total, perPage).map((p) => (
         <Link key={p} href={`${path}/p/${p}`}>
           <div
-            className={`text-xl ${
-              pageNumber === p ? 'text-primary' : 'text-subtext'
-            }`}
+            className={twJoin('btn btn-md', pageNumber === p && 'btn-active')}
           >
             {p}
           </div>
@@ -33,7 +32,7 @@ const Pagination = ({ path, pageNumber, total, perPage }: PaginationProps) => {
       ))}
       {pageNumber < Math.ceil(total / perPage) && (
         <Link href={`${path}/p/${pageNumber + 1}`}>
-          <div className="text-xl text-subtext">&gt;</div>
+          <div className="btn btn-md">&gt;</div>
         </Link>
       )}
     </div>

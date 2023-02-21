@@ -1,10 +1,11 @@
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
 import { ReactNode } from 'react';
+import Script from 'next/script';
 import '@/styles/globals.css';
 import { Noto_Sans_JP, Roboto } from '@next/font/google';
 import { clientEnv } from '@/utils/client-env';
-import Script from 'next/script';
+import ReactHotToast from '@/components/client/ReactHotToast';
+import Drawer from '@/components/Drawer';
+import Footer from '@/components/Footer';
 
 const notoSansJP = Noto_Sans_JP({
   weight: ['400', '700'],
@@ -86,12 +87,10 @@ export default async function Layout({ children }: { children: ReactNode }) {
         <div
           className={`${notoSansJP.className} ${roboto.className} flex min-h-screen flex-col`}
         >
-          <Header />
-          <div className="grow pt-16">
-            <div className="container mx-auto mb-32 px-10">{children}</div>
-          </div>
-          <Footer />
+          {/* @ts-expect-error Server Component */}
+          <Drawer>{children}</Drawer>
         </div>
+        <ReactHotToast />
       </body>
     </html>
   );
