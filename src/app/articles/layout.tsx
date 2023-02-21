@@ -1,4 +1,3 @@
-import CategoryMenu from '@/components/CategoryMenu';
 import { ReactNode } from 'react';
 
 /**
@@ -9,11 +8,5 @@ export default async function ArticleLayout({
 }: {
   children: ReactNode;
 }) {
-  return (
-    <div>
-      {/* @ts-expect-error Server Component */}
-      <CategoryMenu />
-      {children}
-    </div>
-  );
+  return <div className="flex flex-col gap-y-6 pt-8">{children}</div>;
 }

@@ -29,10 +29,10 @@ const mockWebhookBody: MicroCMSWebhookBody = {
   },
 };
 
-/**
- * GETが弾かれるか
- */
-describe('next-test-api-route-handler test', () => {
+describe('Test for API route `/api/revalidate`', () => {
+  /**
+   * GETが弾かれるか
+   */
   test('Send GET to revalidate API', async () => {
     expect.hasAssertions();
     await testApiHandler({

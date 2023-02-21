@@ -28,6 +28,14 @@ export const env = {
      */
     MICROCMS_NEWS_WEBHOOK_SECRET: str({}),
     /**
+     * お問い合わせGoogleフォームのID
+     */
+    GOOGLE_FORM_ID_CONTACT: str({}),
+    /**
+     * 入部GoogleフォームのID
+     */
+    GOOGLE_FORM_ID_JOIN: str({}),
+    /**
      * 更新通知用Slack WebhookのURL
      */
     SLACK_NOTICE_WEBHOOK_URL: str({}),
