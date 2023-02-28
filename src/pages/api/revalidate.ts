@@ -20,12 +20,17 @@ export default async function handler(
       .catch(() => {
         console.error(`Failed to revalidate but proceed to slack notification`);
       })
-      .finally(() => {
-        notifyUpdateToSlack(parsedBody);
-        const message = `Revalidated the following path by microCMS webhook: ${pathToValidate}`;
-        // NetlifyのFunction Logで確認できるように
-        console.log(message);
-        return res.status(200).json({ message });
+      .finally(async () => {
+        return await notifyUpdateToSlack(parsedBody)
+          .then(() => {
+            const message = `Revalidated the following path by microCMS webhook: ${pathToValidate}`;
+            // NetlifyのFunction Logで確認できるように
+            console.log(message);
+            return res.status(200).json({ message });
+          })
+          .catch((e) => {
+            console.error(e);
+          });
       });
   });
 }

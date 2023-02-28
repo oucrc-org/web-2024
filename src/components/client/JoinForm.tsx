@@ -1,22 +1,26 @@
 'use client';
 import { FormProvider } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTypeSafeForm } from '@/hooks/useTypeSafeForm';
-import { contactFormInput, ContactFormInput } from '@/types/form';
-import InputControl from './form/InputControl';
-import { useRouter } from 'next/navigation';
+import { joinFormInput, JoinFormInput } from '@/types/form';
+import InputControl from './InputControl';
 
-const ContactForm = () => {
-  const apiPath = '/api/form/contact';
+const JoinForm = () => {
+  const apiPath = '/api/form/join';
   // 以降のフォームコンポーネントに渡す型
-  type FormType = ContactFormInput;
+  type FormType = JoinFormInput;
   const form = useTypeSafeForm<FormType>({
-    resolver: zodResolver(contactFormInput),
+    resolver: zodResolver(joinFormInput),
     defaultValues: {
-      name: '',
+      studentNumber: '',
+      realName: '',
       email: '',
-      body: '',
+      phoneNumber: '',
+      nickname: '',
+      hobby: '',
+      comment: '',
     },
   });
   const router = useRouter();
@@ -36,7 +40,7 @@ const ContactForm = () => {
       }),
       {
         loading: '通信中です...',
-        success: 'お問い合わせありがとうございました。',
+        success: '申込みが完了しました。',
         error: (e) => {
           console.error(e);
           return '通信に失敗しました。';
@@ -49,10 +53,17 @@ const ContactForm = () => {
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="card">
-            <h2 className="card-title">お問い合わせ</h2>
+            <h2 className="card-title">入部フォーム</h2>
             <div className="flex flex-col gap-y-6">
               <InputControl<FormType>
-                name="name"
+                name="studentNumber"
+                type="text"
+                label="学籍番号 (半角)"
+                required
+                placeholder="00X00000"
+              />
+              <InputControl<FormType>
+                name="realName"
                 type="text"
                 label="名前"
                 required
@@ -60,15 +71,32 @@ const ContactForm = () => {
               />
               <InputControl<FormType>
                 name="email"
-                label="メールアドレス"
+                label="大学のメールアドレス"
                 required
                 placeholder="example@okayama-u.ac.jp"
               />
               <InputControl<FormType>
-                name="body"
-                label="本文"
+                name="phoneNumber"
+                label="電話番号 (半角)"
                 required
-                placeholder="お問い合わせ内容をご記入下さい。"
+                placeholder="000-0000-0000"
+              />
+              <InputControl<FormType>
+                name="nickname"
+                type="text"
+                label="ニックネーム"
+                required
+                placeholder="タロー"
+              />
+              <InputControl<FormType>
+                name="hobby"
+                label="趣味"
+                placeholder="電子工作,アプリ開発,ゲーム,etc..."
+              />
+              <InputControl<FormType>
+                name="comment"
+                label="一言コメント"
+                placeholder="任意"
               />
             </div>
             <div className="card-actions">
@@ -99,4 +127,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default JoinForm;
