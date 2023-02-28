@@ -28,7 +28,7 @@ jobs:
           max_timeout: 240
       - name: Lighthouseでページを分析
         id: lighthouse_audit
-        uses: treosh/lighthouse-ci-action@v3
+        uses: treosh/lighthouse-ci-action@v9
         with:
           urls: |
             ${{ steps.wait_for_netlify_preview.outputs.url }}
