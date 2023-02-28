@@ -3,24 +3,20 @@ import { FormProvider } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTypeSafeForm } from '@/hooks/useTypeSafeForm';
-import { joinFormInput, JoinFormInput } from '@/types/form';
-import InputControl from './form/InputControl';
+import { contactFormInput, ContactFormInput } from '@/types/form';
+import InputControl from './InputControl';
 import { useRouter } from 'next/navigation';
 
-const JoinForm = () => {
-  const apiPath = '/api/form/join';
+const ContactForm = () => {
+  const apiPath = '/api/form/contact';
   // 以降のフォームコンポーネントに渡す型
-  type FormType = JoinFormInput;
+  type FormType = ContactFormInput;
   const form = useTypeSafeForm<FormType>({
-    resolver: zodResolver(joinFormInput),
+    resolver: zodResolver(contactFormInput),
     defaultValues: {
-      studentNumber: '',
-      realName: '',
+      name: '',
       email: '',
-      phoneNumber: '',
-      nickname: '',
-      hobby: '',
-      comment: '',
+      body: '',
     },
   });
   const router = useRouter();
@@ -40,7 +36,7 @@ const JoinForm = () => {
       }),
       {
         loading: '通信中です...',
-        success: '申込みが完了しました。',
+        success: 'お問い合わせありがとうございました。',
         error: (e) => {
           console.error(e);
           return '通信に失敗しました。';
@@ -53,17 +49,10 @@ const JoinForm = () => {
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="card">
-            <h2 className="card-title">入部フォーム</h2>
+            <h2 className="card-title">お問い合わせ</h2>
             <div className="flex flex-col gap-y-6">
               <InputControl<FormType>
-                name="studentNumber"
-                type="text"
-                label="学籍番号 (半角)"
-                required
-                placeholder="00X00000"
-              />
-              <InputControl<FormType>
-                name="realName"
+                name="name"
                 type="text"
                 label="名前"
                 required
@@ -71,32 +60,15 @@ const JoinForm = () => {
               />
               <InputControl<FormType>
                 name="email"
-                label="大学のメールアドレス"
+                label="メールアドレス"
                 required
                 placeholder="example@okayama-u.ac.jp"
               />
               <InputControl<FormType>
-                name="phoneNumber"
-                label="電話番号 (半角)"
+                name="body"
+                label="本文"
                 required
-                placeholder="000-0000-0000"
-              />
-              <InputControl<FormType>
-                name="nickname"
-                type="text"
-                label="ニックネーム"
-                required
-                placeholder="タロー"
-              />
-              <InputControl<FormType>
-                name="hobby"
-                label="趣味"
-                placeholder="電子工作,アプリ開発,ゲーム,etc..."
-              />
-              <InputControl<FormType>
-                name="comment"
-                label="一言コメント"
-                placeholder="任意"
+                placeholder="お問い合わせ内容をご記入下さい。"
               />
             </div>
             <div className="card-actions">
@@ -127,4 +99,4 @@ const JoinForm = () => {
   );
 };
 
-export default JoinForm;
+export default ContactForm;
