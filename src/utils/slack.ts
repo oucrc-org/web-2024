@@ -55,7 +55,5 @@ export const notifyUpdateToSlack = async (parsedBody: MicroCMSWebhookBody) => {
   return await fetch(env.SLACK_NOTICE_WEBHOOK_URL, {
     method: 'POST',
     body: JSON.stringify({ ...message, icon_emoji: ':sparkles:' }),
-  }).catch((e) => {
-    console.error(e);
   });
 };
