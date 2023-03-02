@@ -55,7 +55,7 @@ export async function Drawer({ children }: DrawerProps) {
   return (
     <div className="drawer">
       <input id={htmlCheckboxId} type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content">
+      <div className="drawer-content overflow-hidden">
         <nav
           aria-label="メインメニュー"
           className="navbar z-50 w-full bg-white shadow-lg"
@@ -108,7 +108,9 @@ export async function Drawer({ children }: DrawerProps) {
           </div>
         </nav>
         <main className="flex min-h-screen flex-col">
-          <div className="container mx-auto mb-32 grow px-10">{children}</div>
+          <div className="container mx-auto mb-32 grow px-2 sm:px-4 md:px-10">
+            {children}
+          </div>
           <div className="grow-0">
             <Footer />
           </div>
