@@ -2,6 +2,7 @@ import { Article, Category, MicroCMSWebhookBody } from '@/types/micro-cms';
 import { createHmac, timingSafeEqual } from 'crypto';
 import { createClient } from 'microcms-js-sdk';
 import { NextApiRequest } from 'next';
+import { parseHtml } from './html-parser';
 import { env } from './server-env';
 
 export const client = createClient({
@@ -116,10 +117,54 @@ export const getArticles = async (
     },
   });
 };
+
 export const getArticle = async (contentId: string) => {
-  return await client.get<Article>({
+  const article = await client.get<Article>({
     endpoint: 'article',
     contentId,
+  });
+  const body = await parseHtml(article.body);
+  return {
+    ...article,
+    body,
+  };
+};
+
+/**
+ * 同部員による他記事の取得
+ * 旧サイトの`pages/articles/_id.vue`より移植
+ */
+export const getOtherArticlesBySameMember = async (
+  article: Article,
+  limit = 3
+) => {
+  return await client.getList<Article>({
+    endpoint: 'article',
+    queries: {
+      filters: buildFilters([
+        `name[equals]${article.name.id}','id[not_equals]${article.id}`,
+      ]),
+      limit,
+    },
+  });
+};
+/**
+ * おすすめ記事の取得
+ * 旧サイトの`pages/articles/_id.vue`より移植
+ * TODO: カテゴリ以外の要素も考慮できるようにする
+ */
+export const getRecommendedArticles = async (article: Article, limit = 4) => {
+  const searchQuery: string[] = [`id[not_equals]${article.id}`];
+  if (article.category) {
+    // カテゴリがあれば同カテゴリの記事に絞る
+    searchQuery.push(`category[equals]${article.category.id}`);
+  }
+  return await client.getList<Article>({
+    endpoint: 'article',
+    queries: {
+      filters: buildFilters(searchQuery),
+      limit,
+    },
   });
 };
 
