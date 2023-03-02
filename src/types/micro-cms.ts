@@ -34,6 +34,8 @@ export type Member = {
   github: Maybe<string>;
   youtube: Maybe<string>;
 } & MicroCMSBase;
+/** 一覧で無駄なカラムを取得しないように定義 */
+export const MEMBER_LIST_FIELDS = 'id,name,avatar,enteryear';
 
 /**
  * CMS上の呼称:「カテゴリー」
@@ -45,6 +47,8 @@ export type Category = {
    */
   category: string;
 } & MicroCMSBase;
+/** 一覧で無駄なカラムを取得しないように定義 */
+export const CATEGORY_LIST_FIELDS = 'id,category';
 
 /**
  * CMS上の呼称:「シリーズ」
@@ -57,7 +61,8 @@ export type Series = {
   series: string;
   author: Maybe<Member>;
 } & MicroCMSBase;
-
+/** 一覧で無駄なカラムを取得しないように定義 */
+export const SERIES_LIST_FIELDS = 'id,,series';
 /**
  * CMS上の呼称:「お知らせ」
  * エンドポイント: `/news`
@@ -72,6 +77,8 @@ export type News = {
   body: string;
   image: Maybe<MicroCMSImage>;
 } & MicroCMSBase;
+/** 一覧で無駄なカラムを取得しないように定義 */
+export const NEWS_LIST_FIELDS = 'id,title';
 
 /**
  * CMS上の呼称:「記事」
@@ -90,6 +97,9 @@ export type Article = {
   twitter_comment: Maybe<string>;
   image: Maybe<MicroCMSImage>;
 } & MicroCMSBase;
+/** 一覧で無駄なカラムを取得しないように定義 */
+export const ARTICLE_LIST_FIELDS =
+  'id,title,date,name,category,series,twitter_comment,image';
 
 // ========================================================
 

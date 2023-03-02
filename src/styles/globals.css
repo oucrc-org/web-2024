@@ -1,3 +1,76 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  /** --------------------------------
+   * ArticleContent.vueから移植
+   */
+  .prose .MathJax_Display {
+    /* 数式はみ出るの防止 */
+    @apply overflow-x-scroll overflow-y-hidden;
+  }
+
+  .prose {
+    word-break: break-all;
+    line-break: loose;
+  }
+
+  .prose h2 {
+    @apply my-3 pt-3 text-h3 sm:text-h2;
+  }
+
+  .prose h3 {
+    @apply my-3 pt-1 text-h4 sm:text-h3;
+  }
+
+  .prose h4 {
+    @apply my-3 text-h5 sm:text-h4;
+  }
+
+  .prose h5 {
+    @apply my-3 text-h6 sm:text-h5;
+  }
+
+  .prose h6 {
+    @apply my-3 text-h6;
+  }
+
+  .prose p {
+  }
+
+  .prose pre {
+  }
+
+  .prose pre code {
+    @apply p-0;
+  }
+
+  .prose blockquote {
+    @apply p-2 bg-blockquote mb-4 border-l-8 border-blockquoteSidebar rounded pl-4;
+  }
+
+  .prose blockquote > p {
+    @apply mb-0;
+  }
+
+  .prose ol {
+    @apply list-decimal p-2 px-6;
+  }
+
+  .prose ul {
+    @apply list-disc p-2 px-6;
+  }
+
+  .prose a {
+    line-break: anywhere;
+    @apply text-blue-600;
+  }
+
+  .prose iframe {
+    @apply block m-auto w-full;
+  }
+  /*
+   * 移植ここまで
+   * ------------------------------------- */
+}
