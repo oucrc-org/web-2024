@@ -1,8 +1,18 @@
-import { Article, Category, MicroCMSWebhookBody } from '@/types/micro-cms';
+import {
+  Article,
+  Category,
+  MicroCMSWebhookBody,
+  News,
+  Member,
+  ARTICLE_LIST_FIELDS,
+  CATEGORY_LIST_FIELDS,
+  NEWS_LIST_FIELDS,
+  MEMBER_LIST_FIELDS,
+} from '@/types/micro-cms';
 import { createHmac, timingSafeEqual } from 'crypto';
 import { createClient } from 'microcms-js-sdk';
 import { NextApiRequest } from 'next';
-import { parseHtml } from './html-parser';
+import { parseHtml } from './content-parser';
 import { env } from './server-env';
 
 export const client = createClient({
@@ -71,13 +81,21 @@ export const getPathByWebhook = (parsedBody: MicroCMSWebhookBody) => {
   return `${pathname}/${parsedBody.id}`;
 };
 
-type ArticleOptions = {
-  categoryId?: string;
-  seriesId?: string;
-};
-
-const buildFilters = (array: string[]) => {
-  return [`date[less_than]${new Date().toISOString()}`, ...array].join('[and]');
+/**
+ * 条件をANDで繋いで返す
+ */
+const buildFilters = (
+  /** 条件 */
+  array: Array<string | null | undefined>,
+  /** 日付カラム名を指定すると「現在日時以前」に絞る */
+  dateColumnName?: string
+) => {
+  const result: string[] = dateColumnName
+    ? [`${dateColumnName}[less_than]${new Date().toISOString()}`]
+    : [];
+  return [...result, ...array.filter((str) => typeof str === 'string')].join(
+    '[and]'
+  );
 };
 
 export const getAllArticles = async ({
@@ -94,14 +112,20 @@ export const getAllArticles = async ({
       limit: 1000,
       fields: 'id',
       orders: '-date,-createdAt',
-      filters: buildFilters(searchQuery),
+      filters: buildFilters(searchQuery, 'date'),
     },
   });
 };
 
 export const getArticles = async (
   page: number,
-  { categoryId, seriesId }: ArticleOptions = {}
+  {
+    categoryId,
+    seriesId,
+  }: {
+    categoryId?: string;
+    seriesId?: string;
+  } = {}
 ) => {
   const searchQuery: string[] = [];
   if (categoryId) searchQuery.push(`category[equals]${categoryId}`);
@@ -111,9 +135,9 @@ export const getArticles = async (
     queries: {
       limit: 9,
       offset: page < 2 ? 0 : (page - 1) * 9,
-      fields: 'id,title,category,image,body',
+      fields: ARTICLE_LIST_FIELDS,
       orders: '-date,-createdAt',
-      filters: buildFilters(searchQuery),
+      filters: buildFilters(searchQuery, 'date'),
     },
   });
 };
@@ -141,9 +165,11 @@ export const getOtherArticlesBySameMember = async (
   return await client.getList<Article>({
     endpoint: 'article',
     queries: {
-      filters: buildFilters([
-        `name[equals]${article.name.id}','id[not_equals]${article.id}`,
-      ]),
+      fields: ARTICLE_LIST_FIELDS,
+      filters: buildFilters(
+        [`name[equals]${article.name.id}','id[not_equals]${article.id}`],
+        'date'
+      ),
       limit,
     },
   });
@@ -162,7 +188,8 @@ export const getRecommendedArticles = async (article: Article, limit = 4) => {
   return await client.getList<Article>({
     endpoint: 'article',
     queries: {
-      filters: buildFilters(searchQuery),
+      fields: ARTICLE_LIST_FIELDS,
+      filters: buildFilters(searchQuery, 'date'),
       limit,
     },
   });
@@ -173,7 +200,7 @@ export const getAllCategories = async () => {
     endpoint: 'category',
     queries: {
       limit: 100,
-      fields: 'id,category',
+      fields: CATEGORY_LIST_FIELDS,
     },
   });
 };
@@ -182,7 +209,52 @@ export const getCategory = async (contentId: string) => {
     endpoint: 'category',
     contentId,
     queries: {
-      fields: 'id,category',
+      fields: CATEGORY_LIST_FIELDS,
     },
+  });
+};
+
+export const getNewses = async () => {
+  return await client.getList<News>({
+    endpoint: 'news',
+    queries: {
+      limit: 100,
+      fields: NEWS_LIST_FIELDS,
+      orders: '-important,-date,-createdAt',
+      filters: buildFilters([], 'date'),
+    },
+  });
+};
+export const getNews = async (contentId: string) => {
+  return await client.get<News>({
+    endpoint: 'news',
+    contentId,
+  });
+};
+
+export const getMembers = async (
+  /** 入学年度の配列(任意) */
+  yearArray?: number[]
+) => {
+  let yearFilter = undefined;
+  if (yearArray) {
+    // ORで繋ぐことで複数の入学年度に対応
+    yearFilter = yearArray.map((y) => `enteryear[equals]${y}`).join('[or]');
+  }
+
+  return await client.getList<Member>({
+    endpoint: 'member',
+    queries: {
+      limit: 100,
+      fields: MEMBER_LIST_FIELDS,
+      filters: buildFilters([yearFilter]),
+      orders: '-enteryear',
+    },
+  });
+};
+export const getMember = async (contentId: string) => {
+  return await client.get<Member>({
+    endpoint: 'member',
+    contentId,
   });
 };

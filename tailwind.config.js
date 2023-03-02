@@ -45,7 +45,16 @@ module.exports = {
           ...defaultTheme.fontFamily.sans,
         ],
       },
+      typography: {
+        DEFAULT: {
+          /**
+           * 本文の気に入らないスタイルは、ここにJSSを書いて上書きすること
+           */
+          pre: {},
+          code: {},
+        },
+      },
     },
   },
-  plugins: [require('daisyui')],
+  plugins: [require('daisyui'), require('@tailwindcss/typography')],
 };
