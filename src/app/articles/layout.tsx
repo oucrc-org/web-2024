@@ -1,3 +1,4 @@
+import Container from '@/components/Container';
 import { ReactNode } from 'react';
 
 /**
@@ -9,9 +10,9 @@ export default async function ArticleLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="container mx-auto mb-32 grow px-2 sm:px-4 md:px-10">
+    <Container className="flex flex-col gap-y-6 pt-32">
       {/* ここにメニューを置くとパスパラメータによる表示の変更ができない */}
-      <div className="flex flex-col gap-y-6 pt-8">{children}</div>
-    </div>
+      {children}
+    </Container>
   );
 }

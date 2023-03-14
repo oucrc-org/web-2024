@@ -17,7 +17,7 @@ const ArticleList = ({
   data,
 }: ArticleListProps) => {
   return (
-    <div className="container mx-auto mb-32 px-10">
+    <div className="container mx-auto px-10">
       <div className="text-center lg:mx-8 xl:mx-12">
         <div className="container mx-auto flex flex-col gap-y-16">
           <HeadingH2>最新の投稿</HeadingH2>

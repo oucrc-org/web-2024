@@ -58,7 +58,7 @@ export async function Drawer({ children }: DrawerProps) {
       <div className="drawer-content overflow-hidden">
         <nav
           aria-label="メインメニュー"
-          className="navbar z-50 w-full bg-white shadow-lg"
+          className="navbar fixed top-0 left-0 z-50 w-full bg-white shadow-md"
         >
           <div className="flex-none lg:hidden">
             <label

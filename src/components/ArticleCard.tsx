@@ -64,7 +64,7 @@ export default function ArticleCard({
             <span className="block">{article.twitter_comment}</span>
           </div>
           {article.series && (
-            <div className="flex justify-end">
+            <div className="flex justify-start">
               <SeriesButton series={article.series} />
             </div>
           )}

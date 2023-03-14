@@ -15,26 +15,28 @@ const Pagination = ({ path, pageNumber, total, perPage }: PaginationProps) => {
     );
   };
   return (
-    <div className="btn btn-group mx-auto my-2">
-      {pageNumber > 1 && (
-        <Link href={`${path}/p/${pageNumber - 1}`}>
-          <div className="btn btn-md">&lt;</div>
-        </Link>
-      )}
-      {getArrayJumpTo(total, perPage).map((p) => (
-        <Link key={p} href={`${path}/p/${p}`}>
-          <div
+    <div className="mx-auto pt-2 pb-16">
+      <div className="btn-group flex-wrap">
+        {pageNumber > 1 && (
+          <Link href={`${path}/p/${pageNumber - 1}`} className="btn-md btn">
+            {`«`}
+          </Link>
+        )}
+        {getArrayJumpTo(total, perPage).map((p) => (
+          <Link
+            key={p}
+            href={`${path}/p/${p}`}
             className={twJoin('btn btn-md', pageNumber === p && 'btn-active')}
           >
             {p}
-          </div>
-        </Link>
-      ))}
-      {pageNumber < Math.ceil(total / perPage) && (
-        <Link href={`${path}/p/${pageNumber + 1}`}>
-          <div className="btn btn-md">&gt;</div>
-        </Link>
-      )}
+          </Link>
+        ))}
+        {pageNumber < Math.ceil(total / perPage) && (
+          <Link href={`${path}/p/${pageNumber + 1}`} className="btn-md btn">
+            {`»`}
+          </Link>
+        )}
+      </div>
     </div>
   );
 };

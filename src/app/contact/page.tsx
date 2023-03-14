@@ -1,9 +1,10 @@
 import ContactForm from '@/components/client/ContactForm';
+import Container from '@/components/Container';
 
 export default function ContactPage() {
   return (
-    <div className="container mx-auto mb-32 grow px-2 sm:px-4 md:px-10">
+    <Container className="pt-32">
       <ContactForm />
-    </div>
+    </Container>
   );
 }

@@ -13,13 +13,36 @@ export default function HeroArea() {
   return (
     <section className="relative overflow-hidden">
       <div className="absolute h-full w-full bg-white bg-repeat"></div>
+      <div className="absolute top-0 w-full pt-56 text-center sm:pt-72">
+        <Image
+          className="mx-auto h-12 w-auto sm:h-20 md:h-24"
+          src="/images/common/oucrc-label.webp"
+          width={712}
+          height={96}
+          alt="岡山大学電子計算機研究会"
+          style={{ animation: 'fadeIn 2s forwards' }}
+        />
+        <h2
+          className="mt-4 text-lg tracking-widest sm:mt-8 sm:text-2xl"
+          style={{ animation: 'fadeIn 4s forwards' }}
+        >
+          つくりたいものをつくる
+        </h2>
+      </div>
+      <Image
+        className="absolute inset-x-0 bottom-0 mx-auto h-40"
+        src="/images/landing/scroll.webp"
+        width={58}
+        height={260}
+        alt="Scroll"
+        style={{ animation: 'fadeIn 2s 1s forwards', opacity: 0 }}
+      />
       <div className="relative h-[95vh] w-full">
         <Particles
           id="tsparticles"
           init={particlesInit}
           width="100%"
-          height="100%"
-          canvasClassName="overflow-hidden"
+          height="100vh"
           options={{
             particles: {
               number: {
@@ -136,49 +159,11 @@ export default function HeroArea() {
           }}
         />
       </div>
-      <div className="absolute top-0 w-full pt-56 text-center sm:pt-72">
-        <Image
-          className="fadeIn2s mx-auto h-12 w-[712px] sm:h-20 md:h-24"
-          src="/images/common/oucrc-label.webp"
-          width={1188}
-          height={160}
-          alt="岡山大学電子計算機研究会"
-        />
-        <h2 className="fadeIn4s mt-4 text-lg tracking-widest sm:mt-8 sm:text-2xl">
-          つくりたいものをつくる
-        </h2>
-      </div>
-      <Image
-        className="fadeIn2s1s absolute inset-x-0 bottom-0 mx-auto h-40"
-        src="/images/landing/scroll.webp"
-        width={58}
-        height={260}
-        alt="Scroll"
-      />
       <style jsx>{`
-        #tsparticles {
-          height: 100vh;
-          position: absolute;
-          left: 0;
-          right: 0;
-          margin: 0;
-          padding: 0;
-          z-index: 0;
-        }
         .bg-repeat {
           background-image: url(/images/landing/bg-repeat.svg);
           background-size: 96px 64px;
           background-position: left top;
-        }
-        .fadeIn2s {
-          animation: fadeIn 2s forwards;
-        }
-        .fadeIn4s {
-          animation: fadeIn 4s forwards;
-        }
-        .fadeIn2s1s {
-          animation: fadeIn 2s 1s forwards;
-          opacity: 0;
         }
         @keyframes fadeIn {
           0% {

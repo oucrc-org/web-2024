@@ -1,3 +1,4 @@
+import Container from '@/components/Container';
 import { ReactNode } from 'react';
 
 /**
@@ -10,11 +11,7 @@ export default async function NewsLayout({
 }) {
   return (
     <>
-      <div className="container mx-auto mb-32 grow px-2 sm:px-4 md:px-10">
-        <div className="container mx-auto flex flex-col gap-y-6 pt-8">
-          {children}
-        </div>
-      </div>
+      <Container>{children}</Container>
     </>
   );
 }

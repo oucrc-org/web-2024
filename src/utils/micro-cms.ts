@@ -13,8 +13,10 @@ import {
   SERIES_LIST_FIELDS,
 } from '@/types/micro-cms';
 import { createHmac, timingSafeEqual } from 'crypto';
+import dayjs from 'dayjs';
 import { createClient } from 'microcms-js-sdk';
 import { NextApiRequest } from 'next';
+import { clientEnv } from './client-env';
 import { parseHtml } from './content-parser';
 import { env } from './server-env';
 
@@ -247,7 +249,7 @@ export const getCategory = async (contentId: string) => {
 
 /**
  * -----------------------------
- * カテゴリー
+ * シリーズ
  */
 
 export const getAllSerieses = async () => {
@@ -310,43 +312,44 @@ export const getNews = async (contentId: string) => {
  * メンバー
  */
 
-function buildYearFilter(
-  /** 入学年度の配列(任意) */
-  yearArray?: number[]
-) {
+/**
+ * OB全員を取得すると重すぎるため、過去 NEXT_PUBLIC_MAX_MEMBER_YEARS 年間の部員だけを取得する
+ */
+function buildYearFilter() {
   let yearFilter = undefined;
-  if (yearArray) {
-    // ORで繋ぐことで複数の入学年度に対応
-    yearFilter = yearArray.map((y) => `enteryear[equals]${y}`).join('[or]');
-  }
+  // 3ヶ月戻すことで現在の年度を取得
+  const termYear = dayjs().subtract(3, 'month').year();
+  const maxYears = clientEnv.MAX_MEMBER_YEARS;
+  /** 過去MAX_MEMBER_YEARS年間の年度を並べた配列 */
+  const yearsArray = Array.from(
+    { length: maxYears },
+    (_, i) => i + termYear - maxYears + 1
+  );
+
+  // ORで繋ぐことで複数の入学年度に対応
+  yearFilter = yearsArray.map((y) => `enteryear[equals]${y}`).join('[or]');
+
   return buildFilters([yearFilter]);
 }
 
-export const getAllMembers = async (
-  /** 入学年度の配列(任意) */
-  yearArray?: number[]
-) => {
-  const searchQuery: string[] = [];
+export const getAllMembers = async () => {
   return await client.getList<Member>({
     endpoint: 'member',
     queries: {
       limit: 1000,
       fields: 'id',
-      filters: buildYearFilter(yearArray),
+      filters: buildYearFilter(),
       orders: '-enteryear',
     },
   });
 };
-export const getMembers = async (
-  /** 入学年度の配列(任意) */
-  yearArray?: number[]
-) => {
+export const getMembers = async () => {
   return await client.getList<Member>({
     endpoint: 'member',
     queries: {
       limit: 100,
       fields: MEMBER_LIST_FIELDS,
-      filters: buildYearFilter(yearArray),
+      filters: buildYearFilter(),
       orders: '-enteryear',
     },
   });

@@ -9,17 +9,17 @@ interface MemberInfoProps {
 export default function MemberInfo({ member }: MemberInfoProps) {
   return (
     <div>
-      <div className="mt-12 grid grid-cols-9 gap-4">
+      <div className="mt-12 grid grid-cols-9 gap-4 lg:gap-12">
         {/* <!-- ▼ メンバーアイコン --> */}
         <Link href={`/members/${member.id}`} className="col-span-4">
           {member.avatar ? (
-            <div className="row-end-2 inline-block pl-8">
+            <div className="row-end-2 inline-block lg:pl-8">
               <Image
                 width={128}
                 height={128}
                 src={member.avatar.url}
                 className="h-32 w-32 rounded-full shadow-xl lg:h-24 lg:w-24 xl:h-32 xl:w-32"
-                alt="取得に失敗しました"
+                alt={member.name}
               />
             </div>
           ) : (
@@ -28,7 +28,7 @@ export default function MemberInfo({ member }: MemberInfoProps) {
                 width={128}
                 height={128}
                 className="m-auto h-32 w-32 rounded-full object-cover shadow-xl lg:h-24 lg:w-24 xl:h-32 xl:w-32"
-                src="/assets/images/member/member.jpg"
+                src="/images/member/member.webp"
                 alt="メンバーアイコン"
               />
             </div>
@@ -37,7 +37,7 @@ export default function MemberInfo({ member }: MemberInfoProps) {
         {/* <!-- ▲ メンバーアイコン --> */}
 
         {/* <!-- ▼ SNSリンク --> */}
-        <div className="txt-left col-span-5 mt-2 inline-block pr-8 pl-4 lg:pl-0 lg:pr-5">
+        <div className="col-span-5 mt-2 inline-block pl-4 text-left lg:pl-0">
           <p className="inline-block rounded-lg bg-highlight px-5 py-1 text-sm tracking-widest text-secondary xl:px-6">
             {member.enteryear}年度 入部
           </p>
@@ -91,7 +91,7 @@ export default function MemberInfo({ member }: MemberInfoProps) {
         </div>
         {/* <!-- ▲ SNSリンク --> */}
       </div>
-      <div className="mx-10 mt-3 pb-8 xl:mt-6">
+      <div className="mt-3 pb-8 lg:mx-10 xl:mt-6">
         <p className="text-3xl font-bold tracking-widest text-secondary">
           <Link href="`/members/${member.id}`">{member.name}</Link>
         </p>

@@ -74,21 +74,23 @@ export default async function MemberPage({ params: { memberId } }: Params) {
         {/* <!-- ▲ 自己紹介画像 --> */}
 
         {/* <!-- ▼ この人が書いた記事 --> */}
-        <div
-          v-if="members.contents !== void 0 && members.contents.length"
-          className="mb-24 mt-10 pt-16 text-center lg:mx-8 xl:mx-12"
-        >
-          <div className="container mx-auto">
-            <HeadingH2>
-              この人が書いた記事 最新{articles.contents.length}件
-            </HeadingH2>
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
-              {articles.contents.map((article) => (
-                <ArticleCard key={article.id} article={article} />
-              ))}
+        {articles.contents.length > 0 && (
+          <div
+            v-if="members.contents !== void 0 && members.contents.length"
+            className="mb-24 mt-10 pt-16 text-center lg:mx-8 xl:mx-12"
+          >
+            <div className="container mx-auto">
+              <HeadingH2>
+                この人が書いた記事 最新{articles.contents.length}件
+              </HeadingH2>
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
+                {articles.contents.map((article) => (
+                  <ArticleCard key={article.id} article={article} />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
         {/* <!-- ▲ この人が書いた記事 --> */}
       </section>
     </>

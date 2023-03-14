@@ -12,7 +12,7 @@ interface NewsListProps {
 
 export default function NewsList({ pageNumber, data }: NewsListProps) {
   return (
-    <div className="container mx-auto mb-32 px-10">
+    <div className="container mx-auto px-10">
       <div className="mb-24 mt-10 pt-16 text-center lg:mx-8 xl:mx-12">
         <div className="container mx-auto">
           <HeadingH2>最新のお知らせ</HeadingH2>

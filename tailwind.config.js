@@ -1,5 +1,3 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
@@ -54,22 +52,15 @@ module.exports = {
         96: '24rem',
         120: '30rem',
       },
-      fontFamily: {
-        sans: [
-          'Noto Sans JP',
-          'Roboto',
-          'Source Sans Pro',
-          ...defaultTheme.fontFamily.sans,
-        ],
-      },
       typography: {
         DEFAULT: {
           css: {
+            color: '#000',
             /**
              * 本文の気に入らないスタイルは、ここにJSSを書いて上書きすること
              */
             pre: {
-              padding: 0,
+              padding: '1em',
             },
           },
         },

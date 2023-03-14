@@ -1,9 +1,10 @@
 import JoinForm from '@/components/client/JoinForm';
+import Container from '@/components/Container';
 
 export default function JoinPage() {
   return (
-    <div className="container mx-auto mb-32 grow px-2 sm:px-4 md:px-10">
+    <Container className="pt-32">
       <JoinForm />
-    </div>
+    </Container>
   );
 }

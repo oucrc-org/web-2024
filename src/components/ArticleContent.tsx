@@ -73,7 +73,7 @@ export default function ArticleContent({ article }: ArticleContentProps) {
           // 不定のため適当
           width={800}
           height={450}
-          className="h-64 object-cover sm:h-96 md:h-120"
+          className="h-64 w-full object-cover sm:h-96 md:h-120"
           alt="トップ画像"
         />
       ) : (

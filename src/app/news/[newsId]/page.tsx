@@ -34,10 +34,8 @@ export async function generateMetadata({
 export default async function NewsPage({ params: { newsId } }: Params) {
   const news = await getNews(newsId);
   return (
-    <div className="container mx-auto">
-      <div className="pb-10 lg:mt-16">
-        <NewsContent news={news} />
-      </div>
+    <div className="pt-16">
+      <NewsContent news={news} />
     </div>
   );
 }

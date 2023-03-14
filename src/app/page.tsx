@@ -1,6 +1,7 @@
 import Card from '@/components/Card';
 import HeroArea from '@/components/client/HeroArea';
 import Contact from '@/components/Contact';
+import Container from '@/components/Container';
 import NewsList from '@/components/NewsList';
 import { getNewses } from '@/utils/micro-cms';
 import Image from 'next/image';
@@ -9,7 +10,7 @@ import Link from 'next/link';
 export default async function Page() {
   const newses = await getNewses(1);
   return (
-    <div className="flex flex-col gap-y-8">
+    <div className="flex flex-col">
       {/* 部室写真の背景 */}
       <div
         className="parallax fixed left-0 top-16 z-0 h-full w-full bg-cover bg-center bg-no-repeat"
@@ -108,8 +109,10 @@ export default async function Page() {
         </div>
       </section>
       {/* <!-- ▲ お知らせ --> */}
-      <div className="container mx-auto mb-32 grow px-2 sm:px-4 md:px-10">
-        <Contact />
+      <div className="z-20 w-full bg-white py-8">
+        <Container>
+          <Contact />
+        </Container>
       </div>
     </div>
   );

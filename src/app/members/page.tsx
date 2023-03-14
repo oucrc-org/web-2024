@@ -1,3 +1,4 @@
+import Container from '@/components/Container';
 import HeadingH1 from '@/components/HeadingH1';
 import MemberCard from '@/components/MemberCard';
 import { Member } from '@/types/micro-cms';
@@ -29,7 +30,7 @@ export default async function MemberIndexPage() {
     });
 
   return (
-    <div className="container mx-auto px-10 pt-16">
+    <Container className="px-10 pt-32">
       <HeadingH1>部員一覧</HeadingH1>
       <section className="mb-8">
         {Object.entries(membersByYear).map(([key, members]) => (
@@ -48,6 +49,6 @@ export default async function MemberIndexPage() {
           </div>
         ))}
       </section>
-    </div>
+    </Container>
   );
 }

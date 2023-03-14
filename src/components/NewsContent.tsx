@@ -23,7 +23,7 @@ export default function NewsContent({ news }: NewsContentProps) {
         />
       ) : (
         <Image
-          src="/images/news/cover.jpg"
+          src="/images/article/cover.jpg"
           // 画像ファイルの1/4サイズ
           width={961}
           height={595}

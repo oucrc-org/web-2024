@@ -53,6 +53,9 @@ export default async function ArticlePage({ params: { articleId } }: Params) {
   if(typeof window !== "undefined") {
     window.MathJax.Hub.Config({
       tex2jax: {
+        // 本文だけ適用
+        processClass: 'prose',
+        ignoreClass: '!prose',
         inlineMath: [['$', '$'], ["\\(","\\)"] ],
         displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
       },
@@ -61,7 +64,7 @@ export default async function ArticlePage({ params: { articleId } }: Params) {
   }
   `;
   return (
-    <div className="container mx-auto">
+    <div className="pt-16">
       {/* TODO: MathJax@3系で動かない原因を調査 */}
       <Script
         async
@@ -76,10 +79,10 @@ export default async function ArticlePage({ params: { articleId } }: Params) {
 
       <div className="grid-cols-3 gap-8 pb-10 lg:mt-16 lg:grid xl:gap-12">
         <ArticleContent article={article} />
-        <section className="border-t border-divider bg-white pt-16 sm:px-16 md:px-24 lg:border-none lg:px-0 lg:pt-0 lg:shadow-xl">
+        <section className="border-t border-divider bg-white px-8 pt-16 sm:px-16 md:px-24 lg:border-none lg:px-0 lg:pt-0 lg:shadow-xl">
           <MemberInfo member={article.name} />
           {otherArticles.contents.length > 0 && (
-            <div className="mx-8 pt-24 text-center sm:mx-10">
+            <div className="pt-24 text-center sm:mx-10">
               <>
                 <HeadingH2>この人が書いた記事</HeadingH2>
                 {otherArticles.contents.map((article, index) => {
@@ -93,7 +96,7 @@ export default async function ArticlePage({ params: { articleId } }: Params) {
 
           {/* <!-- ▼ 最新のオススメ記事 --> */}
           {recommendedArticles.contents.length > 0 && (
-            <div className="mx-8 pt-24 text-center sm:mx-10">
+            <div className="pt-24 text-center sm:mx-10">
               <HeadingH2>最新のオススメ記事</HeadingH2>
               {recommendedArticles.contents.map((article, index) => (
                 <div key={index}>
