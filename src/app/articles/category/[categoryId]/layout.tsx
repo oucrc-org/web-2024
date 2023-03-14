@@ -1,4 +1,5 @@
 import CategoryMenu from '@/components/CategoryMenu';
+import SeriesMenu from '@/components/SeriesMenu';
 import { ReactNode } from 'react';
 
 /**
@@ -17,6 +18,8 @@ export default async function CategoryLayout({
     <>
       {/* @ts-expect-error Server Component */}
       <CategoryMenu currentCategoryId={categoryId} />
+      {/* @ts-expect-error Server Component */}
+      <SeriesMenu />
       {children}
     </>
   );

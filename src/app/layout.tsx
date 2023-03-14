@@ -1,19 +1,21 @@
 import { ReactNode } from 'react';
 import Script from 'next/script';
 import '@/styles/globals.css';
-import { Noto_Sans_JP, Roboto } from '@next/font/google';
+import fontStyles from '../styles/font.module.css';
+import { Noto_Sans_JP, Roboto } from 'next/font/google';
 import { clientEnv } from '@/utils/client-env';
 import ReactHotToast from '@/components/client/ReactHotToast';
 import Drawer from '@/components/Drawer';
-import Footer from '@/components/Footer';
 
 const notoSansJP = Noto_Sans_JP({
   weight: ['400', '700'],
   subsets: ['latin'],
+  variable: '--font-noto-sans-jp',
 });
 const roboto = Roboto({
   weight: ['400', '700'],
   subsets: ['latin'],
+  variable: '--font-roboto',
 });
 
 const siteName = 'OUCRC | 岡山大学電子計算機研究会';
@@ -63,8 +65,13 @@ export const metadata = {
 export default async function Layout({ children }: { children: ReactNode }) {
   const gtagId = clientEnv.GTAG_ID;
   return (
-    <html lang="ja">
-      <body>
+    <html
+      lang="ja"
+      data-theme="oucrc"
+      className={`${notoSansJP.variable} ${roboto.variable}`}
+    >
+      {/* theme定義はtailwind.config.js参照 */}
+      <body className={fontStyles.font}>
         {/*
         アナリティクス設定
       */}
@@ -84,13 +91,11 @@ export default async function Layout({ children }: { children: ReactNode }) {
            `,
           }}
         />
-        <div
-          className={`${notoSansJP.className} ${roboto.className} flex min-h-screen flex-col`}
-        >
+        <div className="flex min-h-screen flex-col">
           {/* @ts-expect-error Server Component */}
           <Drawer>{children}</Drawer>
+          <ReactHotToast />
         </div>
-        <ReactHotToast />
       </body>
     </html>
   );

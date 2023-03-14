@@ -1,23 +1,19 @@
 import { Series } from '@/types/micro-cms';
 import Link from 'next/link';
+import { ComponentPropsWithoutRef } from 'react';
 import { HiOutlineBookOpen } from 'react-icons/hi';
+import ButtonWithIcon from './ButtonWithIcon';
 
-interface SeriesButtonProps {
+interface SeriesButtonProps extends ComponentPropsWithoutRef<'div'> {
   series: Series;
 }
 
-export default function SeriesButton({ series }: SeriesButtonProps) {
+export default function SeriesButton({ className, series }: SeriesButtonProps) {
   return (
-    <Link
-      href={`/articles/series/${series.id}`}
-      className="inline-block rounded-lg bg-blockquote px-4 pb-2"
-    >
-      <span className="inline-block h-6 w-6">
-        <HiOutlineBookOpen />
-      </span>
-      <span className="inline-block pl-2 pt-2 align-top text-sm text-secondary">
+    <Link href={`/articles/series/${series.id}`}>
+      <ButtonWithIcon icon={<HiOutlineBookOpen />} className={className}>
         {series.series}
-      </span>
+      </ButtonWithIcon>
     </Link>
   );
 }

@@ -1,3 +1,4 @@
+import { ARTICLE_PER_PAGE } from '@/config/const';
 import {
   Article,
   Category,
@@ -8,11 +9,15 @@ import {
   CATEGORY_LIST_FIELDS,
   NEWS_LIST_FIELDS,
   MEMBER_LIST_FIELDS,
+  Series,
+  SERIES_LIST_FIELDS,
 } from '@/types/micro-cms';
 import { createHmac, timingSafeEqual } from 'crypto';
+import dayjs from 'dayjs';
 import { createClient } from 'microcms-js-sdk';
 import { NextApiRequest } from 'next';
-import { parseHtml } from './content-parser';
+import { clientEnv } from './client-env';
+import { parseHtml, parseMarkdown } from './content-parser';
 import { env } from './server-env';
 
 export const client = createClient({
@@ -98,14 +103,24 @@ const buildFilters = (
   );
 };
 
+/**
+ * -----------------------
+ * 記事
+ */
+
 export const getAllArticles = async ({
   /**
    * カテゴリ内のページ算出に必要
    */
   categoryId,
-}: { categoryId?: string } = {}) => {
+  /**
+   * シリーズ内のページ算出に必要
+   */
+  seriesId,
+}: { categoryId?: string; seriesId?: string } = {}) => {
   const searchQuery: string[] = [];
   if (categoryId) searchQuery.push(`category[equals]${categoryId}`);
+  if (seriesId) searchQuery.push(`series[equals]${seriesId}`);
   return await client.getList<Article>({
     endpoint: 'article',
     queries: {
@@ -133,7 +148,7 @@ export const getArticles = async (
   return await client.getList<Article>({
     endpoint: 'article',
     queries: {
-      limit: 9,
+      limit: ARTICLE_PER_PAGE,
       offset: page < 2 ? 0 : (page - 1) * 9,
       fields: ARTICLE_LIST_FIELDS,
       orders: '-date,-createdAt',
@@ -142,16 +157,35 @@ export const getArticles = async (
   });
 };
 
-export const getArticle = async (contentId: string) => {
-  const article = await client.get<Article>({
-    endpoint: 'article',
-    contentId,
-  });
-  const body = await parseHtml(article.body);
-  return {
-    ...article,
-    body,
-  };
+/**
+ * 記事を取得しつつ、本文をパースする
+ * - `markdown_body`がない場合、`body`は構文ハイライトを追加して上書きされる
+ * - `markdown_body`がある場合、`body`はMarkdownのパース結果で上書きされる
+ */
+export const getArticle = async (contentId: string, draftKey?: string) => {
+  return await client
+    .get<Article>({
+      endpoint: 'article',
+      contentId,
+      queries: {
+        draftKey,
+      },
+    })
+    .then(async (article) => {
+      let body = article.body;
+      if (article.markdown_body) {
+        body = await parseMarkdown(article.markdown_body);
+      } else {
+        body = await parseHtml(article.body);
+      }
+      return {
+        ...article,
+        body,
+      };
+    })
+    .catch(() => {
+      return null;
+    });
 };
 
 /**
@@ -170,6 +204,19 @@ export const getOtherArticlesBySameMember = async (
         [`name[equals]${article.name.id}','id[not_equals]${article.id}`],
         'date'
       ),
+      limit,
+    },
+  });
+};
+/**
+ * 部員による他記事の取得
+ */
+export const getArticlesByMember = async (member: Member, limit = 6) => {
+  return await client.getList<Article>({
+    endpoint: 'article',
+    queries: {
+      fields: ARTICLE_LIST_FIELDS,
+      filters: buildFilters([`name[equals]${member.id}`], 'date'),
       limit,
     },
   });
@@ -195,6 +242,11 @@ export const getRecommendedArticles = async (article: Article, limit = 4) => {
   });
 };
 
+/**
+ * -----------------------------
+ * カテゴリー
+ */
+
 export const getAllCategories = async () => {
   return await client.getList<Category>({
     endpoint: 'category',
@@ -205,20 +257,70 @@ export const getAllCategories = async () => {
   });
 };
 export const getCategory = async (contentId: string) => {
-  return await client.get<Category>({
-    endpoint: 'category',
-    contentId,
+  return await client
+    .get<Category>({
+      endpoint: 'category',
+      contentId,
+      queries: {
+        fields: CATEGORY_LIST_FIELDS,
+      },
+    })
+    .catch(() => {
+      return null;
+    });
+};
+
+/**
+ * -----------------------------
+ * シリーズ
+ */
+
+export const getAllSerieses = async () => {
+  return await client.getList<Series>({
+    endpoint: 'series',
     queries: {
-      fields: CATEGORY_LIST_FIELDS,
+      limit: 100,
+      fields: SERIES_LIST_FIELDS,
     },
   });
 };
+export const getSeries = async (contentId: string) => {
+  return await client
+    .get<Series>({
+      endpoint: 'series',
+      contentId,
+      queries: {
+        fields: SERIES_LIST_FIELDS,
+      },
+    })
+    .catch(() => {
+      return null;
+    });
+};
 
-export const getNewses = async () => {
+/**
+ * -----------------------------------
+ * お知らせ
+ */
+
+export const getAllNewses = async () => {
+  const searchQuery: string[] = [];
   return await client.getList<News>({
     endpoint: 'news',
     queries: {
-      limit: 100,
+      limit: 1000,
+      fields: 'id',
+      orders: '-date,-createdAt',
+      filters: buildFilters(searchQuery, 'date'),
+    },
+  });
+};
+export const getNewses = async (page: number) => {
+  return await client.getList<News>({
+    endpoint: 'news',
+    queries: {
+      limit: ARTICLE_PER_PAGE,
+      offset: page < 2 ? 0 : (page - 1) * 9,
       fields: NEWS_LIST_FIELDS,
       orders: '-important,-date,-createdAt',
       filters: buildFilters([], 'date'),
@@ -226,35 +328,70 @@ export const getNewses = async () => {
   });
 };
 export const getNews = async (contentId: string) => {
-  return await client.get<News>({
-    endpoint: 'news',
-    contentId,
-  });
+  return await client
+    .get<News>({
+      endpoint: 'news',
+      contentId,
+    })
+    .catch(() => {
+      return null;
+    });
 };
 
-export const getMembers = async (
-  /** 入学年度の配列(任意) */
-  yearArray?: number[]
-) => {
-  let yearFilter = undefined;
-  if (yearArray) {
-    // ORで繋ぐことで複数の入学年度に対応
-    yearFilter = yearArray.map((y) => `enteryear[equals]${y}`).join('[or]');
-  }
+/**
+ * --------------------------
+ * メンバー
+ */
 
+/** 過去 MAX_MEMBER_YEARS 年間の部員だけを取得する */
+export function getPastTermYears() {
+  const termYear = dayjs().subtract(3, 'month').year();
+  const maxYears = clientEnv.MAX_MEMBER_YEARS;
+  return Array.from(
+    { length: maxYears },
+    (_, i) => i + termYear - maxYears + 1
+  );
+}
+
+/** OB全員を取得すると重すぎるため、特定の年度の部員だけを取得するフィルタを作成 */
+function buildYearFilter() {
+  // ORで繋ぐことで複数の入学年度に対応
+  const yearFilter = getPastTermYears()
+    .map((y) => `enteryear[equals]${y}`)
+    .join('[or]');
+
+  return buildFilters([yearFilter]);
+}
+
+export const getAllMembers = async () => {
+  return await client.getList<Member>({
+    endpoint: 'member',
+    queries: {
+      limit: 1000,
+      fields: 'id',
+      filters: buildYearFilter(),
+      orders: '-enteryear',
+    },
+  });
+};
+export const getMembers = async () => {
   return await client.getList<Member>({
     endpoint: 'member',
     queries: {
       limit: 100,
       fields: MEMBER_LIST_FIELDS,
-      filters: buildFilters([yearFilter]),
+      filters: buildYearFilter(),
       orders: '-enteryear',
     },
   });
 };
 export const getMember = async (contentId: string) => {
-  return await client.get<Member>({
-    endpoint: 'member',
-    contentId,
-  });
+  return await client
+    .get<Member>({
+      endpoint: 'member',
+      contentId,
+    })
+    .catch(() => {
+      return null;
+    });
 };

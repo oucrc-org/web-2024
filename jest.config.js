@@ -16,7 +16,12 @@ const customJestConfig = {
     '^@/pages/(.*)$': '<rootDir>/src/pages/$1',
     '^@/types/(.*)$': '<rootDir>/src/types/$1',
     '^@/utils/(.*)$': '<rootDir>/src/utils/$1',
+
+    // unified関連ライブラリはモックが必要 https://zenn.dev/tokiya_horikawa/scraps/75f33067a28292
     'hast-util-sanitize': '<rootDir>/__mocks__/mock.js',
+    'remark-gfm': '<rootDir>/__mocks__/mock.js',
+    'remark-parse': '<rootDir>/__mocks__/mock.js',
+    'remark-rehype': '<rootDir>/__mocks__/mock.js',
     'rehype-parse': '<rootDir>/__mocks__/mock.js',
     'rehype-highlight': '<rootDir>/__mocks__/mock.js',
     'rehype-sanitize': '<rootDir>/__mocks__/mock.js',

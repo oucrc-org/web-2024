@@ -2,6 +2,7 @@ import { getAllArticles, getArticles } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import ArticleList from '@/components/ArticleList';
 import { ARTICLE_PER_PAGE } from '@/config/const';
+import { notFound } from 'next/navigation';
 
 export const revalidate = 600;
 
@@ -26,7 +27,7 @@ export async function generateMetadata({
   return { title: `記事一覧 ${page}ページ目` };
 }
 
-export default async function ArticlePage({
+export default async function ArticleIndexPage({
   params: { page },
 }: {
   params: {
@@ -35,7 +36,9 @@ export default async function ArticlePage({
 }) {
   const pageNumber = page ? Number(page) : 1;
   const articles = await getArticles(pageNumber);
-
+  if (articles.contents.length === 0) {
+    notFound();
+  }
   return (
     <ArticleList
       data={articles}
