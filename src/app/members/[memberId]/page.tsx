@@ -8,6 +8,7 @@ import {
 } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 
 export const revalidate = 600;
 
@@ -24,21 +25,27 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params: { memberId },
-}: Params): Promise<Metadata> {
-  const { name, status, avatar } = await getMember(memberId);
-  if (avatar) {
-    const { url, width, height } = avatar;
-    return {
-      title: name,
-      description: status,
-      openGraph: { images: [{ url, width, height }] },
-    };
+}: Params): Promise<Metadata | void> {
+  const member = await getMember(memberId);
+  if (member) {
+    const { name, status, avatar } = member;
+    if (avatar) {
+      const { url, width, height } = avatar;
+      return {
+        title: name,
+        description: status,
+        openGraph: { images: [{ url, width, height }] },
+      };
+    }
+    return { title: name, description: status };
   }
-  return { title: name, description: status };
 }
 
 export default async function MemberPage({ params: { memberId } }: Params) {
   const member = await getMember(memberId);
+  if (!member) {
+    notFound();
+  }
   const articles = await getArticlesByMember(member);
   return (
     <>

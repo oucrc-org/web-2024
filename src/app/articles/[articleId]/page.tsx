@@ -8,12 +8,14 @@ import {
   getRecommendedArticles,
 } from '@/utils/micro-cms';
 import { Metadata } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { previewData } from 'next/headers';
 
 import 'highlight.js/styles/androidstudio.css';
 import Script from 'next/script';
 import MemberInfo from '@/components/MemberInfo';
+import { PreviewData } from '@/pages/api/preview';
+import PreviewExitButton from '@/components/client/PreviewExitButton';
 
 export const revalidate = 600;
 
@@ -30,23 +32,33 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params: { articleId },
-}: Params): Promise<Metadata> {
-  const { title, body, twitter_comment, image } = await getArticle(articleId);
-  // TODO: twitter_commentがない場合HTMLが混入する対策
-  const description = twitter_comment ?? body.slice(0, 140);
-  if (image) {
-    const { url, width, height } = image;
-    return {
-      title,
-      description,
-      openGraph: { images: [{ url, width, height }] },
-    };
+}: Params): Promise<Metadata | void> {
+  const article = await getArticle(articleId);
+  if (article) {
+    const { title, body, twitter_comment, image } = article;
+    // TODO: twitter_commentがない場合HTMLが混入する対策
+    const description = twitter_comment ?? body.slice(0, 140);
+    if (image) {
+      const { url, width, height } = image;
+      return {
+        title,
+        description,
+        openGraph: { images: [{ url, width, height }] },
+      };
+    }
+    return { title, description };
   }
-  return { title, description };
 }
 
 export default async function ArticlePage({ params: { articleId } }: Params) {
-  const article = await getArticle(articleId);
+  const preview = previewData() as PreviewData | undefined;
+  const article = await getArticle(
+    articleId,
+    preview ? preview.draftKey : undefined
+  );
+  if (!article) {
+    notFound();
+  }
   const otherArticles = await getOtherArticlesBySameMember(article);
   const recommendedArticles = await getRecommendedArticles(article);
   const mathConfig = `
@@ -65,6 +77,7 @@ export default async function ArticlePage({ params: { articleId } }: Params) {
   `;
   return (
     <div className="pt-16">
+      {preview && <PreviewExitButton />}
       {/* TODO: MathJax@3系で動かない原因を調査 */}
       <Script
         async

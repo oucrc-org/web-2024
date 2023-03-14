@@ -93,7 +93,10 @@ export type Article = {
   name: Member;
   category: Maybe<Category>;
   series: Maybe<Series>;
+  /** HTML。`markdown_body`がある場合、Markdownのパース結果で上書きされる */
   body: string;
+  /** MD。記入されていればbodyより優先 */
+  markdown_body: Maybe<string>;
   twitter_comment: Maybe<string>;
   image: Maybe<MicroCMSImage>;
 } & MicroCMSBase;

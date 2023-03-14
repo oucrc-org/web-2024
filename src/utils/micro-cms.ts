@@ -17,7 +17,7 @@ import dayjs from 'dayjs';
 import { createClient } from 'microcms-js-sdk';
 import { NextApiRequest } from 'next';
 import { clientEnv } from './client-env';
-import { parseHtml } from './content-parser';
+import { parseHtml, parseMarkdown } from './content-parser';
 import { env } from './server-env';
 
 export const client = createClient({
@@ -157,16 +157,35 @@ export const getArticles = async (
   });
 };
 
-export const getArticle = async (contentId: string) => {
-  const article = await client.get<Article>({
-    endpoint: 'article',
-    contentId,
-  });
-  const body = await parseHtml(article.body);
-  return {
-    ...article,
-    body,
-  };
+/**
+ * 記事を取得しつつ、本文をパースする
+ * - `markdown_body`がない場合、`body`は構文ハイライトを追加して上書きされる
+ * - `markdown_body`がある場合、`body`はMarkdownのパース結果で上書きされる
+ */
+export const getArticle = async (contentId: string, draftKey?: string) => {
+  return await client
+    .get<Article>({
+      endpoint: 'article',
+      contentId,
+      queries: {
+        draftKey,
+      },
+    })
+    .then(async (article) => {
+      let body = article.body;
+      if (article.markdown_body) {
+        body = await parseMarkdown(article.markdown_body);
+      } else {
+        body = await parseHtml(article.body);
+      }
+      return {
+        ...article,
+        body,
+      };
+    })
+    .catch(() => {
+      return null;
+    });
 };
 
 /**
@@ -238,13 +257,17 @@ export const getAllCategories = async () => {
   });
 };
 export const getCategory = async (contentId: string) => {
-  return await client.get<Category>({
-    endpoint: 'category',
-    contentId,
-    queries: {
-      fields: CATEGORY_LIST_FIELDS,
-    },
-  });
+  return await client
+    .get<Category>({
+      endpoint: 'category',
+      contentId,
+      queries: {
+        fields: CATEGORY_LIST_FIELDS,
+      },
+    })
+    .catch(() => {
+      return null;
+    });
 };
 
 /**
@@ -262,13 +285,17 @@ export const getAllSerieses = async () => {
   });
 };
 export const getSeries = async (contentId: string) => {
-  return await client.get<Series>({
-    endpoint: 'series',
-    contentId,
-    queries: {
-      fields: SERIES_LIST_FIELDS,
-    },
-  });
+  return await client
+    .get<Series>({
+      endpoint: 'series',
+      contentId,
+      queries: {
+        fields: SERIES_LIST_FIELDS,
+      },
+    })
+    .catch(() => {
+      return null;
+    });
 };
 
 /**
@@ -301,10 +328,14 @@ export const getNewses = async (page: number) => {
   });
 };
 export const getNews = async (contentId: string) => {
-  return await client.get<News>({
-    endpoint: 'news',
-    contentId,
-  });
+  return await client
+    .get<News>({
+      endpoint: 'news',
+      contentId,
+    })
+    .catch(() => {
+      return null;
+    });
 };
 
 /**
@@ -333,7 +364,6 @@ function buildYearFilter() {
 }
 
 export const getAllMembers = async () => {
-  const searchQuery: string[] = [];
   return await client.getList<Member>({
     endpoint: 'member',
     queries: {
@@ -356,8 +386,12 @@ export const getMembers = async () => {
   });
 };
 export const getMember = async (contentId: string) => {
-  return await client.get<Member>({
-    endpoint: 'member',
-    contentId,
-  });
+  return await client
+    .get<Member>({
+      endpoint: 'member',
+      contentId,
+    })
+    .catch(() => {
+      return null;
+    });
 };

@@ -2,6 +2,7 @@ import { getAllArticles, getArticles } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import ArticleList from '@/components/ArticleList';
 import { ARTICLE_PER_PAGE } from '@/config/const';
+import { notFound } from 'next/navigation';
 
 export const revalidate = 600;
 
@@ -35,7 +36,9 @@ export default async function ArticleIndexPage({
 }) {
   const pageNumber = page ? Number(page) : 1;
   const articles = await getArticles(pageNumber);
-
+  if (articles.contents.length === 0) {
+    notFound();
+  }
   return (
     <ArticleList
       data={articles}
