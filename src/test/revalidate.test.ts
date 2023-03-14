@@ -29,11 +29,8 @@ const mockWebhookBody: MicroCMSWebhookBody = {
   },
 };
 
-describe('Test for API route `/api/revalidate`', () => {
-  /**
-   * GETが弾かれるか
-   */
-  test('Send GET to revalidate API', async () => {
+describe('APIルート`/api/revalidate`の動作確認', () => {
+  test('GETが弾かれるか', async () => {
     expect.hasAssertions();
     await testApiHandler({
       requestPatcher: (req) => (req.url = '/api/revalidate'),
@@ -48,10 +45,7 @@ describe('Test for API route `/api/revalidate`', () => {
       },
     });
   });
-  /**
-   * 署名なしで正しい形式のbodyを送信して弾かれるか
-   */
-  test('Send POST without signature to revalidate API', async () => {
+  test('署名なしで正しい形式のbodyを送信して弾かれるか', async () => {
     expect.hasAssertions();
     await testApiHandler({
       requestPatcher: (req) => (req.url = '/api/revalidate'),

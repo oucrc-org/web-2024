@@ -5,7 +5,7 @@ import { constants } from 'http2';
  * JSONのPOST以外を拒否する
  * エラーハンドリングも兼ねている
  */
-export const allowOnlyPostingObjectBody = async (
+export async function allowOnlyPostingObjectBody(
   req: NextApiRequest,
   res: NextApiResponse,
   /** 各ルートの処理をここに書くこと */
@@ -17,7 +17,7 @@ export const allowOnlyPostingObjectBody = async (
   executeIfNotPost?: () => void | Promise<
     void | Response | NextApiResponse<any>
   >
-) => {
+) {
   try {
     if (req.method !== 'POST') {
       if (executeIfNotPost) {
@@ -49,4 +49,4 @@ export const allowOnlyPostingObjectBody = async (
         : { message: JSON.stringify(e) }
     );
   }
-};
+}

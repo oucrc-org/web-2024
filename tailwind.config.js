@@ -1,8 +1,23 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  daisyui: {
+    themes: [
+      {
+        oucrc: {
+          primary: '#DDD',
+          secondary: '#333',
+          accent: '#37CDBE',
+          neutral: '#3D4451',
+          'base-100': '#FFFFFF',
+          info: '#3ABFF8',
+          success: '#36D399',
+          warning: '#FF8300',
+          error: '#C60000',
+        },
+      },
+    ],
+  },
   theme: {
     extend: {
       colors: {
@@ -37,27 +52,27 @@ module.exports = {
         96: '24rem',
         120: '30rem',
       },
-      fontFamily: {
-        sans: [
-          'Noto Sans JP',
-          'Roboto',
-          'Source Sans Pro',
-          ...defaultTheme.fontFamily.sans,
-        ],
-      },
       typography: {
         DEFAULT: {
           css: {
+            color: '#000',
             /**
              * 本文の気に入らないスタイルは、ここにJSSを書いて上書きすること
              */
             pre: {
               padding: 0,
             },
+            'pre code': {
+              padding: '1em',
+            },
           },
         },
       },
     },
   },
-  plugins: [require('daisyui'), require('@tailwindcss/typography')],
+  plugins: [
+    require('daisyui'),
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/line-clamp'),
+  ],
 };

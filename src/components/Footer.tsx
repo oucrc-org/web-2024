@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Footer = () => {
+export default function Footer() {
   return (
-    <div className="z-10 flex w-full flex-col gap-y-2 bg-footer py-8 text-center">
+    <div className="relative bottom-0 z-20 flex w-full flex-col gap-y-2 bg-footer py-8 text-center">
       <Link href="/" className="mx-auto inline h-10 sm:h-16">
         <Image
           width={300}
@@ -17,6 +17,4 @@ const Footer = () => {
       </div>
     </div>
   );
-};
-
-export default Footer;
+}

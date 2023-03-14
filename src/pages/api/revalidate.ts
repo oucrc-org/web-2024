@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { microCMSWebhookBody } from '@/types/micro-cms';
-import { getPathByWebhook, verifyMicroCmsWebhook } from '@/utils/micro-cms';
+import { getPathsByWebhook, verifyMicroCmsWebhook } from '@/utils/micro-cms';
 import { notifyUpdateToSlack } from '@/utils/slack';
 import { allowOnlyPostingObjectBody } from '@/utils/api';
 
@@ -14,23 +14,27 @@ export default async function handler(
     // 署名を検証
     verifyMicroCmsWebhook(parsedBody, req);
 
-    const pathToValidate = getPathByWebhook(parsedBody);
+    // Slack通知
+    await notifyUpdateToSlack(parsedBody);
+
+    // ページ更新処理
+    let message = 'Failed to revalidate';
+    const pathsToValidate = getPathsByWebhook(parsedBody);
+    // 一覧を更新
+    await res.revalidate(pathsToValidate[0]);
+    // 個別ページ更新
     return await res
-      .revalidate(pathToValidate)
+      .revalidate(pathsToValidate[1])
+      .then(() => {
+        message = `Revalidated the following path by microCMS webhook: ${pathsToValidate.join(
+          ', '
+        )}`;
+      })
       .catch(() => {
-        console.error(`Failed to revalidate but proceed to slack notification`);
+        message = 'Failed to revalidate but proceed to slack notification';
       })
       .finally(async () => {
-        return await notifyUpdateToSlack(parsedBody)
-          .then(() => {
-            const message = `Revalidated the following path by microCMS webhook: ${pathToValidate}`;
-            // NetlifyのFunction Logで確認できるように
-            console.log(message);
-            return res.status(200).json({ message });
-          })
-          .catch((e) => {
-            console.error(e);
-          });
+        return res.status(200).json({ message });
       });
   });
 }

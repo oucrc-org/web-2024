@@ -35,7 +35,7 @@ export type Member = {
   youtube: Maybe<string>;
 } & MicroCMSBase;
 /** 一覧で無駄なカラムを取得しないように定義 */
-export const MEMBER_LIST_FIELDS = 'id,name,avatar,enteryear';
+export const MEMBER_LIST_FIELDS = 'id,name,status,avatar,enteryear';
 
 /**
  * CMS上の呼称:「カテゴリー」
@@ -72,13 +72,13 @@ export type News = {
   /**
    * 公開日時
    */
-  date: Date;
+  date: Maybe<Date>;
   important: Maybe<boolean>;
   body: string;
   image: Maybe<MicroCMSImage>;
 } & MicroCMSBase;
 /** 一覧で無駄なカラムを取得しないように定義 */
-export const NEWS_LIST_FIELDS = 'id,title';
+export const NEWS_LIST_FIELDS = 'id,title,date,createdAt';
 
 /**
  * CMS上の呼称:「記事」
@@ -93,11 +93,19 @@ export type Article = {
   name: Member;
   category: Maybe<Category>;
   series: Maybe<Series>;
+  /** HTML。`markdown_body`がある場合、Markdownのパース結果で上書きされる */
   body: string;
+  /** MD。記入されていればbodyより優先 */
+  markdown_body: Maybe<string>;
+  /** 概要の代わりにする */
   twitter_comment: Maybe<string>;
   image: Maybe<MicroCMSImage>;
 } & MicroCMSBase;
-/** 一覧で無駄なカラムを取得しないように定義 */
+
+/**
+ * 一覧で無駄なカラムを取得しないように定義
+ * ここに本文がないため、旧サイトと違って一部記事の説明文がないように見える
+ */
 export const ARTICLE_LIST_FIELDS =
   'id,title,date,name,category,series,twitter_comment,image';
 

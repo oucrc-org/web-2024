@@ -2,9 +2,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import DoubleLineButton from './DoubleLineButton';
 
-const Contact = () => {
+export default function Contact() {
   return (
-    <div className="flex flex-col items-center gap-8 md:flex-row">
+    <div className="z-10 flex min-h-screen flex-col items-center gap-8 bg-white md:flex-row">
       <div className="z-10 flex flex-col gap-y-8 bg-white px-6 py-8 shadow-2xl">
         <h2 className="text-3xl font-bold tracking-wider text-secondary">
           お問い合わせ
@@ -70,23 +70,22 @@ const Contact = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <DoubleLineButton label="Google Mapでみる" className="text-sm" />
+            <DoubleLineButton className="text-sm">
+              Google Mapでみる
+            </DoubleLineButton>
           </a>
         </div>
       </div>
       <div className="grow overflow-hidden">
         <iframe
-          className="z-0 h-[110vh] w-full"
+          className="h-[110vh] w-full"
           title="GoogleMap"
           style={{ pointerEvents: 'none' }}
           src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2319.864736986123!2d133.9248861920379!3d34.685396222423485!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3554066d34a8412f%3A0x59f13aab8699ff49!2z44CSNzAwLTAwODIg5bKh5bGx55yM5bKh5bGx5biC5YyX5Yy65rSl5bO25Lit77yS5LiB55uu77yRIOagoeWPi-S8muaWh-WMluezu-OCr-ODqeODluajnw!5e0!3m2!1sja!2sjp!4v1614782882747!5m2!1sja!2sjp"
-          frameBorder="0"
           allowFullScreen
           loading="lazy"
         ></iframe>
       </div>
     </div>
   );
-};
-
-export default Contact;
+}

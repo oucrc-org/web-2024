@@ -1,14 +1,13 @@
 import {
-  getAllArticles,
+  getAllArticleIds,
   getAllCategories,
   getArticles,
   getCategory,
 } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import ArticleList from '@/components/ArticleList';
-import { ARTICLE_PER_PAGE } from '@/config/const';
-
-export const revalidate = 600;
+import { clientEnv } from '@/config/client-env';
+import { notFound } from 'next/navigation';
 
 type Params = {
   params: { categoryId: string; page: string };
@@ -19,9 +18,13 @@ export async function generateStaticParams() {
   const paths = await Promise.all(
     categories.contents
       .map(async ({ id: categoryId }) => {
-        return await getAllArticles({ categoryId }).then((articles) => {
+        return await getAllArticleIds({ categoryId }).then((articles) => {
           // 必要なページ数を計算
-          const pages = Math.ceil(articles.contents.length / ARTICLE_PER_PAGE);
+          const pages = articles
+            ? Math.ceil(
+                articles.contents.length / clientEnv.ARTICLE_COUNT_PER_PAGE
+              )
+            : 1;
           return Array.from({ length: pages }, (_, i) =>
             (i + 1).toString()
           ).map((page) => ({
@@ -35,28 +38,35 @@ export async function generateStaticParams() {
   return paths.flat(1);
 }
 
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: Params): Promise<Metadata | void> {
   const category = await getCategory(params.categoryId);
-  return {
-    title: `${category.category}の記事一覧 ${params.page}ページ目`,
-  };
+  if (category) {
+    return {
+      title: `${category.category}の記事一覧 ${params.page}ページ目`,
+    };
+  }
 }
 
-export default async function ArticlePage({
+export default async function ArticleCategoryIndexPage({
   params: { categoryId, page },
-}: {
-  params: { categoryId?: string; page?: string };
-}) {
+}: Params) {
   const pageNumber = page ? Number(page) : 1;
   const articles = await getArticles(pageNumber, {
     categoryId,
   });
+  if (!articles || articles?.contents.length === 0) {
+    notFound();
+  }
 
   return (
-    <ArticleList
-      data={articles}
-      pageNumber={pageNumber}
-      paginationPath={`/articles/category/${categoryId}`}
-    />
+    <>
+      <ArticleList
+        data={articles}
+        pageNumber={pageNumber}
+        paginationPath={`/articles/category/${categoryId}`}
+      />
+    </>
   );
 }

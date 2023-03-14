@@ -1,7 +1,7 @@
 import { getArticles } from '@/utils/micro-cms';
 import ArticleList from '@/components/ArticleList';
-
-export const revalidate = 600;
+import CategoryMenu from '@/components/CategoryMenu';
+import SeriesMenu from '@/components/SeriesMenu';
 
 export const metadata = {
   title: '記事一覧',
@@ -12,6 +12,17 @@ export const metadata = {
 export default async function ArticlePage() {
   const articles = await getArticles(1);
   return (
-    <ArticleList data={articles} pageNumber={1} paginationPath={`/articles`} />
+    <>
+      {/* @ts-expect-error Server Component */}
+      <CategoryMenu />
+      {/* @ts-expect-error Server Component */}
+      <SeriesMenu />
+      <ArticleList
+        data={articles}
+        pageNumber={1}
+        // articles, newsは`/p`がある
+        paginationPath={`/articles/p`}
+      />
+    </>
   );
 }
