@@ -23,7 +23,11 @@ export async function parseHtml(html: string) {
   const parsed = await unified()
     // まずHTMLをパースする
     .use(rehypeParse, { fragment: true })
-    .use(rehypeSanitize)
+    // YouTubeのiframeを消してしまわないように
+    // 以下のオプションだと中見が消えてしまうので保留
+    // TODO: YouTubeに対応しつつサニタイズ
+    // .use(rehypeSanitize, { tagNames: ['iframe'] })
+
     // コードにハイライトを適用する
     .use(rehypeHighlight, {
       detect: true,
