@@ -91,13 +91,13 @@ export default function ArticleContent({ article }: ArticleContentProps) {
       </div>
       <div className="mx-8 mb-8 mt-6 sm:mx-16">
         {article.name && (
-          <p className="overflow-hidden tracking-widest text-secondary sm:text-lg">
+          <div className="overflow-hidden tracking-widest text-secondary sm:text-lg">
             執筆者: {article.name.name}
-          </p>
+          </div>
         )}
-        <p className="tracking-widest text-secondary sm:text-lg">
+        <div className="tracking-widest text-secondary sm:text-lg">
           最終更新: {formatDate(article.updatedAt)}
-        </p>
+        </div>
       </div>
 
       <div className="m-8 flex flex-wrap gap-3 sm:mx-16">

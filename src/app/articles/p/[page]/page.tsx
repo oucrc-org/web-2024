@@ -26,7 +26,7 @@ export async function generateMetadata({
   return { title: `記事一覧 ${page}ページ目` };
 }
 
-export default async function ArticlePage({
+export default async function ArticleIndexPage({
   params: { page },
 }: {
   params: {

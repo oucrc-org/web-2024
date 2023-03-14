@@ -8,7 +8,7 @@ export const metadata = {
   description: 'OUCRC（岡山大学電子計算機研究会）のからのお知らせ一覧です！',
 };
 
-export default async function NewsPage() {
+export default async function NewsIndexPage() {
   const articles = await getNewses(1);
   return (
     <>

@@ -22,7 +22,9 @@ export async function generateMetadata({
   return { title: `${series.series}の記事一覧` };
 }
 
-export default async function ArticlePage({ params: { seriesId } }: Params) {
+export default async function ArticleSeriesIndexPage({
+  params: { seriesId },
+}: Params) {
   const articles = await getArticles(1, {
     seriesId,
   });

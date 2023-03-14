@@ -35,9 +35,9 @@ export default function NewsContent({ news }: NewsContentProps) {
         {news.title.replace(/　/g, ' ')}
       </div>
       <div className="mx-8 mb-8 mt-6 sm:mx-16">
-        <p className="tracking-widest text-secondary sm:text-lg">
+        <div className="tracking-widest text-secondary sm:text-lg">
           最終更新: {formatDate(news.updatedAt)}
-        </p>
+        </div>
       </div>
 
       <div

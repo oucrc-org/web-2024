@@ -188,6 +188,19 @@ export const getOtherArticlesBySameMember = async (
   });
 };
 /**
+ * 部員による他記事の取得
+ */
+export const getArticlesByMember = async (member: Member, limit = 6) => {
+  return await client.getList<Article>({
+    endpoint: 'article',
+    queries: {
+      fields: ARTICLE_LIST_FIELDS,
+      filters: buildFilters([`name[equals]${member.id}`], 'date'),
+      limit,
+    },
+  });
+};
+/**
  * おすすめ記事の取得
  * 旧サイトの`pages/articles/_id.vue`より移植
  * TODO: カテゴリ以外の要素も考慮できるようにする
@@ -255,6 +268,7 @@ export const getSeries = async (contentId: string) => {
     },
   });
 };
+
 /**
  * -----------------------------------
  * お知らせ
@@ -296,22 +310,43 @@ export const getNews = async (contentId: string) => {
  * メンバー
  */
 
-export const getMembers = async (
+function buildYearFilter(
   /** 入学年度の配列(任意) */
   yearArray?: number[]
-) => {
+) {
   let yearFilter = undefined;
   if (yearArray) {
     // ORで繋ぐことで複数の入学年度に対応
     yearFilter = yearArray.map((y) => `enteryear[equals]${y}`).join('[or]');
   }
+  return buildFilters([yearFilter]);
+}
 
+export const getAllMembers = async (
+  /** 入学年度の配列(任意) */
+  yearArray?: number[]
+) => {
+  const searchQuery: string[] = [];
+  return await client.getList<Member>({
+    endpoint: 'member',
+    queries: {
+      limit: 1000,
+      fields: 'id',
+      filters: buildYearFilter(yearArray),
+      orders: '-enteryear',
+    },
+  });
+};
+export const getMembers = async (
+  /** 入学年度の配列(任意) */
+  yearArray?: number[]
+) => {
   return await client.getList<Member>({
     endpoint: 'member',
     queries: {
       limit: 100,
       fields: MEMBER_LIST_FIELDS,
-      filters: buildFilters([yearFilter]),
+      filters: buildYearFilter(yearArray),
       orders: '-enteryear',
     },
   });

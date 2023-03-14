@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
-export default async function ArticlePage({
+export default async function ArticleSeriesIndexPage({
   params: { seriesId, page },
 }: Params) {
   const pageNumber = page ? Number(page) : 1;
