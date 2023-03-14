@@ -1,0 +1,9 @@
+/*
+  複数フォントを混ぜるためにCSS Moduleに記述
+  CSS Variableはnext/fontを使って定義する
+  https://beta.nextjs.org/docs/api-reference/components/font#applying-styles
+  残りのフォントはTailwindのデフォルト
+*/
+.font {
+  font-family: var(--font-noto-sans-jp), var(--font-roboto), Source Sans Pro, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}

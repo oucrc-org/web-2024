@@ -42,21 +42,21 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
-export default async function ArticlePage({
+export default async function ArticleCategoryIndexPage({
   params: { categoryId, page },
-}: {
-  params: { categoryId?: string; page?: string };
-}) {
+}: Params) {
   const pageNumber = page ? Number(page) : 1;
   const articles = await getArticles(pageNumber, {
     categoryId,
   });
 
   return (
-    <ArticleList
-      data={articles}
-      pageNumber={pageNumber}
-      paginationPath={`/articles/category/${categoryId}`}
-    />
+    <>
+      <ArticleList
+        data={articles}
+        pageNumber={pageNumber}
+        paginationPath={`/articles/category/${categoryId}`}
+      />
+    </>
   );
 }

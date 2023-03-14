@@ -10,9 +10,9 @@ interface HeadingH2Props {
 export default function HeadingH2({ children }: HeadingH2Props) {
   return (
     <h2 className="text-center">
-      <p className="relative text-center text-xl font-semibold tracking-widest text-black">
+      <div className="relative text-center text-xl font-semibold tracking-widest text-black">
         {children}
-      </p>
+      </div>
       <div className="inline-block w-12 border-t-4 border-double border-black" />
     </h2>
   );
