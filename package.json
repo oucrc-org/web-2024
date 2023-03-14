@@ -6,6 +6,7 @@
     "dev": "next dev",
     "typecheck": "tsc -noEmit",
     "build": "next build",
+    "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "next lint",
     "test": "jest"
@@ -25,6 +26,7 @@
     "highlight.js": "^11.7.0",
     "microcms-js-sdk": "^2.3.2",
     "next": "13.2.4",
+    "next-sitemap": "^4.0.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.1",

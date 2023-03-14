@@ -60,6 +60,9 @@ module.exports = {
              * 本文の気に入らないスタイルは、ここにJSSを書いて上書きすること
              */
             pre: {
+              padding: 0,
+            },
+            'pre code': {
               padding: '1em',
             },
           },
