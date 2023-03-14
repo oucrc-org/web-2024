@@ -1,3 +1,4 @@
+import { ARTICLE_PER_PAGE } from '@/config/const';
 import {
   Article,
   Category,
@@ -8,6 +9,8 @@ import {
   CATEGORY_LIST_FIELDS,
   NEWS_LIST_FIELDS,
   MEMBER_LIST_FIELDS,
+  Series,
+  SERIES_LIST_FIELDS,
 } from '@/types/micro-cms';
 import { createHmac, timingSafeEqual } from 'crypto';
 import { createClient } from 'microcms-js-sdk';
@@ -98,14 +101,24 @@ const buildFilters = (
   );
 };
 
+/**
+ * -----------------------
+ * 記事
+ */
+
 export const getAllArticles = async ({
   /**
    * カテゴリ内のページ算出に必要
    */
   categoryId,
-}: { categoryId?: string } = {}) => {
+  /**
+   * シリーズ内のページ算出に必要
+   */
+  seriesId,
+}: { categoryId?: string; seriesId?: string } = {}) => {
   const searchQuery: string[] = [];
   if (categoryId) searchQuery.push(`category[equals]${categoryId}`);
+  if (seriesId) searchQuery.push(`series[equals]${seriesId}`);
   return await client.getList<Article>({
     endpoint: 'article',
     queries: {
@@ -133,7 +146,7 @@ export const getArticles = async (
   return await client.getList<Article>({
     endpoint: 'article',
     queries: {
-      limit: 9,
+      limit: ARTICLE_PER_PAGE,
       offset: page < 2 ? 0 : (page - 1) * 9,
       fields: ARTICLE_LIST_FIELDS,
       orders: '-date,-createdAt',
@@ -195,6 +208,11 @@ export const getRecommendedArticles = async (article: Article, limit = 4) => {
   });
 };
 
+/**
+ * -----------------------------
+ * カテゴリー
+ */
+
 export const getAllCategories = async () => {
   return await client.getList<Category>({
     endpoint: 'category',
@@ -214,11 +232,52 @@ export const getCategory = async (contentId: string) => {
   });
 };
 
-export const getNewses = async () => {
+/**
+ * -----------------------------
+ * カテゴリー
+ */
+
+export const getAllSerieses = async () => {
+  return await client.getList<Series>({
+    endpoint: 'series',
+    queries: {
+      limit: 100,
+      fields: SERIES_LIST_FIELDS,
+    },
+  });
+};
+export const getSeries = async (contentId: string) => {
+  return await client.get<Series>({
+    endpoint: 'series',
+    contentId,
+    queries: {
+      fields: SERIES_LIST_FIELDS,
+    },
+  });
+};
+/**
+ * -----------------------------------
+ * お知らせ
+ */
+
+export const getAllNewses = async () => {
+  const searchQuery: string[] = [];
   return await client.getList<News>({
     endpoint: 'news',
     queries: {
-      limit: 100,
+      limit: 1000,
+      fields: 'id',
+      orders: '-date,-createdAt',
+      filters: buildFilters(searchQuery, 'date'),
+    },
+  });
+};
+export const getNewses = async (page: number) => {
+  return await client.getList<News>({
+    endpoint: 'news',
+    queries: {
+      limit: ARTICLE_PER_PAGE,
+      offset: page < 2 ? 0 : (page - 1) * 9,
       fields: NEWS_LIST_FIELDS,
       orders: '-important,-date,-createdAt',
       filters: buildFilters([], 'date'),
@@ -231,6 +290,11 @@ export const getNews = async (contentId: string) => {
     contentId,
   });
 };
+
+/**
+ * --------------------------
+ * メンバー
+ */
 
 export const getMembers = async (
   /** 入学年度の配列(任意) */

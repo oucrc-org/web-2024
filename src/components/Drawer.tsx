@@ -108,9 +108,7 @@ export async function Drawer({ children }: DrawerProps) {
           </div>
         </nav>
         <main className="flex min-h-screen flex-col">
-          <div className="container mx-auto mb-32 grow px-2 sm:px-4 md:px-10">
-            {children}
-          </div>
+          {children}
           <div className="grow-0">
             <Footer />
           </div>

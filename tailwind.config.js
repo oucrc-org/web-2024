@@ -3,6 +3,23 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  daisyui: {
+    themes: [
+      {
+        oucrc: {
+          primary: '#DDD',
+          secondary: '#333',
+          accent: '#37CDBE',
+          neutral: '#3D4451',
+          'base-100': '#FFFFFF',
+          info: '#3ABFF8',
+          success: '#36D399',
+          warning: '#FF8300',
+          error: '#C60000',
+        },
+      },
+    ],
+  },
   theme: {
     extend: {
       colors: {

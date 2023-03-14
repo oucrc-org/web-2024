@@ -3,23 +3,23 @@ import SeriesMenu from '@/components/SeriesMenu';
 import { ReactNode } from 'react';
 
 /**
- * カテゴリページ共通レイアウト
+ * シリーズページ共通レイアウト
  */
 export default async function CategoryLayout({
   children,
-  params: { categoryId },
+  params: { seriesId },
 }: {
   children: ReactNode;
   params: {
-    categoryId: string;
+    seriesId: string;
   };
 }) {
   return (
     <>
       {/* @ts-expect-error Server Component */}
-      <CategoryMenu currentCategoryId={categoryId} />
+      <CategoryMenu />
       {/* @ts-expect-error Server Component */}
-      <SeriesMenu />
+      <SeriesMenu currentSeriesId={seriesId} />
       {children}
     </>
   );

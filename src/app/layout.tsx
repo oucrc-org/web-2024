@@ -1,11 +1,10 @@
 import { ReactNode } from 'react';
 import Script from 'next/script';
 import '@/styles/globals.css';
-import { Noto_Sans_JP, Roboto } from '@next/font/google';
+import { Noto_Sans_JP, Roboto } from 'next/font/google';
 import { clientEnv } from '@/utils/client-env';
 import ReactHotToast from '@/components/client/ReactHotToast';
 import Drawer from '@/components/Drawer';
-import Footer from '@/components/Footer';
 
 const notoSansJP = Noto_Sans_JP({
   weight: ['400', '700'],
@@ -63,7 +62,8 @@ export const metadata = {
 export default async function Layout({ children }: { children: ReactNode }) {
   const gtagId = clientEnv.GTAG_ID;
   return (
-    <html lang="ja">
+    <html lang="ja" data-theme="oucrc">
+      {/* theme定義はtailwind.config.js参照 */}
       <body>
         {/*
         アナリティクス設定

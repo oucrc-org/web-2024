@@ -1,10 +1,10 @@
 import { Article } from '@/types/micro-cms';
 import { formatDate } from '@/utils/date';
 import Image from 'next/image';
-import { twJoin } from 'tailwind-merge';
 import { AiFillCrown } from 'react-icons/ai';
 import SeriesButton from './SeriesButton';
 import CategoryButton from './CategoryButton';
+import ButtonWithIcon from './ButtonWithIcon';
 
 interface ArticleContentProps {
   article: Article;
@@ -13,7 +13,7 @@ interface ArticleContentProps {
 /**
  * 旧サイトの`components/ArticleContent.vue`を移植
  */
-export function ArticleContent({ article }: ArticleContentProps) {
+export default function ArticleContent({ article }: ArticleContentProps) {
   /**
    * 2021年記事コンのデータ
    * microCMSのHobbyにおけるAPI数上限のため、旧サイトでもハードコーディングしていた
@@ -66,7 +66,7 @@ export function ArticleContent({ article }: ArticleContentProps) {
   };
 
   return (
-    <section className="row-span-2 mb-2 bg-white pb-20 md:mb-32 lg:col-span-2 lg:shadow-xl">
+    <section className="row-span-2 bg-white pb-20 lg:col-span-2 lg:shadow-xl">
       {article.image ? (
         <Image
           src={article.image.url}
@@ -100,39 +100,25 @@ export function ArticleContent({ article }: ArticleContentProps) {
         </p>
       </div>
 
-      <div className="m-8 sm:mx-16">
+      <div className="m-8 flex flex-wrap gap-3 sm:mx-16">
         {article.category && <CategoryButton category={article.category} />}
-
         {article.series && <SeriesButton series={article.series} />}
       </div>
 
       {/* <!-- ▼ ランキング --> */}
-      <div className="m-8 sm:mx-16">
+      <div className="m-8 flex flex-wrap gap-3 sm:mx-16">
         {Object.entries(ranking).map(([key, value], index) => {
           return value.data.includes(article.id) ? (
-            <div key={index} className="inline-block">
-              <div
-                className={twJoin(
-                  'sm:inline-block mb-3 sm:mr-4 rounded-lg pb-3 pt-1 px-4 tracking-widest',
-                  value.bg_class
-                )}
-              >
-                <span className="inline-block h-6 w-5">
-                  <AiFillCrown />
-                </span>
-                <span
-                  className={twJoin(
-                    'align-top inline-block ml-2 pl-2 pt-2 text-sm',
-                    value.text_class
-                  )}
-                >
-                  {value.title}
-                  <span className="ml-1 font-bold">
-                    {value.data.indexOf(article.id) + 1}位
-                  </span>
-                </span>
-              </div>
-            </div>
+            <ButtonWithIcon
+              key={index}
+              icon={<AiFillCrown />}
+              className={`${value.bg_class} cursor-default`}
+            >
+              {value.title}
+              <span className="ml-1 font-bold">
+                {value.data.indexOf(article.id) + 1}位
+              </span>
+            </ButtonWithIcon>
           ) : null;
         })}
       </div>

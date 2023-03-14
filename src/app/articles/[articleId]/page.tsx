@@ -1,5 +1,5 @@
-import { ArticleCard } from '@/components/ArticleCard';
-import { ArticleContent } from '@/components/ArticleContent';
+import ArticleCard from '@/components/ArticleCard';
+import ArticleContent from '@/components/ArticleContent';
 import HeadingH2 from '@/components/HeadingH2';
 import {
   getAllArticles,

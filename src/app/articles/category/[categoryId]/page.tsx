@@ -28,10 +28,12 @@ export default async function ArticlePage({ params: { categoryId } }: Params) {
   });
 
   return (
-    <ArticleList
-      data={articles}
-      pageNumber={1}
-      paginationPath={`/articles/category/${categoryId}`}
-    />
+    <>
+      <ArticleList
+        data={articles}
+        pageNumber={1}
+        paginationPath={`/articles/category/${categoryId}`}
+      />
+    </>
   );
 }

@@ -1,8 +1,8 @@
 import {
   getAllArticles,
-  getAllCategories,
+  getAllSerieses,
   getArticles,
-  getCategory,
+  getSeries,
 } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import ArticleList from '@/components/ArticleList';
@@ -11,21 +11,21 @@ import { ARTICLE_PER_PAGE } from '@/config/const';
 export const revalidate = 600;
 
 type Params = {
-  params: { categoryId: string; page: string };
+  params: { seriesId: string; page: string };
 };
 
 export async function generateStaticParams() {
-  const categories = await getAllCategories();
+  const serieses = await getAllSerieses();
   const paths = await Promise.all(
-    categories.contents
-      .map(async ({ id: categoryId }) => {
-        return await getAllArticles({ categoryId }).then((articles) => {
+    serieses.contents
+      .map(async ({ id: seriesId }) => {
+        return await getAllArticles({ seriesId }).then((articles) => {
           // 必要なページ数を計算
           const pages = Math.ceil(articles.contents.length / ARTICLE_PER_PAGE);
           return Array.from({ length: pages }, (_, i) =>
             (i + 1).toString()
           ).map((page) => ({
-            categoryId,
+            seriesId,
             page,
           }));
         });
@@ -36,27 +36,25 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const category = await getCategory(params.categoryId);
+  const series = await getSeries(params.seriesId);
   return {
-    title: `${category.category}の記事一覧 ${params.page}ページ目`,
+    title: `${series.series}の記事一覧 ${params.page}ページ目`,
   };
 }
 
 export default async function ArticlePage({
-  params: { categoryId, page },
+  params: { seriesId, page },
 }: Params) {
   const pageNumber = page ? Number(page) : 1;
   const articles = await getArticles(pageNumber, {
-    categoryId,
+    seriesId,
   });
 
   return (
-    <>
-      <ArticleList
-        data={articles}
-        pageNumber={pageNumber}
-        paginationPath={`/articles/category/${categoryId}`}
-      />
-    </>
+    <ArticleList
+      data={articles}
+      pageNumber={pageNumber}
+      paginationPath={`/articles/series/${seriesId}`}
+    />
   );
 }
