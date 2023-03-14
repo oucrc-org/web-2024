@@ -312,27 +312,28 @@ export const getNews = async (contentId: string) => {
  * メンバー
  */
 
-/**
- * OB全員を取得すると重すぎるため、過去 NEXT_PUBLIC_MAX_MEMBER_YEARS 年間の部員だけを取得する
- */
-function buildYearFilter() {
-  let yearFilter = undefined;
-  // 3ヶ月戻すことで現在の年度を取得
+/** 過去 MAX_MEMBER_YEARS 年間の部員だけを取得する */
+export function getPastTermYears() {
   const termYear = dayjs().subtract(3, 'month').year();
   const maxYears = clientEnv.MAX_MEMBER_YEARS;
-  /** 過去MAX_MEMBER_YEARS年間の年度を並べた配列 */
-  const yearsArray = Array.from(
+  return Array.from(
     { length: maxYears },
     (_, i) => i + termYear - maxYears + 1
   );
+}
 
+/** OB全員を取得すると重すぎるため、特定の年度の部員だけを取得するフィルタを作成 */
+function buildYearFilter() {
   // ORで繋ぐことで複数の入学年度に対応
-  yearFilter = yearsArray.map((y) => `enteryear[equals]${y}`).join('[or]');
+  const yearFilter = getPastTermYears()
+    .map((y) => `enteryear[equals]${y}`)
+    .join('[or]');
 
   return buildFilters([yearFilter]);
 }
 
 export const getAllMembers = async () => {
+  const searchQuery: string[] = [];
   return await client.getList<Member>({
     endpoint: 'member',
     queries: {

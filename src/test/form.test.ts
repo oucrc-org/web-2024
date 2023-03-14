@@ -3,10 +3,7 @@ import { testApiHandler } from 'next-test-api-route-handler';
 import handler from '../pages/api/form/[formType]';
 
 describe('Test for API route `/api/form/[formType]`', () => {
-  /**
-   * 存在しないフォームへのPOST
-   */
-  test('POST undefined form type', async () => {
+  test('存在しないフォームへのPOST', async () => {
     expect.hasAssertions();
     await testApiHandler({
       params: { formType: 'foobar' },
@@ -21,10 +18,7 @@ describe('Test for API route `/api/form/[formType]`', () => {
       },
     });
   });
-  /**
-   * 内容無しで問い合わせフォームにPOST
-   */
-  test('POST contact form API without body', async () => {
+  test('内容無しで問い合わせフォームにPOST', async () => {
     expect.hasAssertions();
     await testApiHandler({
       params: { formType: 'contact' },
