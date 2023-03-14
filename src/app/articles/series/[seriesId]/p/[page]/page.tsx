@@ -7,6 +7,7 @@ import {
 import { Metadata } from 'next';
 import ArticleList from '@/components/ArticleList';
 import { ARTICLE_PER_PAGE } from '@/config/const';
+import { notFound } from 'next/navigation';
 
 export const revalidate = 600;
 
@@ -35,11 +36,15 @@ export async function generateStaticParams() {
   return paths.flat(1);
 }
 
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: Params): Promise<Metadata | void> {
   const series = await getSeries(params.seriesId);
-  return {
-    title: `${series.series}の記事一覧 ${params.page}ページ目`,
-  };
+  if (series) {
+    return {
+      title: `${series.series}の記事一覧 ${params.page}ページ目`,
+    };
+  }
 }
 
 export default async function ArticleSeriesIndexPage({
@@ -49,7 +54,9 @@ export default async function ArticleSeriesIndexPage({
   const articles = await getArticles(pageNumber, {
     seriesId,
   });
-
+  if (articles.contents.length === 0) {
+    notFound();
+  }
   return (
     <ArticleList
       data={articles}

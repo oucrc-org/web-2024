@@ -1,6 +1,7 @@
 import { getAllSerieses, getArticles, getSeries } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import ArticleList from '@/components/ArticleList';
+import { notFound } from 'next/navigation';
 
 export const revalidate = 600;
 
@@ -17,9 +18,11 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params: { seriesId },
-}: Params): Promise<Metadata> {
+}: Params): Promise<Metadata | void> {
   const series = await getSeries(seriesId);
-  return { title: `${series.series}の記事一覧` };
+  if (series) {
+    return { title: `${series.series}の記事一覧` };
+  }
 }
 
 export default async function ArticleSeriesIndexPage({
@@ -28,7 +31,9 @@ export default async function ArticleSeriesIndexPage({
   const articles = await getArticles(1, {
     seriesId,
   });
-
+  if (articles.contents.length === 0) {
+    notFound();
+  }
   return (
     <>
       <ArticleList
