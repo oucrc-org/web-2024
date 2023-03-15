@@ -90,15 +90,19 @@ export async function getArticle(contentId: string, draftKey?: string) {
  * 旧サイトの`pages/articles/_id.vue`より移植
  */
 export async function getOtherArticlesBySameMember(
-  article: Article,
+  articleId: string,
   limit = 3
 ) {
+  const article = await client.get<Article>({
+    endpoint: 'article',
+    contentId: articleId,
+  });
   return await client.getList<Article>({
     endpoint: 'article',
     queries: {
       fields: ARTICLE_LIST_FIELDS,
       filters: buildFilters(
-        [`name[equals]${article.name.id}','id[not_equals]${article.id}`],
+        [`name[equals]${article.name.id}','id[not_equals]${articleId}`],
         'date'
       ),
       limit,
@@ -109,12 +113,12 @@ export async function getOtherArticlesBySameMember(
 /**
  * 部員による他記事の取得
  */
-export async function getArticlesByMember(member: Member, limit = 6) {
+export async function getArticlesByMember(memberId: string, limit = 6) {
   return await client.getList<Article>({
     endpoint: 'article',
     queries: {
       fields: ARTICLE_LIST_FIELDS,
-      filters: buildFilters([`name[equals]${member.id}`], 'date'),
+      filters: buildFilters([`name[equals]${memberId}`], 'date'),
       limit,
     },
   });
@@ -125,8 +129,12 @@ export async function getArticlesByMember(member: Member, limit = 6) {
  * 旧サイトの`pages/articles/_id.vue`より移植
  * TODO: カテゴリ以外の要素も考慮できるようにする
  */
-export async function getRecommendedArticles(article: Article, limit = 4) {
-  const searchQuery: string[] = [`id[not_equals]${article.id}`];
+export async function getRecommendedArticles(articleId: string, limit = 4) {
+  const searchQuery: string[] = [`id[not_equals]${articleId}`];
+  const article = await client.get<Article>({
+    endpoint: 'article',
+    contentId: articleId,
+  });
   if (article.category) {
     // カテゴリがあれば同カテゴリの記事に絞る
     searchQuery.push(`category[equals]${article.category.id}`);

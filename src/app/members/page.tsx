@@ -28,9 +28,8 @@ export default async function MemberIndexPage() {
       // ソート防止のため空白を付ける
       membersByYear[` ${a}`] = allMembers[Number(a)];
     });
-
   return (
-    <Container className="px-10 pt-32">
+    <>
       <HeadingH1>部員一覧</HeadingH1>
       <section className="mb-8">
         {Object.entries(membersByYear).map(([key, members]) => (
@@ -49,6 +48,6 @@ export default async function MemberIndexPage() {
           </div>
         ))}
       </section>
-    </Container>
+    </>
   );
 }

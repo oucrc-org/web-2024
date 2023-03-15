@@ -3,9 +3,29 @@ import { ReactNode } from 'react';
 import { getAllCategories } from '@/utils/micro-cms';
 import Logo from './Logo';
 import Footer from './Footer';
+import { Suspense } from 'react';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 interface DrawerProps {
   children: ReactNode;
+}
+
+/**
+ * カテゴリメニューの通信を待たずに表示できるように分離
+ */
+async function CategoryLinks() {
+  const categories = await getAllCategories();
+  return (
+    <>
+      {categories.contents.map((category) => (
+        <li key={category.id}>
+          <Link href={`/articles/category/${category.id}`}>
+            {category.category}
+          </Link>
+        </li>
+      ))}
+    </>
+  );
 }
 
 /**
@@ -15,7 +35,6 @@ interface DrawerProps {
  * @see https://daisyui.com/components/drawer/
  */
 export default async function Drawer({ children }: DrawerProps) {
-  const categories = await getAllCategories();
   const htmlCheckboxId = 'components__drawer';
 
   const CommonLinks = () => {
@@ -30,24 +49,6 @@ export default async function Drawer({ children }: DrawerProps) {
         <li>
           <Link href="/join">入部フォーム</Link>
         </li>
-      </>
-    );
-  };
-
-  /**
-   * 開閉式ドロップダウン
-   * @see https://daisyui.com/components/navbar/#responsive-dropdown-menu-on-small-screen-center-menu-on-large-screen
-   */
-  const CategoryLinks = () => {
-    return (
-      <>
-        {categories.contents.map((category) => (
-          <li key={category.id}>
-            <Link href={`/articles/category/${category.id}`}>
-              {category.category}
-            </Link>
-          </li>
-        ))}
       </>
     );
   };
@@ -102,7 +103,10 @@ export default async function Drawer({ children }: DrawerProps) {
                   </svg>
                 </a>
                 <ul className="rounded-box right-0 z-50 bg-white p-2 shadow">
-                  <CategoryLinks />
+                  <Suspense fallback={<LoadingSkeleton />}>
+                    {/* @ts-expect-error Server Component */}
+                    <CategoryLinks />
+                  </Suspense>
                 </ul>
               </li>
             </ul>
@@ -120,7 +124,10 @@ export default async function Drawer({ children }: DrawerProps) {
         <label htmlFor={htmlCheckboxId} className="drawer-overlay"></label>
         <ul className="menu w-80 bg-base-100 p-4">
           <CommonLinks />
-          <CategoryLinks />
+          <Suspense fallback={<LoadingSkeleton />}>
+            {/* @ts-expect-error Server Component */}
+            <CategoryLinks />
+          </Suspense>
         </ul>
       </aside>
     </div>
