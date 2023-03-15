@@ -17,8 +17,8 @@ export default function HeroArea() {
         <Image
           className="mx-auto h-12 w-auto opacity-0 sm:h-20 md:h-24"
           src="/images/common/oucrc-label.webp"
-          width={712}
-          height={96}
+          width={594}
+          height={80}
           alt="岡山大学電子計算機研究会"
           style={{ animation: 'fadeIn 2s forwards' }}
         />
