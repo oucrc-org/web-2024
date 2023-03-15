@@ -97,7 +97,7 @@ export default async function Page() {
               </Link>
             </div>
             <div className="col-span-3">
-              <NewsList pageNumber={1} data={newses} />
+              <NewsList pageNumber={1} data={newses} enablePagination={false} />
               <Link
                 href="/news"
                 className="block pt-3 pr-2 text-right text-sm font-semibold tracking-widest text-secondary sm:pt-5 sm:text-base lg:pb-0"

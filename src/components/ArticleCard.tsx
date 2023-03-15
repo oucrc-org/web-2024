@@ -4,7 +4,6 @@ import Image from 'next/image';
 import DoubleLineButton from './DoubleLineButton';
 import { ComponentPropsWithoutRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-import SeriesButton from './SeriesButton';
 
 interface ArticleCardProps extends ComponentPropsWithoutRef<'div'> {
   article: Article;
@@ -63,11 +62,6 @@ export default function ArticleCard({
           <div className="mt-4 px-3 text-left text-lg font-semibold leading-8 tracking-widest text-secondary">
             <span className="block">{article.twitter_comment}</span>
           </div>
-          {article.series && (
-            <div className="flex justify-start">
-              <SeriesButton series={article.series} />
-            </div>
-          )}
         </div>
         <div className="grow-0">
           <DoubleLineButton label="内容を見る" className="mt-4" />

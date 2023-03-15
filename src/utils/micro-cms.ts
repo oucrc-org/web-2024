@@ -1,4 +1,3 @@
-import { ARTICLE_PER_PAGE } from '@/config/const';
 import {
   Article,
   Category,
@@ -148,7 +147,7 @@ export const getArticles = async (
   return await client.getList<Article>({
     endpoint: 'article',
     queries: {
-      limit: ARTICLE_PER_PAGE,
+      limit: clientEnv.ARTICLE_PER_PAGE,
       offset: page < 2 ? 0 : (page - 1) * 9,
       fields: ARTICLE_LIST_FIELDS,
       orders: '-date,-createdAt',
@@ -319,7 +318,7 @@ export const getNewses = async (page: number) => {
   return await client.getList<News>({
     endpoint: 'news',
     queries: {
-      limit: ARTICLE_PER_PAGE,
+      limit: clientEnv.ARTICLE_PER_PAGE,
       offset: page < 2 ? 0 : (page - 1) * 9,
       fields: NEWS_LIST_FIELDS,
       orders: '-important,-date,-createdAt',
@@ -381,7 +380,7 @@ export const getMembers = async () => {
       limit: 100,
       fields: MEMBER_LIST_FIELDS,
       filters: buildYearFilter(),
-      orders: '-enteryear',
+      // ソートはmicroCMSに任せる
     },
   });
 };

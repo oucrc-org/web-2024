@@ -1,4 +1,4 @@
-import { ARTICLE_PER_PAGE } from '@/config/const';
+import { clientEnv } from '@/utils/client-env';
 import { Article } from '@/types/micro-cms';
 import { MicroCMSListResponse } from 'microcms-js-sdk';
 import ArticleCard from './ArticleCard';
@@ -30,7 +30,7 @@ const ArticleList = ({
             pageNumber={pageNumber}
             path={paginationPath}
             total={data.totalCount}
-            perPage={ARTICLE_PER_PAGE}
+            perPage={clientEnv.ARTICLE_PER_PAGE}
           />
         </div>
       </div>
