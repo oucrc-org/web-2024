@@ -1,9 +1,9 @@
-import { News } from '@/types/micro-cms';
-import Link from 'next/link';
-import DoubleLineButton from './DoubleLineButton';
 import { ComponentPropsWithoutRef } from 'react';
+import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
+import { News } from '@/types/micro-cms';
 import { formatDate } from '@/utils/date';
+
 interface NewsCardProps extends ComponentPropsWithoutRef<'div'> {
   news: News;
 }

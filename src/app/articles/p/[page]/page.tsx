@@ -1,4 +1,4 @@
-import { getAllArticles, getArticles } from '@/utils/micro-cms';
+import { getAllArticleIds, getArticles } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import ArticleList from '@/components/ArticleList';
 import { clientEnv } from '@/utils/client-env';
@@ -11,7 +11,7 @@ type Params = {
 };
 
 export async function generateStaticParams() {
-  const articles = await getAllArticles();
+  const articles = await getAllArticleIds();
   // 必要なページ数を計算
   const pages = Math.ceil(
     articles.contents.length / clientEnv.ARTICLE_COUNT_PER_PAGE

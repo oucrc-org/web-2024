@@ -7,7 +7,7 @@ import { useTypeSafeForm } from '@/hooks/useTypeSafeForm';
 import { joinFormInput, JoinFormInput } from '@/types/form';
 import InputControl from './InputControl';
 
-const JoinForm = () => {
+export default function JoinForm() {
   const apiPath = '/api/form/join';
   // 以降のフォームコンポーネントに渡す型
   type FormType = JoinFormInput;
@@ -125,6 +125,4 @@ const JoinForm = () => {
       </FormProvider>
     </div>
   );
-};
-
-export default JoinForm;
+}

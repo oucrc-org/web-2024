@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { ReactNode, useId } from 'react';
-import { metadata } from '@/app/layout';
+import { ReactNode } from 'react';
 import { getAllCategories } from '@/utils/micro-cms';
 import Logo from './Logo';
 import Footer from './Footer';

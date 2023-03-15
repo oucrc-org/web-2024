@@ -1,5 +1,5 @@
 import {
-  getAllArticles,
+  getAllArticleIds,
   getAllCategories,
   getArticles,
   getCategory,
@@ -20,7 +20,7 @@ export async function generateStaticParams() {
   const paths = await Promise.all(
     categories.contents
       .map(async ({ id: categoryId }) => {
-        return await getAllArticles({ categoryId }).then((articles) => {
+        return await getAllArticleIds({ categoryId }).then((articles) => {
           // 必要なページ数を計算
           const pages = Math.ceil(
             articles.contents.length / clientEnv.ARTICLE_COUNT_PER_PAGE

@@ -1,8 +1,8 @@
+import { constants } from 'http2';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { FORMS } from '@/config/form';
 import { allowOnlyPostingObjectBody } from '@/utils/api';
 import { postToGoogleForm } from '@/utils/form';
-import { constants } from 'http2';
-import { NextApiRequest, NextApiResponse } from 'next';
 
 /**
  * Googleフォームとの通信を担うAPIルート

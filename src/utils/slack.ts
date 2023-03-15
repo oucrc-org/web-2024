@@ -1,4 +1,4 @@
-import { env } from './server-env';
+import { serverEnv } from './server-env';
 import { Message, Blocks, Elements } from 'slack-block-builder';
 import { MicroCMSWebhookBody } from '@/types/micro-cms';
 import { getPathByWebhook } from './micro-cms';
@@ -7,7 +7,7 @@ import { getPathByWebhook } from './micro-cms';
  * Slackにツイート内容を通知
  * @param parsedBody zodでバリデーションしたWebhook
  */
-export const notifyUpdateToSlack = async (parsedBody: MicroCMSWebhookBody) => {
+export async function notifyUpdateToSlack(parsedBody: MicroCMSWebhookBody) {
   const { api, type, contents } = parsedBody;
   let action = type === 'new' ? '新規作成' : type === 'edit' ? '更新' : '削除';
   // 下書き公開時は"edit"なのでステータスも判定する
@@ -51,8 +51,8 @@ export const notifyUpdateToSlack = async (parsedBody: MicroCMSWebhookBody) => {
         : Blocks.Section({ text: '広報による通知の必要はありません。' })
     )
     .buildToObject();
-  return await fetch(env.SLACK_NOTICE_WEBHOOK_URL, {
+  return await fetch(serverEnv.SLACK_NOTICE_WEBHOOK_URL, {
     method: 'POST',
     body: JSON.stringify({ ...message, icon_emoji: ':sparkles:' }),
   });
-};
+}

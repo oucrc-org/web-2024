@@ -6,10 +6,10 @@ interface DoubleLineButtonProps extends ComponentPropsWithoutRef<'div'> {
   hasRightArrow?: boolean;
 }
 
-const DoubleLineButton = ({
+export default function DoubleLineButton({
   label,
   hasRightArrow = true,
-}: DoubleLineButtonProps) => {
+}: DoubleLineButtonProps) {
   return (
     <div
       className={twJoin([
@@ -30,6 +30,4 @@ const DoubleLineButton = ({
       <span className="mr-1 tracking-widest">{label}</span>
     </div>
   );
-};
-
-export default DoubleLineButton;
+}

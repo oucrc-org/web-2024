@@ -46,11 +46,11 @@ type Props<T extends FieldValues> = {
  * react-hook-form対応のinput
  * @see https://tech.nri-net.com/entry/react_hook_form_and_yup
  */
-const InputControl = <T extends FieldValues>({
+export default function InputControl<T extends FieldValues>({
   name,
   type,
   ...props
-}: Props<T>) => {
+}: Props<T>) {
   return (
     <Controller
       name={name}
@@ -73,6 +73,4 @@ const InputControl = <T extends FieldValues>({
       )}
     />
   );
-};
-
-export default InputControl;
+}

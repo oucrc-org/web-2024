@@ -1,6 +1,4 @@
 import { getAllCategories } from '@/utils/micro-cms';
-import Link from 'next/link';
-import { twJoin } from 'tailwind-merge';
 import CategoryButton from './CategoryButton';
 import HeadingH2 from './HeadingH2';
 
@@ -8,7 +6,9 @@ interface CategoryMenuProps {
   currentCategoryId?: string;
 }
 
-const CategoryMenu = async ({ currentCategoryId }: CategoryMenuProps) => {
+export default async function CategoryMenu({
+  currentCategoryId,
+}: CategoryMenuProps) {
   const categories = await getAllCategories();
   return (
     <>
@@ -26,6 +26,4 @@ const CategoryMenu = async ({ currentCategoryId }: CategoryMenuProps) => {
       </div>
     </>
   );
-};
-
-export default CategoryMenu;
+}

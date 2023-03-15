@@ -1,6 +1,6 @@
-import { formatDate } from '@/utils/date';
 import Image from 'next/image';
 import { News } from '@/types/micro-cms';
+import { formatDate } from '@/utils/date';
 
 interface NewsContentProps {
   news: News;

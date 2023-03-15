@@ -1,6 +1,6 @@
+import { MicroCMSListResponse } from 'microcms-js-sdk';
 import { clientEnv } from '@/utils/client-env';
 import { Article } from '@/types/micro-cms';
-import { MicroCMSListResponse } from 'microcms-js-sdk';
 import ArticleCard from './ArticleCard';
 import HeadingH2 from './HeadingH2';
 import Pagination from './Pagination';
@@ -11,11 +11,11 @@ interface ArticleListProps {
   data: MicroCMSListResponse<Article>;
 }
 
-const ArticleList = ({
+export default function ArticleList({
   paginationPath,
   pageNumber,
   data,
-}: ArticleListProps) => {
+}: ArticleListProps) {
   return (
     <div className="container mx-auto px-10">
       <div className="text-center lg:mx-8 xl:mx-12">
@@ -36,6 +36,4 @@ const ArticleList = ({
       </div>
     </div>
   );
-};
-
-export default ArticleList;
+}

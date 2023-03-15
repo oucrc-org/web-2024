@@ -1,6 +1,6 @@
-import { getArticle } from '@/utils/micro-cms';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { PageConfig } from 'next/types';
+import { getArticle } from '@/utils/micro-cms';
 
 /** Nodeランタイムを指定しないと動作しない */
 export const config: PageConfig = { runtime: 'nodejs' };

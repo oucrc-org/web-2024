@@ -6,7 +6,7 @@ interface SeriesMenuProps {
   currentSeriesId?: string;
 }
 
-const SeriesMenu = async ({ currentSeriesId }: SeriesMenuProps) => {
+export default async function SeriesMenu({ currentSeriesId }: SeriesMenuProps) {
   const categories = await getAllSerieses();
   return (
     <>
@@ -24,6 +24,4 @@ const SeriesMenu = async ({ currentSeriesId }: SeriesMenuProps) => {
       </div>
     </>
   );
-};
-
-export default SeriesMenu;
+}

@@ -5,6 +5,7 @@ interface ButtonWithIconProps extends ComponentPropsWithoutRef<'div'> {
   children: ReactNode;
   icon: ReactNode;
 }
+
 export default function ButtonWithIcon({
   className,
   children,
