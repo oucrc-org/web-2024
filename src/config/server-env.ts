@@ -1,4 +1,4 @@
-import { envsafe, num, str } from 'envsafe';
+import { bool, envsafe, num, str } from 'envsafe';
 import { clientEnv } from './client-env';
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'test') {
@@ -39,6 +39,8 @@ export const serverEnv = {
      * 入部GoogleフォームのID
      */
     GOOGLE_FORM_ID_JOIN: str({}),
+    /** Googleフォーム動作をモックするか */
+    GOOGLE_FORM_MOCK: bool({ allowEmpty: true, default: false }),
     /**
      * 更新通知用Slack WebhookのURL
      */

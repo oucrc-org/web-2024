@@ -48,6 +48,7 @@ Netlifyに任せてください。
 |`SLACK_NOTICE_WEBHOOK_URL`|必須||広報チャンネルのWebhook URL|
 |`GOOGLE_FORM_ID_CONTACT`|必須||お問い合わせGoogleフォームのID|
 |`GOOGLE_FORM_ID_JOIN`|必須||入部GoogleフォームのID|
+|`GOOGLE_FORM_MOCK`|任意|false|Googleフォーム動作をモックするか|
 |`NEXT_PUBLIC_GTAG_ID`|任意||アナリティクスを埋め込んだ Tag Manager　のID or アナリティクスのgtag ID|
 |`NEXT_PUBLIC_ARTICLE_COUNT_PER_PAGE`|任意|9|一覧における1ページあたりの記事数|
 |`NEXT_PUBLIC_MAX_MEMBER_YEARS`|任意|8|部員紹介で、歴代の部員全員を載せるとビルドに時間がかかる。<br>そのため、この環境変数で対象の年度数を絞れる|

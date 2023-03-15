@@ -65,7 +65,7 @@ export default function ArticleCard({
           </div>
         </div>
         <div className="grow-0">
-          <DoubleLineButton label="内容を見る" className="mt-4" />
+          <DoubleLineButton>内容を見る</DoubleLineButton>
         </div>
       </Link>
     </div>

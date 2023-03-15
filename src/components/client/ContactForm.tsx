@@ -7,6 +7,7 @@ import { useTypeSafeForm } from '@/hooks/useTypeSafeForm';
 import { contactFormInput, ContactFormInput } from '@/types/form';
 import InputControl from './InputControl';
 import HeadingH1 from '../HeadingH1';
+import { useState } from 'react';
 
 export default function ContactForm() {
   const apiPath = '/api/form/contact';
@@ -21,7 +22,9 @@ export default function ContactForm() {
     },
   });
   const router = useRouter();
+  const [submitting, setSubmitting] = useState(false);
   const onSubmit = async (data: FormType) => {
+    setSubmitting(true);
     const body = JSON.stringify(data);
     return await toast.promise(
       fetch(apiPath, {
@@ -29,6 +32,7 @@ export default function ContactForm() {
         headers: { 'Content-Type': 'application/json' },
         body,
       }).then((response) => {
+        setSubmitting(false);
         if (!response.ok) {
           throw new Error(response.statusText);
         } else {
@@ -42,7 +46,8 @@ export default function ContactForm() {
           console.error(e);
           return '通信に失敗しました。';
         },
-      }
+      },
+      { duration: 10000 }
     );
   };
   return (
@@ -72,11 +77,11 @@ export default function ContactForm() {
                 placeholder="お問い合わせ内容をご記入下さい。"
               />
             </div>
-            <div className="card-actions">
+            <div className="card-actions justify-center pt-8">
               <button
-                disabled={!form.formState.isValid}
+                disabled={!form.formState.isValid || submitting}
                 type="submit"
-                className="btn"
+                className="btn-lg btn"
               >
                 送信
               </button>

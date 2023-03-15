@@ -70,7 +70,9 @@ export default function Contact() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <DoubleLineButton label="Google Mapでみる" className="text-sm" />
+            <DoubleLineButton className="text-sm">
+              Google Mapでみる
+            </DoubleLineButton>
           </a>
         </div>
       </div>

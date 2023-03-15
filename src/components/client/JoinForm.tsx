@@ -7,6 +7,7 @@ import { useTypeSafeForm } from '@/hooks/useTypeSafeForm';
 import { joinFormInput, JoinFormInput } from '@/types/form';
 import InputControl from './InputControl';
 import HeadingH1 from '../HeadingH1';
+import { useState } from 'react';
 
 export default function JoinForm() {
   const apiPath = '/api/form/join';
@@ -25,7 +26,9 @@ export default function JoinForm() {
     },
   });
   const router = useRouter();
+  const [submitting, setSubmitting] = useState(false);
   const onSubmit = async (data: FormType) => {
+    setSubmitting(true);
     const body = JSON.stringify(data);
     return await toast.promise(
       fetch(apiPath, {
@@ -33,6 +36,7 @@ export default function JoinForm() {
         headers: { 'Content-Type': 'application/json' },
         body,
       }).then((response) => {
+        setSubmitting(false);
         if (!response.ok) {
           throw new Error(response.statusText);
         } else {
@@ -46,7 +50,8 @@ export default function JoinForm() {
           console.error(e);
           return '通信に失敗しました。';
         },
-      }
+      },
+      { duration: 10000 }
     );
   };
   return (
@@ -100,11 +105,11 @@ export default function JoinForm() {
                 placeholder="任意"
               />
             </div>
-            <div className="card-actions">
+            <div className="card-actions justify-center pt-8">
               <button
-                disabled={!form.formState.isValid}
+                disabled={!form.formState.isValid || submitting}
                 type="submit"
-                className="btn"
+                className="btn-lg btn"
               >
                 送信
               </button>

@@ -2,21 +2,22 @@ import { ComponentPropsWithoutRef } from 'react';
 import { twJoin } from 'tailwind-merge';
 
 interface DoubleLineButtonProps extends ComponentPropsWithoutRef<'div'> {
-  label: string;
   hasRightArrow?: boolean;
 }
 
 export default function DoubleLineButton({
-  label,
+  children,
+  className,
   hasRightArrow = true,
 }: DoubleLineButtonProps) {
   return (
     <div
       className={twJoin([
-        'relative inline-block py-2 w-48',
+        'relative inline-block py-2 w-48 cursor-pointer',
         'border-4 border-double border-secondary font-semibold text-secondary ',
         'transition duration-500 ease-in-out hover:scale-105',
         'disabled:cursor-not-allowed disabled:opacity-50',
+        className,
       ])}
     >
       {hasRightArrow && (
@@ -27,7 +28,7 @@ export default function DoubleLineButton({
           alt="右向きの矢印"
         />
       )}
-      <span className="mr-1 tracking-widest">{label}</span>
+      <span className="mr-1 tracking-widest">{children}</span>
     </div>
   );
 }

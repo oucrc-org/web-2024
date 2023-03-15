@@ -51,7 +51,7 @@ export default function Card({
         <div className="mt-4 px-3 text-left text-lg font-semibold leading-8 tracking-widest text-secondary">
           <span className="block">{description}</span>
         </div>
-        <DoubleLineButton label="内容を見る" className="mt-4" />
+        <DoubleLineButton>内容を見る</DoubleLineButton>
       </Link>
     </div>
   );
