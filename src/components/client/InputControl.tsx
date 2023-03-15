@@ -23,7 +23,10 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>(
         <span className="label-text">{label}</span>
       </label>
       <input
-        className={twMerge('input-bordered input w-full max-w-xs', className)}
+        className={twMerge(
+          'input-bordered border-gray-500 input w-full ',
+          className
+        )}
         ref={ref}
         {...props}
       />
