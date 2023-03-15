@@ -1,7 +1,6 @@
-import { getNewses } from '@/utils/micro-cms';
 import NewsList from '@/components/NewsList';
-
-export const revalidate = 600;
+import { Suspense } from 'react';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 export const metadata = {
   title: 'お知らせ',
@@ -9,10 +8,10 @@ export const metadata = {
 };
 
 export default async function NewsIndexPage() {
-  const articles = await getNewses(1);
   return (
-    <>
-      <NewsList data={articles} pageNumber={1} />
-    </>
+    <Suspense fallback={<LoadingSkeleton />}>
+      {/* @ts-expect-error Server Component */}
+      <NewsList pageNumber={1} />
+    </Suspense>
   );
 }

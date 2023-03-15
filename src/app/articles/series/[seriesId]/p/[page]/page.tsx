@@ -9,7 +9,7 @@ import ArticleList from '@/components/ArticleList';
 import { clientEnv } from '@/utils/client-env';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 600;
+export const revalidate = 3600;
 
 type Params = {
   params: { seriesId: string; page: string };
@@ -22,9 +22,11 @@ export async function generateStaticParams() {
       .map(async ({ id: seriesId }) => {
         return await getAllArticleIds({ seriesId }).then((articles) => {
           // 必要なページ数を計算
-          const pages = Math.ceil(
-            articles.contents.length / clientEnv.ARTICLE_COUNT_PER_PAGE
-          );
+          const pages = articles
+            ? Math.ceil(
+                articles.contents.length / clientEnv.ARTICLE_COUNT_PER_PAGE
+              )
+            : 1;
           return Array.from({ length: pages }, (_, i) =>
             (i + 1).toString()
           ).map((page) => ({
@@ -56,7 +58,7 @@ export default async function ArticleSeriesIndexPage({
   const articles = await getArticles(pageNumber, {
     seriesId,
   });
-  if (articles.contents.length === 0) {
+  if (!articles || articles.contents.length === 0) {
     notFound();
   }
   return (

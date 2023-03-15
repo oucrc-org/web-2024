@@ -2,10 +2,14 @@ import Card from '@/components/Card';
 import HeroArea from '@/components/client/HeroArea';
 import Contact from '@/components/Contact';
 import Container from '@/components/Container';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 import NewsList from '@/components/NewsList';
 import { getNewses } from '@/utils/micro-cms';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Suspense } from 'react';
+
+export const revalidate = 3600;
 
 export default async function Page() {
   const newses = await getNewses(1);
@@ -19,8 +23,8 @@ export default async function Page() {
       <HeroArea />
       {/* <!-- ▼ 電子計算機研究会とは --> */}
       <section className="relative w-full border-t-2 bg-white py-32">
-        <div className="container mx-auto">
-          <div className="mb-20 divide-y divide-divider px-4 sm:px-24 md:px-40 lg:px-64 xl:px-96">
+        <div className="container mx-auto flex flex-col gap-y-16">
+          <div className="divide-y divide-divider px-4 sm:px-24 md:px-40 lg:px-64 xl:px-96">
             <h2 className="mb-4 text-center text-3xl font-bold tracking-widest sm:text-4xl">
               電子計算機研究会とは
             </h2>
@@ -48,7 +52,7 @@ export default async function Page() {
               description="過去にはXboxを分解したり、部の余ったPCに好きなOSを入れてサーバーを立てたりしました。"
             ></Card>
           </div>
-          <p className="mt-20 text-center text-lg font-semibold leading-8 tracking-widest text-secondary">
+          <p className="text-center text-lg font-semibold leading-8 tracking-widest text-secondary">
             他にも、
             <br className="sm:hidden" />
             3Dプリンタで色々なものを制作したり
@@ -97,7 +101,10 @@ export default async function Page() {
               </Link>
             </div>
             <div className="col-span-3">
-              <NewsList pageNumber={1} data={newses} enablePagination={false} />
+              <Suspense fallback={<LoadingSkeleton />}>
+                {/* @ts-expect-error Server Component */}
+                <NewsList pageNumber={1} enablePagination={false} />
+              </Suspense>
               <Link
                 href="/news"
                 className="block pt-3 pr-2 text-right text-sm font-semibold tracking-widest text-secondary sm:pt-5 sm:text-base lg:pb-0"

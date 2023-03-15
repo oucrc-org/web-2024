@@ -8,7 +8,7 @@ const _client = createClient({
 });
 
 const promiseThrottle = new PromiseThrottle({
-  requestsPerSecond: 60,
+  requestsPerSecond: serverEnv.MICROCMS_REQUESTS_PER_SECOND,
 });
 
 /**

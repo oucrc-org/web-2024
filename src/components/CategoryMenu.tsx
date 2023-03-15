@@ -20,6 +20,7 @@ export default async function CategoryMenu({
               key={category.id}
               category={category}
               className={currentCategoryId === category.id ? 'btn-active' : ''}
+              prefetch={false} // メニュー上でカーソルを動かしただけで通信してしまうため、プリフェッチ無効化
             />
           ))}
         </div>

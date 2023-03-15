@@ -1,6 +1,8 @@
 import Container from '@/components/Container';
 import { ReactNode } from 'react';
 
+export const revalidate = 3600;
+
 /**
  * お知らせページ共通レイアウト
  */

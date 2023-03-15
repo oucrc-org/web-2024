@@ -19,6 +19,7 @@ import PreviewExitButton from '@/components/client/PreviewExitButton';
 
 import 'highlight.js/styles/androidstudio.css';
 
+/** articles/layout.tsxの更新間隔を上書き */
 export const revalidate = 600;
 
 type Params = {
@@ -35,11 +36,11 @@ export async function generateStaticParams() {
 /** これが完了する前にページを表示できるように分離 */
 async function OtherArticles({ articleId }: { articleId: string }) {
   const otherArticles = await getOtherArticlesBySameMember(articleId);
-  return otherArticles.contents.length > 0 ? (
+  return otherArticles && otherArticles.contents.length > 0 ? (
     <div className="pt-24 text-center sm:mx-10">
       <>
         <HeadingH2>この人が書いた記事</HeadingH2>
-        {otherArticles.contents.map((article, index) => {
+        {otherArticles?.contents.map((article, index) => {
           <div key={index}>
             <ArticleCard article={article} className="py-8" />
           </div>;
@@ -55,10 +56,10 @@ async function RecommendedArticles({ articleId }: { articleId: string }) {
   {
     /* <!-- ▼ 最新のオススメ記事 --> */
   }
-  return recommendedArticles.contents.length > 0 ? (
+  return recommendedArticles && recommendedArticles.contents.length > 0 ? (
     <div className="pt-24 text-center sm:mx-10">
       <HeadingH2>最新のオススメ記事</HeadingH2>
-      {recommendedArticles.contents.map((article, index) => (
+      {recommendedArticles?.contents.map((article, index) => (
         <div key={index}>
           <ArticleCard article={article} className="py-8" />
         </div>

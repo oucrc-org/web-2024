@@ -3,8 +3,6 @@ import { getAllNewsIds, getNews } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 600;
-
 type Params = {
   params: { newsId: string };
 };

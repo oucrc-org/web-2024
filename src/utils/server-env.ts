@@ -1,4 +1,4 @@
-import { envsafe, str } from 'envsafe';
+import { envsafe, num, str } from 'envsafe';
 import { clientEnv } from './client-env';
 
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'test') {
@@ -13,6 +13,11 @@ if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'test') {
 export const serverEnv = {
   ...clientEnv,
   ...envsafe({
+    MICROCMS_REQUESTS_PER_SECOND: num({
+      allowEmpty: true,
+      // default: 60, 本来は60だがSuspenseで同時に走ってしまうため下げる
+      default: 10,
+    }),
     MICROCMS_API_KEY: str({}),
     MICROCMS_SERVICE_DOMAIN: str({}),
     /**

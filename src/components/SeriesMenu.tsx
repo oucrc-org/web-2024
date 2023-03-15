@@ -18,6 +18,7 @@ export default async function SeriesMenu({ currentSeriesId }: SeriesMenuProps) {
               key={series.id}
               series={series}
               className={currentSeriesId === series.id ? 'btn-active' : ''}
+              prefetch={false} // メニュー上でカーソルを動かしただけで通信してしまうため、プリフェッチ無効化
             />
           ))}
         </div>

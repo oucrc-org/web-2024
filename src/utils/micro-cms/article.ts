@@ -1,4 +1,4 @@
-import { Article, ARTICLE_LIST_FIELDS, Member } from '@/types/micro-cms';
+import { Article, ARTICLE_LIST_FIELDS } from '@/types/micro-cms';
 import { clientEnv } from '@/utils/client-env';
 import { parseHtml, parseMarkdown } from '@/utils/content-parser';
 import { buildFilters, client } from './client';
@@ -41,16 +41,20 @@ export async function getArticles(
   const searchQuery: string[] = [];
   if (categoryId) searchQuery.push(`category[equals]${categoryId}`);
   if (seriesId) searchQuery.push(`series[equals]${seriesId}`);
-  return await client.getList<Article>({
-    endpoint: 'article',
-    queries: {
-      limit: clientEnv.ARTICLE_COUNT_PER_PAGE,
-      offset: page < 2 ? 0 : (page - 1) * 9,
-      fields: ARTICLE_LIST_FIELDS,
-      orders: '-date,-createdAt',
-      filters: buildFilters(searchQuery, 'date'),
-    },
-  });
+  return await client
+    .getList<Article>({
+      endpoint: 'article',
+      queries: {
+        limit: clientEnv.ARTICLE_COUNT_PER_PAGE,
+        offset: page < 2 ? 0 : (page - 1) * 9,
+        fields: ARTICLE_LIST_FIELDS,
+        orders: '-date,-createdAt',
+        filters: buildFilters(searchQuery, 'date'),
+      },
+    })
+    .catch(() => {
+      return null;
+    });
 }
 
 /**
@@ -97,31 +101,39 @@ export async function getOtherArticlesBySameMember(
     endpoint: 'article',
     contentId: articleId,
   });
-  return await client.getList<Article>({
-    endpoint: 'article',
-    queries: {
-      fields: ARTICLE_LIST_FIELDS,
-      filters: buildFilters(
-        [`name[equals]${article.name.id}','id[not_equals]${articleId}`],
-        'date'
-      ),
-      limit,
-    },
-  });
+  return await client
+    .getList<Article>({
+      endpoint: 'article',
+      queries: {
+        fields: ARTICLE_LIST_FIELDS,
+        filters: buildFilters(
+          [`name[equals]${article.name.id}','id[not_equals]${articleId}`],
+          'date'
+        ),
+        limit,
+      },
+    })
+    .catch(() => {
+      return null;
+    });
 }
 
 /**
  * 部員による他記事の取得
  */
 export async function getArticlesByMember(memberId: string, limit = 6) {
-  return await client.getList<Article>({
-    endpoint: 'article',
-    queries: {
-      fields: ARTICLE_LIST_FIELDS,
-      filters: buildFilters([`name[equals]${memberId}`], 'date'),
-      limit,
-    },
-  });
+  return await client
+    .getList<Article>({
+      endpoint: 'article',
+      queries: {
+        fields: ARTICLE_LIST_FIELDS,
+        filters: buildFilters([`name[equals]${memberId}`], 'date'),
+        limit,
+      },
+    })
+    .catch(() => {
+      return null;
+    });
 }
 
 /**
@@ -139,12 +151,16 @@ export async function getRecommendedArticles(articleId: string, limit = 4) {
     // カテゴリがあれば同カテゴリの記事に絞る
     searchQuery.push(`category[equals]${article.category.id}`);
   }
-  return await client.getList<Article>({
-    endpoint: 'article',
-    queries: {
-      fields: ARTICLE_LIST_FIELDS,
-      filters: buildFilters(searchQuery, 'date'),
-      limit,
-    },
-  });
+  return await client
+    .getList<Article>({
+      endpoint: 'article',
+      queries: {
+        fields: ARTICLE_LIST_FIELDS,
+        filters: buildFilters(searchQuery, 'date'),
+        limit,
+      },
+    })
+    .catch(() => {
+      return null;
+    });
 }

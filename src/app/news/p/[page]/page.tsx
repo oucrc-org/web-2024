@@ -3,8 +3,6 @@ import { Metadata } from 'next';
 import NewsList from '@/components/NewsList';
 import { clientEnv } from '@/utils/client-env';
 
-export const revalidate = 600;
-
 type Params = {
   params: { page: string };
 };

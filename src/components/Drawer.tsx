@@ -19,7 +19,8 @@ async function CategoryLinks() {
     <>
       {categories.contents.map((category) => (
         <li key={category.id}>
-          <Link href={`/articles/category/${category.id}`}>
+          {/* メニュー上でカーソルを動かしただけで通信してしまうため、プリフェッチ無効化 */}
+          <Link prefetch={false} href={`/articles/category/${category.id}`}>
             {category.category}
           </Link>
         </li>

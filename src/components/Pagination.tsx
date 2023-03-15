@@ -8,6 +8,10 @@ interface PaginationProps {
   perPage: number;
 }
 
+/**
+ * ページ送り
+ * メニュー上でカーソルを動かしただけで通信してしまうため、プリフェッチ無効化
+ */
 export default function Pagination({
   path,
   pageNumber,
@@ -23,7 +27,11 @@ export default function Pagination({
     <div className="mx-auto pt-2 pb-16">
       <div className="btn-group flex-wrap">
         {pageNumber > 1 && (
-          <Link href={`${path}/p/${pageNumber - 1}`} className="btn-md btn">
+          <Link
+            href={`${path}/p/${pageNumber - 1}`}
+            prefetch={false}
+            className="btn-md btn"
+          >
             {`«`}
           </Link>
         )}
@@ -31,13 +39,18 @@ export default function Pagination({
           <Link
             key={p}
             href={`${path}/p/${p}`}
+            prefetch={false}
             className={twJoin('btn btn-md', pageNumber === p && 'btn-active')}
           >
             {p}
           </Link>
         ))}
         {pageNumber < Math.ceil(total / perPage) && (
-          <Link href={`${path}/p/${pageNumber + 1}`} className="btn-md btn">
+          <Link
+            href={`${path}/p/${pageNumber + 1}`}
+            prefetch={false}
+            className="btn-md btn"
+          >
             {`»`}
           </Link>
         )}

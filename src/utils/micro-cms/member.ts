@@ -37,15 +37,19 @@ export async function getAllMemberIds() {
 }
 
 export async function getMembers() {
-  return await client.getList<Member>({
-    endpoint: 'member',
-    queries: {
-      limit: 100,
-      fields: MEMBER_LIST_FIELDS,
-      filters: buildYearFilter(),
-      // ソートはmicroCMSに任せる
-    },
-  });
+  return await client
+    .getList<Member>({
+      endpoint: 'member',
+      queries: {
+        limit: 100,
+        fields: MEMBER_LIST_FIELDS,
+        filters: buildYearFilter(),
+        // ソートはmicroCMSに任せる
+      },
+    })
+    .catch(() => {
+      return null;
+    });
 }
 
 export async function getMember(contentId: string) {

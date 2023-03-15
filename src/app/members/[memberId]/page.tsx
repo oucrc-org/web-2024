@@ -12,8 +12,6 @@ import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 
-export const revalidate = 600;
-
 type Params = {
   params: { memberId: string };
 };
@@ -46,14 +44,14 @@ export async function generateMetadata({
 /** これが完了する前にページを表示できるように分離 */
 async function ArticlesByMember({ memberId }: { memberId: string }) {
   const articles = await getArticlesByMember(memberId);
-  return articles.contents.length > 0 ? (
+  return articles && articles?.contents.length > 0 ? (
     <div className="mb-24 mt-10 pt-32 text-center lg:mx-8 xl:mx-12">
       <div className="container mx-auto">
         <HeadingH2>
-          この人が書いた記事 最新{articles.contents.length}件
+          この人が書いた記事 最新{articles?.contents.length}件
         </HeadingH2>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
-          {articles.contents.map((article) => (
+          {articles?.contents.map((article) => (
             <ArticleCard key={article.id} article={article} />
           ))}
         </div>
