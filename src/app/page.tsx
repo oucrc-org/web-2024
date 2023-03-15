@@ -63,7 +63,7 @@ export default async function Page() {
       <section className="relative z-10 h-[83vh] w-full">
         <div className="container relative mx-auto h-full">
           <Image
-            className="absolute top-[5vh] left-0 h-[40vh]"
+            className="absolute top-[5vh] left-0"
             src="/images/landing/oucrc-room-label.png"
             width={355}
             height={384}

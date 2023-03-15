@@ -12,7 +12,7 @@ export default async function CategoryMenu({
   const categories = await getAllCategories();
   return (
     <>
-      <div className="flex flex-col gap-y-3">
+      <div className="flex flex-col gap-y-3 px-6 sm:px-0">
         <HeadingH2>カテゴリー</HeadingH2>
         <div className="flex flex-wrap gap-2">
           {categories.contents.map((category) => (

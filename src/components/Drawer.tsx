@@ -10,10 +10,11 @@ interface DrawerProps {
 
 /**
  * ドロワーメニュー
- * CSSで切り替えることにより、サーバーコンポーネントとUI変化を両立させる
+ * 切り替えはDaisyUIのCSSが行っている
+ * もしReactのStateを使うとasyncと両立できない
  * @see https://daisyui.com/components/drawer/
  */
-export async function Drawer({ children }: DrawerProps) {
+export default async function Drawer({ children }: DrawerProps) {
   const categories = await getAllCategories();
   const htmlCheckboxId = 'components__drawer';
 
@@ -54,10 +55,11 @@ export async function Drawer({ children }: DrawerProps) {
   return (
     <div className="drawer">
       <input id={htmlCheckboxId} type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content overflow-hidden">
+      {/* 105vw : スクロールバーの後ろが透明になる対策 */}
+      <div className="drawer-content w-[105vw] overflow-hidden">
         <nav
           aria-label="メインメニュー"
-          className="navbar fixed top-0 left-0 z-50 w-full bg-white shadow-md"
+          className="navbar fixed top-0 left-0 z-40 w-full bg-white shadow-md"
         >
           <div className="flex-none lg:hidden">
             <label
@@ -114,6 +116,7 @@ export async function Drawer({ children }: DrawerProps) {
         </main>
       </div>
       <aside aria-label="サイドメニュー" className="drawer-side">
+        {/* メニュー開いた時の暗い部分 */}
         <label htmlFor={htmlCheckboxId} className="drawer-overlay"></label>
         <ul className="menu w-80 bg-base-100 p-4">
           <CommonLinks />
@@ -123,5 +126,3 @@ export async function Drawer({ children }: DrawerProps) {
     </div>
   );
 }
-
-export default Drawer;
