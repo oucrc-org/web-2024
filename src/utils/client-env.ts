@@ -4,7 +4,12 @@ import { envsafe, num, str } from 'envsafe';
  * クライアントサイドで使用可能な環境変数
  */
 export const clientEnv = envsafe({
-  GTAG_ID: str({ input: process.env.NEXT_PUBLIC_GTAG_ID }),
+  /** アナリティクスを埋め込んだ Tag Manager　のID or アナリティクスのgtag ID */
+  GTAG_ID: str({
+    input: process.env.NEXT_PUBLIC_GTAG_ID,
+    allowEmpty: true,
+    default: '',
+  }),
   /** 一覧における1ページあたりの記事数 */
   ARTICLE_COUNT_PER_PAGE: num({
     input: process.env.NEXT_PUBLIC_ARTICLE_COUNT_PER_PAGE,
