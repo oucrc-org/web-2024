@@ -1,5 +1,5 @@
 import { createClient } from 'microcms-js-sdk';
-import { serverEnv } from '@/utils/server-env';
+import { serverEnv } from '@/config/server-env';
 import PromiseThrottle from 'promise-throttle';
 
 const _client = createClient({

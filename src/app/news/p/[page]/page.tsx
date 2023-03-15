@@ -1,7 +1,7 @@
 import { getAllNewsIds, getNewses } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import NewsList from '@/components/NewsList';
-import { clientEnv } from '@/utils/client-env';
+import { clientEnv } from '@/config/client-env';
 
 type Params = {
   params: { page: string };

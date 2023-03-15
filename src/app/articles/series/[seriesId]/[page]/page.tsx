@@ -1,24 +1,26 @@
 import {
   getAllArticleIds,
-  getAllCategories,
+  getAllSerieses,
   getArticles,
-  getCategory,
+  getSeries,
 } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import ArticleList from '@/components/ArticleList';
-import { clientEnv } from '@/utils/client-env';
+import { clientEnv } from '@/config/client-env';
 import { notFound } from 'next/navigation';
 
+export const revalidate = 3600;
+
 type Params = {
-  params: { categoryId: string; page: string };
+  params: { seriesId: string; page: string };
 };
 
 export async function generateStaticParams() {
-  const categories = await getAllCategories();
+  const serieses = await getAllSerieses();
   const paths = await Promise.all(
-    categories.contents
-      .map(async ({ id: categoryId }) => {
-        return await getAllArticleIds({ categoryId }).then((articles) => {
+    serieses.contents
+      .map(async ({ id: seriesId }) => {
+        return await getAllArticleIds({ seriesId }).then((articles) => {
           // 必要なページ数を計算
           const pages = articles
             ? Math.ceil(
@@ -28,7 +30,7 @@ export async function generateStaticParams() {
           return Array.from({ length: pages }, (_, i) =>
             (i + 1).toString()
           ).map((page) => ({
-            categoryId,
+            seriesId,
             page,
           }));
         });
@@ -41,32 +43,29 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: Params): Promise<Metadata | void> {
-  const category = await getCategory(params.categoryId);
-  if (category) {
+  const series = await getSeries(params.seriesId);
+  if (series) {
     return {
-      title: `${category.category}の記事一覧 ${params.page}ページ目`,
+      title: `${series.series}の記事一覧 ${params.page}ページ目`,
     };
   }
 }
 
-export default async function ArticleCategoryIndexPage({
-  params: { categoryId, page },
+export default async function ArticleSeriesIndexPage({
+  params: { seriesId, page },
 }: Params) {
   const pageNumber = page ? Number(page) : 1;
   const articles = await getArticles(pageNumber, {
-    categoryId,
+    seriesId,
   });
-  if (!articles || articles?.contents.length === 0) {
+  if (!articles || articles.contents.length === 0) {
     notFound();
   }
-
   return (
-    <>
-      <ArticleList
-        data={articles}
-        pageNumber={pageNumber}
-        paginationPath={`/articles/category/${categoryId}`}
-      />
-    </>
+    <ArticleList
+      data={articles}
+      pageNumber={pageNumber}
+      paginationPath={`/articles/series/${seriesId}`}
+    />
   );
 }

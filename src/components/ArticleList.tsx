@@ -1,5 +1,5 @@
 import { MicroCMSListResponse } from 'microcms-js-sdk';
-import { clientEnv } from '@/utils/client-env';
+import { clientEnv } from '@/config/client-env';
 import { Article } from '@/types/micro-cms';
 import ArticleCard from './ArticleCard';
 import HeadingH2 from './HeadingH2';

@@ -3,7 +3,7 @@ import Script from 'next/script';
 import '@/styles/globals.css';
 import fontStyles from '../styles/font.module.css';
 import { Noto_Sans_JP, Roboto } from 'next/font/google';
-import { clientEnv } from '@/utils/client-env';
+import { clientEnv } from '@/config/client-env';
 import ReactHotToast from '@/components/client/ReactHotToast';
 import Drawer from '@/components/Drawer';
 

@@ -12,7 +12,7 @@ interface SeriesButtonProps extends ComponentPropsWithoutRef<'div'> {
 export default function SeriesButton({
   className,
   series,
-  prefetch = true,
+  prefetch,
 }: SeriesButtonProps) {
   return (
     <Link href={`/articles/series/${series.id}`} prefetch={prefetch}>

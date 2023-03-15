@@ -28,7 +28,7 @@ export default function Pagination({
       <div className="btn-group flex-wrap">
         {pageNumber > 1 && (
           <Link
-            href={`${path}/p/${pageNumber - 1}`}
+            href={`${path}/${pageNumber - 1}`}
             prefetch={false}
             className="btn-md btn"
           >
@@ -38,7 +38,7 @@ export default function Pagination({
         {getArrayJumpTo(total, perPage).map((p) => (
           <Link
             key={p}
-            href={`${path}/p/${p}`}
+            href={`${path}/${p}`}
             prefetch={false}
             className={twJoin('btn btn-md', pageNumber === p && 'btn-active')}
           >
@@ -47,7 +47,7 @@ export default function Pagination({
         ))}
         {pageNumber < Math.ceil(total / perPage) && (
           <Link
-            href={`${path}/p/${pageNumber + 1}`}
+            href={`${path}/${pageNumber + 1}`}
             prefetch={false}
             className="btn-md btn"
           >

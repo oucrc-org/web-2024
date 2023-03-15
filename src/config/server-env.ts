@@ -15,8 +15,7 @@ export const serverEnv = {
   ...envsafe({
     MICROCMS_REQUESTS_PER_SECOND: num({
       allowEmpty: true,
-      // default: 60, 本来は60だがSuspenseで同時に走ってしまうため下げる
-      default: 10,
+      default: 60,
     }),
     MICROCMS_API_KEY: str({}),
     MICROCMS_SERVICE_DOMAIN: str({}),

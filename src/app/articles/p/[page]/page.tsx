@@ -1,7 +1,7 @@
 import { getAllArticleIds, getArticles } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import ArticleList from '@/components/ArticleList';
-import { clientEnv } from '@/utils/client-env';
+import { clientEnv } from '@/config/client-env';
 import { notFound } from 'next/navigation';
 
 type Params = {

@@ -1,6 +1,6 @@
 import { Member, MEMBER_LIST_FIELDS } from '@/types/micro-cms';
 import dayjs from 'dayjs';
-import { clientEnv } from '@/utils/client-env';
+import { clientEnv } from '@/config/client-env';
 import { buildFilters, client } from './client';
 
 /** 過去 MAX_MEMBER_YEARS 年間の部員だけを取得する */

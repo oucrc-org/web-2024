@@ -1,5 +1,5 @@
 import { ContactFormInput, FormConfig, JoinFormInput } from '@/types/form';
-import { serverEnv } from '@/utils/server-env';
+import { serverEnv } from '@/config/server-env';
 
 /**
  * 問い合わせフォームのGoogleフォームのID等

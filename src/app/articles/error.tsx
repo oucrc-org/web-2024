@@ -16,7 +16,6 @@ export default function Error({
   useEffect(() => {
     console.error(error);
   }, [error]);
-
   return (
     <ErrorInfo title="記事の読み込み中にエラーが発生しました">
       <button onClick={() => reset()} className="btn">

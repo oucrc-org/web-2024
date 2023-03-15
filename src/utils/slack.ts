@@ -1,4 +1,4 @@
-import { serverEnv } from './server-env';
+import { serverEnv } from '@/config/server-env';
 import { Message, Blocks, Elements } from 'slack-block-builder';
 import { MicroCMSWebhookBody } from '@/types/micro-cms';
 import { getPathsByWebhook } from './micro-cms';

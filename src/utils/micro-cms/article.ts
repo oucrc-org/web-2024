@@ -1,5 +1,5 @@
 import { Article, ARTICLE_LIST_FIELDS } from '@/types/micro-cms';
-import { clientEnv } from '@/utils/client-env';
+import { clientEnv } from '@/config/client-env';
 import { parseHtml, parseMarkdown } from '@/utils/content-parser';
 import { buildFilters, client } from './client';
 

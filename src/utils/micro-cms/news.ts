@@ -1,5 +1,5 @@
 import { News, NEWS_LIST_FIELDS } from '@/types/micro-cms';
-import { clientEnv } from '@/utils/client-env';
+import { clientEnv } from '@/config/client-env';
 import { buildFilters, client } from './client';
 
 /** generateStaticParamsで使用 IDだけを取得 */

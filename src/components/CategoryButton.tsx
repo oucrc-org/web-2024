@@ -12,7 +12,7 @@ interface CategoryButtonProps extends ComponentPropsWithoutRef<'div'> {
 export default function CategoryButton({
   className,
   category,
-  prefetch = true,
+  prefetch,
 }: CategoryButtonProps) {
   return (
     <Link href={`/articles/category/${category.id}`} prefetch={prefetch}>

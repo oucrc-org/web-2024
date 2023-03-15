@@ -1,7 +1,7 @@
 import { MicroCMSWebhookBody } from '@/types/micro-cms';
 import { createHmac, timingSafeEqual } from 'crypto';
 import { NextApiRequest } from 'next';
-import { serverEnv } from '@/utils/server-env';
+import { serverEnv } from '@/config/server-env';
 
 /**
  * WebhookがMicroCMSから送信されたかを検証する
