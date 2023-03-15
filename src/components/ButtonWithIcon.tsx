@@ -12,7 +12,7 @@ export default function ButtonWithIcon({
   icon,
 }: ButtonWithIconProps) {
   return (
-    <div className={twMerge('btn btn-primary', className)}>
+    <div className={twMerge('btn btn-primary normal-case', className)}>
       {/* 複数行に対応させるためあえてもう一度flexで囲む */}
       <div className="flex flex-row items-center gap-2">
         <span className="grow-0 text-black">{icon}</span>

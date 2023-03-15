@@ -20,7 +20,7 @@ export default async function ArticlePage() {
       <ArticleList
         data={articles}
         pageNumber={1}
-        // articlesだけは`/p`がある
+        // articles, newsは`/p`がある
         paginationPath={`/articles/p`}
       />
     </>

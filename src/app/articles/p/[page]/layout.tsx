@@ -1,6 +1,7 @@
 import CategoryMenu from '@/components/CategoryMenu';
 import SeriesMenu from '@/components/SeriesMenu';
-import { ReactNode } from 'react';
+import { Suspense, ReactNode } from 'react';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 /**
  * 記事ページ共通レイアウト
@@ -12,10 +13,14 @@ export default async function ArticleLayout({
 }) {
   return (
     <>
-      {/* @ts-expect-error Server Component */}
-      <CategoryMenu />
-      {/* @ts-expect-error Server Component */}
-      <SeriesMenu />
+      <Suspense fallback={<LoadingSkeleton />}>
+        {/* @ts-expect-error Server Component */}
+        <CategoryMenu />
+      </Suspense>
+      <Suspense fallback={<LoadingSkeleton />}>
+        {/* @ts-expect-error Server Component */}
+        <SeriesMenu />
+      </Suspense>
       <div className="flex flex-col gap-y-6 pt-8">{children}</div>
     </>
   );

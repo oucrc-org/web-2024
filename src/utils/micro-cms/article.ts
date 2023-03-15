@@ -2,6 +2,7 @@ import { Article, ARTICLE_LIST_FIELDS } from '@/types/micro-cms';
 import { clientEnv } from '@/config/client-env';
 import { parseHtml, parseMarkdown } from '@/utils/content-parser';
 import { buildFilters, client } from './client';
+import { serverEnv } from '@/config/server-env';
 
 /** generateStaticParamsで使用 IDだけを取得 */
 export async function getAllArticleIds({
@@ -20,7 +21,7 @@ export async function getAllArticleIds({
   return await client.getList<Article>({
     endpoint: 'article',
     queries: {
-      limit: 1000,
+      limit: serverEnv.MICROCMS_MAX_GET_COUNT,
       fields: 'id',
       orders: '-date,-createdAt',
       filters: buildFilters(searchQuery, 'date'),

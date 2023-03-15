@@ -1,3 +1,4 @@
+import { serverEnv } from '@/config/server-env';
 import { Category, CATEGORY_LIST_FIELDS } from '@/types/micro-cms';
 import { client } from './client';
 
@@ -5,7 +6,7 @@ export async function getAllCategories() {
   return await client.getList<Category>({
     endpoint: 'category',
     queries: {
-      limit: 100,
+      limit: serverEnv.MICROCMS_MAX_GET_COUNT,
       fields: CATEGORY_LIST_FIELDS,
     },
   });

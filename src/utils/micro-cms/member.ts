@@ -1,12 +1,12 @@
 import { Member, MEMBER_LIST_FIELDS } from '@/types/micro-cms';
 import dayjs from 'dayjs';
-import { clientEnv } from '@/config/client-env';
 import { buildFilters, client } from './client';
+import { serverEnv } from '@/config/server-env';
 
 /** 過去 MAX_MEMBER_YEARS 年間の部員だけを取得する */
 export function getPastTermYears() {
   const termYear = dayjs().subtract(3, 'month').year();
-  const maxYears = clientEnv.MAX_MEMBER_YEARS;
+  const maxYears = serverEnv.MAX_MEMBER_YEARS;
   return Array.from(
     { length: maxYears },
     (_, i) => i + termYear - maxYears + 1
@@ -28,7 +28,7 @@ export async function getAllMemberIds() {
   return await client.getList<Member>({
     endpoint: 'member',
     queries: {
-      limit: 1000,
+      limit: serverEnv.MICROCMS_MAX_GET_COUNT,
       fields: 'id',
       filters: buildYearFilter(),
       orders: '-enteryear',

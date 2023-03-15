@@ -13,7 +13,7 @@ export default function DoubleLineButton({
   return (
     <div
       className={twJoin([
-        'relative inline-block py-2 w-48 cursor-pointer',
+        'relative inline-block p-2 w-48 cursor-pointer',
         'border-4 border-double border-secondary font-semibold text-secondary ',
         'transition duration-500 ease-in-out hover:scale-105',
         'disabled:cursor-not-allowed disabled:opacity-50',
@@ -28,7 +28,7 @@ export default function DoubleLineButton({
           alt="右向きの矢印"
         />
       )}
-      <span className="mr-1 tracking-widest">{children}</span>
+      <span className="tracking-widest">{children}</span>
     </div>
   );
 }

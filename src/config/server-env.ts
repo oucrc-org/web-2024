@@ -15,7 +15,12 @@ export const serverEnv = {
   ...envsafe({
     MICROCMS_REQUESTS_PER_SECOND: num({
       allowEmpty: true,
-      default: 60,
+      default: 30, // 本来60だが、ビルド時を考慮して下げている
+    }),
+    /** 最大記事数。ローカルで動作確認時に下げることでビルドを短縮できる */
+    MICROCMS_MAX_GET_COUNT: num({
+      allowEmpty: true,
+      default: 10000,
     }),
     MICROCMS_API_KEY: str({}),
     MICROCMS_SERVICE_DOMAIN: str({}),

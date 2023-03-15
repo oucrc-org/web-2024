@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import Script from 'next/script';
 import '@/styles/globals.css';
 import fontStyles from '../styles/font.module.css';
-import { Noto_Sans_JP, Roboto } from 'next/font/google';
+import { Noto_Sans_JP } from 'next/font/google';
 import { clientEnv } from '@/config/client-env';
 import ReactHotToast from '@/components/client/ReactHotToast';
 import Drawer from '@/components/Drawer';
@@ -11,11 +11,15 @@ const notoSansJP = Noto_Sans_JP({
   weight: ['400', '700'],
   subsets: ['latin'],
   variable: '--font-noto-sans-jp',
-});
-const roboto = Roboto({
-  weight: ['400', '700'],
-  subsets: ['latin'],
-  variable: '--font-roboto',
+  // こうしないとアルファベットが丸くなってしまう
+  adjustFontFallback: true,
+  fallback: [
+    'Source Sans Pro',
+    'BlinkMacSystemFont',
+    'Segoe UI',
+    'Helvetica Neue',
+    'Noto Sans',
+  ],
 });
 
 const siteName = 'OUCRC | 岡山大学電子計算機研究会';
@@ -65,11 +69,7 @@ export const metadata = {
 export default async function Layout({ children }: { children: ReactNode }) {
   const gtagId = clientEnv.GTAG_ID;
   return (
-    <html
-      lang="ja"
-      data-theme="oucrc"
-      className={`${notoSansJP.variable} ${roboto.variable}`}
-    >
+    <html lang="ja" data-theme="oucrc" className={`${notoSansJP.variable}`}>
       {/* theme定義はtailwind.config.js参照 */}
       <body className={fontStyles.font}>
         {/*

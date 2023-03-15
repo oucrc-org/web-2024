@@ -1,7 +1,9 @@
-import { getAllNewsIds, getNewses } from '@/utils/micro-cms';
+import { getAllNewsIds } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import NewsList from '@/components/NewsList';
 import { clientEnv } from '@/config/client-env';
+import { Suspense } from 'react';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 type Params = {
   params: { page: string };
@@ -34,7 +36,11 @@ export default async function NewsIndexPage({
   };
 }) {
   const pageNumber = page ? Number(page) : 1;
-  const newses = await getNewses(pageNumber);
 
-  return <NewsList data={newses} pageNumber={pageNumber} />;
+  return (
+    <Suspense fallback={<LoadingSkeleton />}>
+      {/* @ts-expect-error Server Component */}
+      <NewsList pageNumber={pageNumber} />
+    </Suspense>
+  );
 }

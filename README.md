@@ -39,7 +39,8 @@ Netlifyに任せてください。
 
 |key|必須/任意|default|説明|
 |---|---|---|---|
-|`MICROCMS_REQUESTS_PER_SECOND`|任意|60|[microCMSのGET APIの秒間呼び出し最大回数](https://document.microcms.io/manual/limitations#h1eb9467502)|
+|`MICROCMS_REQUESTS_PER_SECOND`|任意|30|[microCMSのGET APIの秒間呼び出し最大回数](https://document.microcms.io/manual/limitations#h1eb9467502)|
+|`MICROCMS_MAX_GET_COUNT`|任意|1000|最大記事数。ローカルで動作確認時に下げることでビルドを短縮できる|
 |`MICROCMS_SERVICE_DOMAIN`|必須||microCMSのAPIのサブドメイン部分|
 |`MICROCMS_API_KEY`|必須||microCMSのAPIキー|
 |`MICROCMS_ARTICLE_WEBHOOK_SECRET`|必須||ランダムな文字列をmicroCMSのカスタム通知で設定|

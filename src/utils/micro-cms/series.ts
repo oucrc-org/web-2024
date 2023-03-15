@@ -1,3 +1,4 @@
+import { serverEnv } from '@/config/server-env';
 import { Series, SERIES_LIST_FIELDS } from '@/types/micro-cms';
 import { client } from './client';
 
@@ -5,7 +6,7 @@ export async function getAllSerieses() {
   return await client.getList<Series>({
     endpoint: 'series',
     queries: {
-      limit: 100,
+      limit: serverEnv.MICROCMS_MAX_GET_COUNT,
       fields: SERIES_LIST_FIELDS,
     },
   });
