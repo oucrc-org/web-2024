@@ -4,7 +4,6 @@ import Image from 'next/image';
 import DoubleLineButton from './DoubleLineButton';
 import { ComponentPropsWithoutRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-import SeriesButton from './SeriesButton';
 
 interface ArticleCardProps extends ComponentPropsWithoutRef<'div'> {
   article: Article;
@@ -24,7 +23,7 @@ export default function ArticleCard({
         href={`/articles/${article.id}`}
         className="flex h-full w-full flex-col items-center gap-y-3 transition duration-500 ease-in-out hover:scale-101"
       >
-        <div className="flex w-full grow flex-col gap-y-3 self-stretch">
+        <div className="flex w-full grow flex-col gap-y-5 self-stretch">
           <div className="relative w-full">
             {article.image ? (
               <Image
@@ -57,20 +56,16 @@ export default function ArticleCard({
               </div>
             )}
           </div>
-          <h2 className="whitespace-no-wrap mt-6 overflow-hidden text-ellipsis px-3 text-left text-2xl font-semibold leading-8 tracking-widest text-primary">
+          <h2 className="whitespace-no-wrap overflow-hidden text-ellipsis px-3 text-left text-2xl font-semibold leading-8 tracking-widest text-primary">
             {article.title}
           </h2>
-          <div className="mt-4 px-3 text-left text-lg font-semibold leading-8 tracking-widest text-secondary">
-            <span className="block">{article.twitter_comment}</span>
+          {/* descriptionに相当するフィールドがないため使用 長い場合はline-clampで省略 */}
+          <div className="px-3 text-left text-lg font-semibold leading-8 tracking-widest text-secondary line-clamp-3">
+            {article.twitter_comment}
           </div>
-          {article.series && (
-            <div className="flex justify-start">
-              <SeriesButton series={article.series} />
-            </div>
-          )}
         </div>
         <div className="grow-0">
-          <DoubleLineButton label="内容を見る" className="mt-4" />
+          <DoubleLineButton>内容を見る</DoubleLineButton>
         </div>
       </Link>
     </div>

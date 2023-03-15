@@ -1,21 +1,41 @@
 import Link from 'next/link';
-import { ReactNode, useId } from 'react';
-import { metadata } from '@/app/layout';
+import { ReactNode } from 'react';
 import { getAllCategories } from '@/utils/micro-cms';
 import Logo from './Logo';
 import Footer from './Footer';
+import { Suspense } from 'react';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 interface DrawerProps {
   children: ReactNode;
 }
 
 /**
+ * カテゴリメニューの通信を待たずに表示できるように分離
+ */
+async function CategoryLinks() {
+  const categories = await getAllCategories();
+  return (
+    <>
+      {categories.contents.map((category) => (
+        <li key={category.id}>
+          {/* メニュー上でカーソルを動かしただけで通信してしまうため、プリフェッチ無効化 */}
+          <Link prefetch={false} href={`/articles/category/${category.id}`}>
+            {category.category}
+          </Link>
+        </li>
+      ))}
+    </>
+  );
+}
+
+/**
  * ドロワーメニュー
- * CSSで切り替えることにより、サーバーコンポーネントとUI変化を両立させる
+ * 切り替えはDaisyUIのCSSが行っている
+ * もしReactのStateを使うとasyncと両立できない
  * @see https://daisyui.com/components/drawer/
  */
-export async function Drawer({ children }: DrawerProps) {
-  const categories = await getAllCategories();
+export default async function Drawer({ children }: DrawerProps) {
   const htmlCheckboxId = 'components__drawer';
 
   const CommonLinks = () => {
@@ -34,31 +54,14 @@ export async function Drawer({ children }: DrawerProps) {
     );
   };
 
-  /**
-   * 開閉式ドロップダウン
-   * @see https://daisyui.com/components/navbar/#responsive-dropdown-menu-on-small-screen-center-menu-on-large-screen
-   */
-  const CategoryLinks = () => {
-    return (
-      <>
-        {categories.contents.map((category) => (
-          <li key={category.id}>
-            <Link href={`/articles/category/${category.id}`}>
-              {category.category}
-            </Link>
-          </li>
-        ))}
-      </>
-    );
-  };
-
   return (
     <div className="drawer">
       <input id={htmlCheckboxId} type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content overflow-hidden">
+      {/* 105vw : スクロールバーの後ろが透明になる対策 */}
+      <div className="drawer-content w-[105vw] overflow-hidden">
         <nav
           aria-label="メインメニュー"
-          className="navbar fixed top-0 left-0 z-50 w-full bg-white shadow-md"
+          className="navbar fixed top-0 left-0 z-40 w-full bg-white shadow-md"
         >
           <div className="flex-none lg:hidden">
             <label
@@ -101,7 +104,10 @@ export async function Drawer({ children }: DrawerProps) {
                   </svg>
                 </a>
                 <ul className="rounded-box right-0 z-50 bg-white p-2 shadow">
-                  <CategoryLinks />
+                  <Suspense fallback={<LoadingSkeleton />}>
+                    {/* @ts-expect-error Server Component */}
+                    <CategoryLinks />
+                  </Suspense>
                 </ul>
               </li>
             </ul>
@@ -115,14 +121,16 @@ export async function Drawer({ children }: DrawerProps) {
         </main>
       </div>
       <aside aria-label="サイドメニュー" className="drawer-side">
+        {/* メニュー開いた時の暗い部分 */}
         <label htmlFor={htmlCheckboxId} className="drawer-overlay"></label>
         <ul className="menu w-80 bg-base-100 p-4">
           <CommonLinks />
-          <CategoryLinks />
+          <Suspense fallback={<LoadingSkeleton />}>
+            {/* @ts-expect-error Server Component */}
+            <CategoryLinks />
+          </Suspense>
         </ul>
       </aside>
     </div>
   );
 }
-
-export default Drawer;

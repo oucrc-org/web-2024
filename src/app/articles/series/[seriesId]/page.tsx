@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import ArticleList from '@/components/ArticleList';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 600;
+export const revalidate = 3600;
 
 type Params = {
   params: { seriesId: string };
@@ -31,7 +31,7 @@ export default async function ArticleSeriesIndexPage({
   const articles = await getArticles(1, {
     seriesId,
   });
-  if (articles.contents.length === 0) {
+  if (!articles || articles.contents.length === 0) {
     notFound();
   }
   return (

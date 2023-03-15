@@ -1,6 +1,6 @@
-import { formatDate } from '@/utils/date';
 import Image from 'next/image';
 import { News } from '@/types/micro-cms';
+import { formatDate } from '@/utils/date';
 
 interface NewsContentProps {
   news: News;
@@ -11,7 +11,7 @@ interface NewsContentProps {
  */
 export default function NewsContent({ news }: NewsContentProps) {
   return (
-    <section className="flex flex-col gap-y-6 bg-white pb-20 lg:shadow-xl">
+    <section className="flex flex-col gap-y-6 bg-white lg:shadow-xl">
       {news.image ? (
         <Image
           src={news.image.url}
@@ -42,7 +42,7 @@ export default function NewsContent({ news }: NewsContentProps) {
 
       <div
         dangerouslySetInnerHTML={{ __html: news.body }}
-        className="prose mt-16 block w-full max-w-none px-8 text-lg leading-8 tracking-wider sm:px-16"
+        className="prose block w-full max-w-none px-8 text-lg leading-8 tracking-wider sm:px-16"
       ></div>
     </section>
   );

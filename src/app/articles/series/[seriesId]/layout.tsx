@@ -1,6 +1,7 @@
 import CategoryMenu from '@/components/CategoryMenu';
 import SeriesMenu from '@/components/SeriesMenu';
-import { ReactNode } from 'react';
+import { Suspense, ReactNode } from 'react';
+import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 /**
  * シリーズページ共通レイアウト
@@ -16,10 +17,14 @@ export default async function CategoryLayout({
 }) {
   return (
     <>
-      {/* @ts-expect-error Server Component */}
-      <CategoryMenu />
-      {/* @ts-expect-error Server Component */}
-      <SeriesMenu currentSeriesId={seriesId} />
+      <Suspense fallback={<LoadingSkeleton />}>
+        {/* @ts-expect-error Server Component */}
+        <CategoryMenu />
+      </Suspense>
+      <Suspense fallback={<LoadingSkeleton />}>
+        {/* @ts-expect-error Server Component */}
+        <SeriesMenu currentSeriesId={seriesId} />
+      </Suspense>
       {children}
     </>
   );

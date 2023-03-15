@@ -6,7 +6,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: Node 16で型チェックとテスト
+    name: Node 18で型チェックとテスト
     steps:
       - name: チェックアウト
         uses: actions/checkout@v3
@@ -14,7 +14,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           # Netlifyは.nvmrcを検出するため、そちらが変われば適宜変えること
-          node-version: 16
+          node-version: 18
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
       - name: 型チェック

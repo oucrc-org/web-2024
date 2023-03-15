@@ -8,10 +8,10 @@ dayjs.extend(timezone);
 /**
  * 旧サイトでの日付表記を踏襲
  */
-export const formatDate = (dateString: string) => {
+export function formatDate(dateString: string) {
   const formattedDate = dayjs
     .utc(dateString)
     .tz('Asia/Tokyo')
     .format('YYYY/MM/DD');
   return formattedDate;
-};
+}

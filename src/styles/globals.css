@@ -73,4 +73,9 @@
   /*
    * 移植ここまで
    * ------------------------------------- */
+
+   /** MathJax */
+  .MathJax_Display::-webkit-scrollbar {
+    display: none;
+  }
 }

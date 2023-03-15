@@ -1,4 +1,4 @@
-import { clientEnv } from '@/utils/client-env';
+import { clientEnv } from '@/config/client-env';
 import { getPastTermYears } from '@/utils/micro-cms';
 
 describe('microCMS関連の動作確認', () => {

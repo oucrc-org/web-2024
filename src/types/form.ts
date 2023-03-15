@@ -48,8 +48,8 @@ export const joinFormInput = z.object({
     .regex(/^0[-0-9]{9,12}$/, '有効な電話番号を入力してください。'),
   nickname: zStringMinMax(2, 20),
   // 空欄許可には `z.literal('')` が必要 https://github.com/colinhacks/zod/issues/310#issuecomment-794533682
-  hobby: zStringMinMax(10, 200).optional().or(z.literal('')),
-  comment: zStringMinMax(10, 200).optional().or(z.literal('')),
+  hobby: zStringMinMax(5, 200).optional().or(z.literal('')),
+  comment: zStringMinMax(5, 200).optional().or(z.literal('')),
 });
 
 export type JoinFormInput = z.infer<typeof joinFormInput>;

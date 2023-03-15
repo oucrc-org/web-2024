@@ -8,7 +8,16 @@ interface PaginationProps {
   perPage: number;
 }
 
-const Pagination = ({ path, pageNumber, total, perPage }: PaginationProps) => {
+/**
+ * ページ送り
+ * メニュー上でカーソルを動かしただけで通信してしまうため、プリフェッチ無効化
+ */
+export default function Pagination({
+  path,
+  pageNumber,
+  total,
+  perPage,
+}: PaginationProps) {
   const getArrayJumpTo = (totalCount: number, countPerPage: number) => {
     return Array.from(Array(Math.ceil(totalCount / countPerPage)).keys()).map(
       (i) => i + 1
@@ -18,27 +27,25 @@ const Pagination = ({ path, pageNumber, total, perPage }: PaginationProps) => {
     <div className="mx-auto pt-2 pb-16">
       <div className="btn-group flex-wrap">
         {pageNumber > 1 && (
-          <Link href={`${path}/p/${pageNumber - 1}`} className="btn-md btn">
+          <Link href={`${path}/${pageNumber - 1}`} className="btn-md btn">
             {`«`}
           </Link>
         )}
         {getArrayJumpTo(total, perPage).map((p) => (
           <Link
             key={p}
-            href={`${path}/p/${p}`}
+            href={`${path}/${p}`}
             className={twJoin('btn btn-md', pageNumber === p && 'btn-active')}
           >
             {p}
           </Link>
         ))}
         {pageNumber < Math.ceil(total / perPage) && (
-          <Link href={`${path}/p/${pageNumber + 1}`} className="btn-md btn">
+          <Link href={`${path}/${pageNumber + 1}`} className="btn-md btn">
             {`»`}
           </Link>
         )}
       </div>
     </div>
   );
-};
-
-export default Pagination;
+}

@@ -762,6 +762,11 @@
   dependencies:
     tslib "^2.4.0"
 
+"@tailwindcss/line-clamp@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@tailwindcss/line-clamp/-/line-clamp-0.4.2.tgz#f353c5a8ab2c939c6267ac5b907f012e5ee130f9"
+  integrity sha512-HFzAQuqYCjyy/SX9sLGB1lroPzmcnWv1FHkIpmypte10hptf4oPUfucryMKovZh2u0uiS9U5Ty3GghWfEJGwVw==
+
 "@tailwindcss/typography@^0.5.9":
   version "0.5.9"
   resolved "https://registry.yarnpkg.com/@tailwindcss/typography/-/typography-0.5.9.tgz#027e4b0674929daaf7c921c900beee80dbad93e8"
@@ -4636,6 +4641,11 @@ pretty-format@^29.0.0, pretty-format@^29.4.3:
     "@jest/schemas" "^29.4.3"
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
+
+promise-throttle@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/promise-throttle/-/promise-throttle-1.1.2.tgz#8a59d0424b6f9673aa8405c8b6bd4b5e4f7f71db"
+  integrity sha512-dij7vjyXNewuuN/gyr+TX2KRjw48mbV5FEtgyXaIoJjGYAKT0au23/voNvy9eS4UNJjx2KUdEcO5Yyfc1h7vWQ==
 
 prompts@^2.0.1:
   version "2.4.2"

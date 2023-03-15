@@ -1,12 +1,12 @@
 import { ContactFormInput, FormConfig, JoinFormInput } from '@/types/form';
-import { env } from '@/utils/server-env';
+import { serverEnv } from '@/config/server-env';
 
 /**
  * 問い合わせフォームのGoogleフォームのID等
  * バリデーションは [@/types/form](../types/form.ts) 参照
  */
 const contactFormConfig: FormConfig<ContactFormInput> = {
-  formId: env.GOOGLE_FORM_ID_CONTACT,
+  formId: serverEnv.GOOGLE_FORM_ID_CONTACT,
   nameRecord: {
     name: 'entry.514745000',
     email: 'entry.821989733',
@@ -19,7 +19,7 @@ const contactFormConfig: FormConfig<ContactFormInput> = {
  * バリデーションは [@/types/form](../types/form.ts) 参照
  */
 const joinFormConfig: FormConfig<JoinFormInput> = {
-  formId: env.GOOGLE_FORM_ID_JOIN,
+  formId: serverEnv.GOOGLE_FORM_ID_JOIN,
   nameRecord: {
     studentNumber: 'entry.1552183669',
     realName: 'entry.514745000',

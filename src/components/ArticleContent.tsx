@@ -1,10 +1,11 @@
+import Image from 'next/image';
+import Script from 'next/script';
+import { AiFillCrown } from 'react-icons/ai';
 import { Article } from '@/types/micro-cms';
 import { formatDate } from '@/utils/date';
-import Image from 'next/image';
-import { AiFillCrown } from 'react-icons/ai';
-import SeriesButton from './SeriesButton';
-import CategoryButton from './CategoryButton';
 import ButtonWithIcon from './ButtonWithIcon';
+import CategoryButton from './CategoryButton';
+import SeriesButton from './SeriesButton';
 
 interface ArticleContentProps {
   article: Article;
@@ -64,9 +65,37 @@ export default function ArticleContent({ article }: ArticleContentProps) {
       data: ['wnkvw5pd8b1', 'cfykct7kadve', 'h_19frtxx7c'],
     },
   };
+  const mathConfig = `
+  if(typeof window !== "undefined" && window.MathJax) {
+    window.MathJax.Hub.Config({
+      TeX: { equationNumbers: { autoNumber: 'AMS' } },
+      tex2jax: {
+        inlineMath: [
+          ['$', '$'],
+          ['\\(', '\\)'],
+        ],
+        processEscapes: true,
+      },
+      'HTML-CSS': { matchFontHeight: false },
+      displayAlign: 'center',
+      displayIndent: '2em',
+    });
+    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+  }`;
 
   return (
-    <section className="row-span-2 bg-white pb-20 lg:col-span-2 lg:shadow-xl">
+    <section className="row-span-2 bg-white pb-12 lg:col-span-2 lg:shadow-xl">
+      {/* TODO: MathJax@3系で動かない原因を調査 */}
+      <Script
+        async
+        src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS_HTML"
+      />
+      {/* インライン数式の設定を上書き */}
+      <Script
+        id="mathjax_config"
+        type="text/x-mathjax-config"
+        dangerouslySetInnerHTML={{ __html: mathConfig }}
+      />
       {article.image ? (
         <Image
           src={article.image.url}
@@ -99,12 +128,10 @@ export default function ArticleContent({ article }: ArticleContentProps) {
           最終更新: {formatDate(article.updatedAt)}
         </div>
       </div>
-
       <div className="m-8 flex flex-wrap gap-3 sm:mx-16">
         {article.category && <CategoryButton category={article.category} />}
         {article.series && <SeriesButton series={article.series} />}
       </div>
-
       {/* <!-- ▼ ランキング --> */}
       <div className="m-8 flex flex-wrap gap-3 sm:mx-16">
         {Object.entries(ranking).map(([key, value], index) => {
@@ -123,10 +150,9 @@ export default function ArticleContent({ article }: ArticleContentProps) {
         })}
       </div>
       {/* <!-- ▲ ランキング --> */}
-
       <div
         dangerouslySetInnerHTML={{ __html: article.body }}
-        className="prose mt-16 block w-full max-w-none px-8 text-lg leading-8 tracking-wider sm:px-16"
+        className="prose block w-full max-w-none px-8 text-lg leading-8 tracking-wider sm:px-16"
       ></div>
     </section>
   );

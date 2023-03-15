@@ -1,9 +1,9 @@
-import { Article } from '@/types/micro-cms';
 import Link from 'next/link';
 import Image from 'next/image';
-import DoubleLineButton from './DoubleLineButton';
 import { ComponentPropsWithoutRef } from 'react';
 import { twMerge } from 'tailwind-merge';
+
+import DoubleLineButton from './DoubleLineButton';
 
 interface CardProps extends ComponentPropsWithoutRef<'div'> {
   imageSrc: string;
@@ -51,7 +51,7 @@ export default function Card({
         <div className="mt-4 px-3 text-left text-lg font-semibold leading-8 tracking-widest text-secondary">
           <span className="block">{description}</span>
         </div>
-        <DoubleLineButton label="内容を見る" className="mt-4" />
+        <DoubleLineButton>内容を見る</DoubleLineButton>
       </Link>
     </div>
   );

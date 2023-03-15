@@ -13,31 +13,31 @@ export default function HeroArea() {
   return (
     <section className="relative overflow-hidden">
       <div className="absolute h-full w-full bg-white bg-repeat"></div>
-      <div className="absolute top-0 w-full pt-56 text-center sm:pt-72">
+      <div className="absolute top-0 w-full px-3 pt-56 text-center sm:pt-96">
         <Image
-          className="mx-auto h-12 w-auto sm:h-20 md:h-24"
+          className="mx-auto h-12 w-auto opacity-0 sm:h-20 md:h-24"
           src="/images/common/oucrc-label.webp"
-          width={712}
-          height={96}
+          width={594}
+          height={80}
           alt="岡山大学電子計算機研究会"
           style={{ animation: 'fadeIn 2s forwards' }}
         />
         <h2
-          className="mt-4 text-lg tracking-widest sm:mt-8 sm:text-2xl"
+          className="mt-4 text-lg tracking-widest opacity-0 sm:mt-8 sm:text-2xl"
           style={{ animation: 'fadeIn 4s forwards' }}
         >
           つくりたいものをつくる
         </h2>
       </div>
       <Image
-        className="absolute inset-x-0 bottom-0 mx-auto h-40"
+        className="absolute inset-x-0 bottom-0 mx-auto h-40 w-auto opacity-0"
         src="/images/landing/scroll.webp"
         width={58}
         height={260}
         alt="Scroll"
         style={{ animation: 'fadeIn 2s 1s forwards', opacity: 0 }}
       />
-      <div className="relative h-[95vh] w-full">
+      <div className="relative h-screen w-full">
         <Particles
           id="tsparticles"
           init={particlesInit}
@@ -81,7 +81,7 @@ export default function HeroArea() {
                 },
               },
               size: {
-                value: 4,
+                value: 3.5, // 旧サイトと基準が異なるらしく、4から変更
                 random: true,
                 anim: {
                   enable: false,
@@ -99,7 +99,7 @@ export default function HeroArea() {
               },
               move: {
                 enable: true,
-                speed: 6,
+                speed: 2.5, // 旧サイトと基準が異なるらしく、6から変更
                 direction: 'none',
                 random: false,
                 straight: false,

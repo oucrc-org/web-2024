@@ -3,8 +3,6 @@ import ArticleList from '@/components/ArticleList';
 import CategoryMenu from '@/components/CategoryMenu';
 import SeriesMenu from '@/components/SeriesMenu';
 
-export const revalidate = 600;
-
 export const metadata = {
   title: '記事一覧',
   description:
@@ -22,7 +20,8 @@ export default async function ArticlePage() {
       <ArticleList
         data={articles}
         pageNumber={1}
-        paginationPath={`/articles`}
+        // articles, newsは`/p`がある
+        paginationPath={`/articles/p`}
       />
     </>
   );

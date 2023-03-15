@@ -9,11 +9,11 @@ interface MemberInfoProps {
 export default function MemberInfo({ member }: MemberInfoProps) {
   return (
     <div>
-      <div className="mt-12 grid grid-cols-9 gap-4 lg:gap-12">
+      <div className="mt-12 flex gap-4">
         {/* <!-- ▼ メンバーアイコン --> */}
-        <Link href={`/members/${member.id}`} className="col-span-4">
+        <Link href={`/members/${member.id}`} className="shrink-0">
           {member.avatar ? (
-            <div className="row-end-2 inline-block lg:pl-8">
+            <div className="lg:pl-8">
               <Image
                 width={128}
                 height={128}
@@ -37,7 +37,7 @@ export default function MemberInfo({ member }: MemberInfoProps) {
         {/* <!-- ▲ メンバーアイコン --> */}
 
         {/* <!-- ▼ SNSリンク --> */}
-        <div className="col-span-5 mt-2 inline-block pl-4 text-left lg:pl-0">
+        <div className="mt-2 inline-block grow pl-4 text-left lg:pl-0">
           <p className="inline-block rounded-lg bg-highlight px-5 py-1 text-sm tracking-widest text-secondary xl:px-6">
             {member.enteryear}年度 入部
           </p>
