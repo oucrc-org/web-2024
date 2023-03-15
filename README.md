@@ -1,10 +1,37 @@
 # web-2023
 
-```sh
-yarn
-cp .env.local.example .env.local
-yarn dev
-```
+[web-2021](https://github.com/oucrc-org/web-2021)のNext.jsバージョンです
+
+## web-2021との違い
+
+- 殆どの部分をReact Server Componentで描画するようになりました
+  - 最終的にはNetlify次第ですが、パフォーマンス向上が期待できます
+
+### 記事
+
+- 記事投稿後、ビルドをトリガーする必要がなくなり、待ち時間がゼロになりました
+  - 公開直後は404になる場合があります
+  - 一覧の2ページ目以降の更新がすぐに行われない場合があります
+- 公開前にプレビューを表示できるようになりました
+- Markdownで記事を書けるようになりました
+  - ほとんどの人は使わないだろうからオプショナルにしています。MDを書いた場合はリッチエディタより優先されます
+  - Markdownの場合、GitHub Flavored機能が使える他、シンタックスハイライトの言語を指定できます
+- リッチエディタでもMDでも、シンタックスハイライトがサーバーサイドで行われるようになりました
+  - 記事表示の時点でハイライトが適用されます
+  - MathJaxはクライアントサイドのままです
+- 広報への通知が「本文、コメント、記事URL」のツイート用URLを含むようになりました
+
+### 部員
+
+- 過去何年間の部員まで表示するか、環境変数で変更可能になりました
+
+### フォーム
+
+- フォームのバリデーションが細かくなりました
+
+## デプロイ
+
+Netlifyに任せてください。
 
 ## 環境変数
 
@@ -18,7 +45,8 @@ yarn dev
 |`SLACK_NOTICE_WEBHOOK_URL`|必須||広報チャンネルのWebhook URL|
 |`GOOGLE_FORM_ID_CONTACT`|必須||お問い合わせGoogleフォームのID|
 |`GOOGLE_FORM_ID_JOIN`|必須||入部GoogleフォームのID|
-|`NEXT_PUBLIC_GTAG_ID`|任意||Tag ManagerのID|
+|`NEXT_PUBLIC_GTAG_ID`|任意||アナリティクスを埋め込んだ Tag Manager　のID or アナリティクスのgtag ID|
+|`NEXT_PUBLIC_ARTICLE_COUNT_PER_PAGE`|任意|9|一覧における1ページあたりの記事数|
 |`NEXT_PUBLIC_MAX_MEMBER_YEARS`|任意|8|部員紹介で、歴代の部員全員を載せるとビルドに時間がかかる。<br>そのため、この環境変数で対象の年度数を絞れる|
 
 ## License

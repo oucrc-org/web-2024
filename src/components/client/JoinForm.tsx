@@ -6,8 +6,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTypeSafeForm } from '@/hooks/useTypeSafeForm';
 import { joinFormInput, JoinFormInput } from '@/types/form';
 import InputControl from './InputControl';
+import HeadingH1 from '../HeadingH1';
 
-const JoinForm = () => {
+export default function JoinForm() {
   const apiPath = '/api/form/join';
   // 以降のフォームコンポーネントに渡す型
   type FormType = JoinFormInput;
@@ -53,7 +54,7 @@ const JoinForm = () => {
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="card">
-            <h2 className="card-title">入部フォーム</h2>
+            <HeadingH1>入部フォーム</HeadingH1>
             <div className="flex flex-col gap-y-6">
               <InputControl<FormType>
                 name="studentNumber"
@@ -125,6 +126,4 @@ const JoinForm = () => {
       </FormProvider>
     </div>
   );
-};
-
-export default JoinForm;
+}

@@ -1,7 +1,7 @@
-import { Category } from '@/types/micro-cms';
 import Link from 'next/link';
 import { ComponentPropsWithoutRef } from 'react';
 import { HiOutlineTag } from 'react-icons/hi';
+import { Category } from '@/types/micro-cms';
 import ButtonWithIcon from './ButtonWithIcon';
 
 interface CategoryButtonProps extends ComponentPropsWithoutRef<'div'> {

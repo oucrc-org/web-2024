@@ -73,8 +73,8 @@ export default async function Layout({ children }: { children: ReactNode }) {
       {/* theme定義はtailwind.config.js参照 */}
       <body className={fontStyles.font}>
         {/*
-        アナリティクス設定
-      */}
+          アナリティクス設定
+        */}
         <Script
           strategy="afterInteractive"
           src={`https://www.googletagmanager.com/gtag/js?id=${gtagId}`}

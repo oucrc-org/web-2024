@@ -1,10 +1,10 @@
-import { Article } from '@/types/micro-cms';
-import { formatDate } from '@/utils/date';
 import Image from 'next/image';
 import { AiFillCrown } from 'react-icons/ai';
-import SeriesButton from './SeriesButton';
-import CategoryButton from './CategoryButton';
+import { Article } from '@/types/micro-cms';
+import { formatDate } from '@/utils/date';
 import ButtonWithIcon from './ButtonWithIcon';
+import CategoryButton from './CategoryButton';
+import SeriesButton from './SeriesButton';
 
 interface ArticleContentProps {
   article: Article;
@@ -126,7 +126,7 @@ export default function ArticleContent({ article }: ArticleContentProps) {
 
       <div
         dangerouslySetInnerHTML={{ __html: article.body }}
-        className="prose mt-16 block w-full max-w-none px-8 text-lg leading-8 tracking-wider sm:px-16"
+        className="prose block w-full max-w-none px-8 text-lg leading-8 tracking-wider sm:px-16"
       ></div>
     </section>
   );

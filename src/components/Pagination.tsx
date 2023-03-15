@@ -8,7 +8,12 @@ interface PaginationProps {
   perPage: number;
 }
 
-const Pagination = ({ path, pageNumber, total, perPage }: PaginationProps) => {
+export default function Pagination({
+  path,
+  pageNumber,
+  total,
+  perPage,
+}: PaginationProps) {
   const getArrayJumpTo = (totalCount: number, countPerPage: number) => {
     return Array.from(Array(Math.ceil(totalCount / countPerPage)).keys()).map(
       (i) => i + 1
@@ -39,6 +44,4 @@ const Pagination = ({ path, pageNumber, total, perPage }: PaginationProps) => {
       </div>
     </div>
   );
-};
-
-export default Pagination;
+}

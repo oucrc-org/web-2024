@@ -8,10 +8,10 @@ import { FormConfig } from '@/types/form';
  * @param data 送信するデータ
  * @returns
  */
-export const postToGoogleForm = async <T extends Record<string, any>>(
+export async function postToGoogleForm<T extends Record<string, any>>(
   config: FormConfig<T>,
   data: T
-) => {
+) {
   const params = new URLSearchParams();
   Object.keys(data).forEach((key) => {
     const googleFormKey = config.nameRecord[key];
@@ -35,4 +35,4 @@ export const postToGoogleForm = async <T extends Record<string, any>>(
     .catch((e) => {
       throw new Error(e);
     });
-};
+}

@@ -1,6 +1,6 @@
-import { Series } from '@/types/micro-cms';
 import Link from 'next/link';
 import { ComponentPropsWithoutRef } from 'react';
+import { Series } from '@/types/micro-cms';
 import { HiOutlineBookOpen } from 'react-icons/hi';
 import ButtonWithIcon from './ButtonWithIcon';
 

@@ -1,9 +1,9 @@
-import { Article } from '@/types/micro-cms';
 import Link from 'next/link';
 import Image from 'next/image';
-import DoubleLineButton from './DoubleLineButton';
 import { ComponentPropsWithoutRef } from 'react';
 import { twMerge } from 'tailwind-merge';
+
+import DoubleLineButton from './DoubleLineButton';
 
 interface CardProps extends ComponentPropsWithoutRef<'div'> {
   imageSrc: string;

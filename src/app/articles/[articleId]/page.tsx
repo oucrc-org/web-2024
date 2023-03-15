@@ -2,7 +2,7 @@ import ArticleCard from '@/components/ArticleCard';
 import ArticleContent from '@/components/ArticleContent';
 import HeadingH2 from '@/components/HeadingH2';
 import {
-  getAllArticles,
+  getAllArticleIds,
   getArticle,
   getOtherArticlesBySameMember,
   getRecommendedArticles,
@@ -24,7 +24,7 @@ type Params = {
 };
 
 export async function generateStaticParams() {
-  const articles = await getAllArticles();
+  const articles = await getAllArticleIds();
   return articles.contents.map(({ id: articleId }) => ({
     articleId,
   }));

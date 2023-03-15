@@ -23,7 +23,10 @@ const InputBase = forwardRef<HTMLInputElement, InputBaseProps>(
         <span className="label-text">{label}</span>
       </label>
       <input
-        className={twMerge('input-bordered input w-full max-w-xs', className)}
+        className={twMerge(
+          'input-bordered border-gray-500 input w-full ',
+          className
+        )}
         ref={ref}
         {...props}
       />
@@ -46,11 +49,11 @@ type Props<T extends FieldValues> = {
  * react-hook-form対応のinput
  * @see https://tech.nri-net.com/entry/react_hook_form_and_yup
  */
-const InputControl = <T extends FieldValues>({
+export default function InputControl<T extends FieldValues>({
   name,
   type,
   ...props
-}: Props<T>) => {
+}: Props<T>) {
   return (
     <Controller
       name={name}
@@ -73,6 +76,4 @@ const InputControl = <T extends FieldValues>({
       )}
     />
   );
-};
-
-export default InputControl;
+}

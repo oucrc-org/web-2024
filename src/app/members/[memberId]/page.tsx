@@ -2,7 +2,7 @@ import ArticleCard from '@/components/ArticleCard';
 import HeadingH2 from '@/components/HeadingH2';
 import MemberInfo from '@/components/MemberInfo';
 import {
-  getAllMembers,
+  getAllMemberIds,
   getMember,
   getArticlesByMember,
 } from '@/utils/micro-cms';
@@ -17,7 +17,7 @@ type Params = {
 };
 
 export async function generateStaticParams() {
-  const members = await getAllMembers();
+  const members = await getAllMemberIds();
   return members.contents.map(({ id: memberId }) => ({
     memberId,
   }));

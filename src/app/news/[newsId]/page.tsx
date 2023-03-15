@@ -1,5 +1,5 @@
 import NewsContent from '@/components/NewsContent';
-import { getAllNewses, getNews } from '@/utils/micro-cms';
+import { getAllNewsIds, getNews } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -10,7 +10,7 @@ type Params = {
 };
 
 export async function generateStaticParams() {
-  const newses = await getAllNewses();
+  const newses = await getAllNewsIds();
   return newses.contents.map(({ id: newsId }) => ({
     newsId,
   }));

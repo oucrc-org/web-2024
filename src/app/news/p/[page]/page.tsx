@@ -1,7 +1,7 @@
-import { getAllNewses, getNewses } from '@/utils/micro-cms';
+import { getAllNewsIds, getNewses } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import NewsList from '@/components/NewsList';
-import { ARTICLE_PER_PAGE } from '@/config/const';
+import { clientEnv } from '@/utils/client-env';
 
 export const revalidate = 600;
 
@@ -10,9 +10,11 @@ type Params = {
 };
 
 export async function generateStaticParams() {
-  const newses = await getAllNewses();
+  const newses = await getAllNewsIds();
   // 必要なページ数を計算
-  const pages = Math.ceil(newses.contents.length / ARTICLE_PER_PAGE);
+  const pages = Math.ceil(
+    newses.contents.length / clientEnv.ARTICLE_COUNT_PER_PAGE
+  );
   return Array.from({ length: pages }, (_, i) => (i + 1).toString()).map(
     (page) => ({
       page,

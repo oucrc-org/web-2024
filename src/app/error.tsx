@@ -14,7 +14,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="pt-32">
+    <div className="flex flex-col items-center pt-32 text-center">
       <h2>エラー</h2>
       <button onClick={() => reset()}>やり直す</button>
     </div>

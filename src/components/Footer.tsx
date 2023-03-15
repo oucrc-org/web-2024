@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-const Footer = () => {
+export default function Footer() {
   return (
     <div className="relative bottom-0 z-20 flex w-full flex-col gap-y-2 bg-footer py-8 text-center">
       <Link href="/" className="mx-auto inline h-10 sm:h-16">
@@ -17,6 +17,4 @@ const Footer = () => {
       </div>
     </div>
   );
-};
-
-export default Footer;
+}

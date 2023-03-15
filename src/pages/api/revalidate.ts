@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { microCMSWebhookBody } from '@/types/micro-cms';
-import { getPathByWebhook, verifyMicroCmsWebhook } from '@/utils/micro-cms';
+import { getPathsByWebhook, verifyMicroCmsWebhook } from '@/utils/micro-cms';
 import { notifyUpdateToSlack } from '@/utils/slack';
 import { allowOnlyPostingObjectBody } from '@/utils/api';
 
@@ -19,11 +19,16 @@ export default async function handler(
 
     // ページ更新処理
     let message = 'Failed to revalidate';
-    const pathToValidate = getPathByWebhook(parsedBody);
+    const pathsToValidate = getPathsByWebhook(parsedBody);
+    // 一覧を更新
+    await res.revalidate(pathsToValidate[0]);
+    // 個別ページ更新
     return await res
-      .revalidate(pathToValidate)
+      .revalidate(pathsToValidate[1])
       .then(() => {
-        message = `Revalidated the following path by microCMS webhook: ${pathToValidate}`;
+        message = `Revalidated the following path by microCMS webhook: ${pathsToValidate.join(
+          ', '
+        )}`;
       })
       .catch(() => {
         message = 'Failed to revalidate but proceed to slack notification';

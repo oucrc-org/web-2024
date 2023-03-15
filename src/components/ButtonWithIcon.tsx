@@ -5,15 +5,19 @@ interface ButtonWithIconProps extends ComponentPropsWithoutRef<'div'> {
   children: ReactNode;
   icon: ReactNode;
 }
+
 export default function ButtonWithIcon({
   className,
   children,
   icon,
 }: ButtonWithIconProps) {
   return (
-    <div className={twMerge('btn btn-primary gap-2', className)}>
-      <span className="text-black">{icon}</span>
-      <span className="max-w-[220px] truncate">{children}</span>
+    <div className={twMerge('btn btn-primary', className)}>
+      {/* 複数行に対応させるためあえてもう一度flexで囲む */}
+      <div className="flex flex-row items-center gap-2">
+        <span className="grow-0 text-black">{icon}</span>
+        <div className="grow text-left">{children}</div>
+      </div>
     </div>
   );
 }

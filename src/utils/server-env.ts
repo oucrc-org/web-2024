@@ -10,7 +10,7 @@ if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'test') {
 /**
  * サーバーサイドで**のみ**使用可能な環境変数
  */
-export const env = {
+export const serverEnv = {
   ...clientEnv,
   ...envsafe({
     MICROCMS_API_KEY: str({}),

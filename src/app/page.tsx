@@ -63,7 +63,7 @@ export default async function Page() {
       <section className="relative z-10 h-[83vh] w-full">
         <div className="container relative mx-auto h-full">
           <Image
-            className="absolute top-[5vh] left-0 h-[40vh]"
+            className="absolute top-[5vh] left-0"
             src="/images/landing/oucrc-room-label.png"
             width={355}
             height={384}
@@ -97,7 +97,7 @@ export default async function Page() {
               </Link>
             </div>
             <div className="col-span-3">
-              <NewsList pageNumber={1} data={newses} />
+              <NewsList pageNumber={1} data={newses} enablePagination={false} />
               <Link
                 href="/news"
                 className="block pt-3 pr-2 text-right text-sm font-semibold tracking-widest text-secondary sm:pt-5 sm:text-base lg:pb-0"
