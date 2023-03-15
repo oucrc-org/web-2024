@@ -69,7 +69,8 @@ export async function getArticle(contentId: string, draftKey?: string) {
     })
     .then(async (article) => {
       let body = article.body;
-      if (article.markdown_body) {
+      // MDがある場合はHTMLより優先する
+      if (article.markdown_body && article.markdown_body.length > 0) {
         body = await parseMarkdown(article.markdown_body);
       } else {
         body = await parseHtml(article.body);

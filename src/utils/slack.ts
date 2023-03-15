@@ -1,7 +1,7 @@
 import { serverEnv } from './server-env';
 import { Message, Blocks, Elements } from 'slack-block-builder';
 import { MicroCMSWebhookBody } from '@/types/micro-cms';
-import { getPathByWebhook } from './micro-cms';
+import { getPathsByWebhook } from './micro-cms';
 
 /**
  * Slackにツイート内容を通知
@@ -19,7 +19,7 @@ export async function notifyUpdateToSlack(parsedBody: MicroCMSWebhookBody) {
   }
   const needsToTweet =
     (api === 'article' && type === 'new') || isDraftMadePublic;
-  const url = 'https://oucrc.net' + getPathByWebhook(parsedBody);
+  const url = 'https://oucrc.net' + getPathsByWebhook(parsedBody)[1];
   const newContent = contents.new.publishValue;
   const tweetText = `【記事が投稿されました】\n${newContent?.title}\n${
     newContent?.twitter_comment ?? ''

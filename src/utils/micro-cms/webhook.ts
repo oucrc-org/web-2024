@@ -47,7 +47,11 @@ export function verifyMicroCmsWebhook(
   }
 }
 
-export function getPathByWebhook(parsedBody: MicroCMSWebhookBody) {
+/**
+ * 更新対象パスの取得
+ * @returns [一覧パス, 個別パス]
+ */
+export function getPathsByWebhook(parsedBody: MicroCMSWebhookBody) {
   const endpoint = parsedBody.api;
   let pathname = '';
   switch (endpoint) {
@@ -61,5 +65,5 @@ export function getPathByWebhook(parsedBody: MicroCMSWebhookBody) {
       pathname = '/members';
       break;
   }
-  return `${pathname}/${parsedBody.id}`;
+  return [pathname, `${pathname}/${parsedBody.id}`];
 }
