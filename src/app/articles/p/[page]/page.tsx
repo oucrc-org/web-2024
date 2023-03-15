@@ -14,7 +14,7 @@ export async function generateStaticParams() {
   const articles = await getAllArticles();
   // 必要なページ数を計算
   const pages = Math.ceil(
-    articles.contents.length / clientEnv.ARTICLE_PER_PAGE
+    articles.contents.length / clientEnv.ARTICLE_COUNT_PER_PAGE
   );
   return Array.from({ length: pages }, (_, i) => (i + 1).toString()).map(
     (page) => ({

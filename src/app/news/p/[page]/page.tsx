@@ -12,7 +12,9 @@ type Params = {
 export async function generateStaticParams() {
   const newses = await getAllNewses();
   // 必要なページ数を計算
-  const pages = Math.ceil(newses.contents.length / clientEnv.ARTICLE_PER_PAGE);
+  const pages = Math.ceil(
+    newses.contents.length / clientEnv.ARTICLE_COUNT_PER_PAGE
+  );
   return Array.from({ length: pages }, (_, i) => (i + 1).toString()).map(
     (page) => ({
       page,

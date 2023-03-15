@@ -31,7 +31,7 @@ export default function NewsList({
               pageNumber={pageNumber}
               path="/news"
               total={data.totalCount}
-              perPage={clientEnv.ARTICLE_PER_PAGE}
+              perPage={clientEnv.ARTICLE_COUNT_PER_PAGE}
             />
           )}
         </div>

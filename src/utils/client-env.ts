@@ -6,8 +6,8 @@ import { envsafe, num, str } from 'envsafe';
 export const clientEnv = envsafe({
   GTAG_ID: str({ input: process.env.NEXT_PUBLIC_GTAG_ID }),
   /** 一覧における1ページあたりの記事数 */
-  ARTICLE_PER_PAGE: num({
-    input: process.env.NEXT_PUBLIC_ARTICLE_PER_PAGE,
+  ARTICLE_COUNT_PER_PAGE: num({
+    input: process.env.NEXT_PUBLIC_ARTICLE_COUNT_PER_PAGE,
     allowEmpty: true,
     default: 9,
   }),

@@ -19,7 +19,7 @@ yarn dev
 |`GOOGLE_FORM_ID_CONTACT`|必須||お問い合わせGoogleフォームのID|
 |`GOOGLE_FORM_ID_JOIN`|必須||入部GoogleフォームのID|
 |`NEXT_PUBLIC_GTAG_ID`|任意||Tag ManagerのID|
-|`NEXT_PUBLIC_clientEnv.ARTICLE_PER_PAGE`|任意|9|一覧における1ページあたりの記事数|
+|`NEXT_PUBLIC_ARTICLE_COUNT_PER_PAGE`|任意|9|一覧における1ページあたりの記事数|
 |`NEXT_PUBLIC_MAX_MEMBER_YEARS`|任意|8|部員紹介で、歴代の部員全員を載せるとビルドに時間がかかる。<br>そのため、この環境変数で対象の年度数を絞れる|
 
 ## License

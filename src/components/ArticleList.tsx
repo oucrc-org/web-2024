@@ -30,7 +30,7 @@ const ArticleList = ({
             pageNumber={pageNumber}
             path={paginationPath}
             total={data.totalCount}
-            perPage={clientEnv.ARTICLE_PER_PAGE}
+            perPage={clientEnv.ARTICLE_COUNT_PER_PAGE}
           />
         </div>
       </div>
