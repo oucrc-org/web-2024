@@ -21,7 +21,10 @@ export default async function handler(
     let message = 'Failed to revalidate';
     const pathsToValidate = getPathsByWebhook(parsedBody);
     // 一覧を更新
-    await res.revalidate(pathsToValidate[0]);
+    await res.revalidate(pathsToValidate[0]).catch(() => {
+      message =
+        'Failed to revalidate index page but proceed to slack notification';
+    });
     // 個別ページ更新
     return await res
       .revalidate(pathsToValidate[1])
@@ -31,9 +34,11 @@ export default async function handler(
         )}`;
       })
       .catch(() => {
-        message = 'Failed to revalidate but proceed to slack notification';
+        message =
+          'Failed to revalidate article page but proceed to slack notification';
       })
       .finally(async () => {
+        console.info(message);
         return res.status(200).json({ message });
       });
   });
