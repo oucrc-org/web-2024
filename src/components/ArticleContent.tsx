@@ -65,6 +65,7 @@ export default function ArticleContent({ article }: ArticleContentProps) {
       data: ['wnkvw5pd8b1', 'cfykct7kadve', 'h_19frtxx7c'],
     },
   };
+  /** web-2021よりコピーしたが、インライン数式において半角括弧は対象から外した */
   const mathConfig = `
   if(typeof window !== "undefined" && window.MathJax) {
     window.MathJax.Hub.Config({
@@ -72,7 +73,6 @@ export default function ArticleContent({ article }: ArticleContentProps) {
       tex2jax: {
         inlineMath: [
           ['$', '$'],
-          ['\\(', '\\)'],
         ],
         processEscapes: true,
       },
@@ -96,13 +96,19 @@ export default function ArticleContent({ article }: ArticleContentProps) {
         type="text/x-mathjax-config"
         dangerouslySetInnerHTML={{ __html: mathConfig }}
       />
+      {/* ツイート埋め込み対応 */}
+      <Script
+        async
+        strategy="afterInteractive"
+        src="https://platform.twitter.com/widgets.js"
+      />
       {article.image ? (
         <Image
           src={article.image.url}
           // 不定のため適当
           width={800}
           height={450}
-          className="h-64 w-full object-cover sm:h-96 md:h-120"
+          className="md:h-120 h-64 w-full object-cover sm:h-96"
           alt="トップ画像"
         />
       ) : (

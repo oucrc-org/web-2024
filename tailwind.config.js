@@ -27,7 +27,6 @@ module.exports = {
         heading: '#BBBBBB',
         divider: '#DADADA',
         blockquote: '#F8F8F8',
-        blockquoteSidebar: '#CACACA',
         highlight: '#F3F3F3',
         footer: '#3B3B3B',
       },
@@ -39,18 +38,9 @@ module.exports = {
         h5: '1.0em',
         h6: '0.8em',
       },
-      opacity: {
-        90: '.9',
-      },
       scale: {
         101: '1.01',
         103: '1.03',
-      },
-      spacing: {
-        72: '18rem',
-        84: '21rem',
-        96: '24rem',
-        120: '30rem',
       },
       typography: {
         DEFAULT: {

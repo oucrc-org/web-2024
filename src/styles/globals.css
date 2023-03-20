@@ -10,44 +10,56 @@
     /* 数式はみ出るの防止 */
     @apply overflow-x-scroll overflow-y-hidden;
   }
+  .prose .MathJax_Display::-webkit-scrollbar {
+    display: none;
+  }
 
   .prose {
     word-break: break-all;
     line-break: loose;
   }
 
+  /* tailwindは太字にしているが旧サイトと合わせる */
+  .prose h1,.prose h2,.prose h3,.prose h4,.prose h5,.prose h6 {
+    @apply !font-normal;
+  }
+  /* 文字サイズ調整と下線 */
+  .prose h1 {
+    /* 旧サイトの文字サイズを継承 */
+    @apply text-h2 p-3 pl-0 border-b-2 border-gray-400;
+  }
   .prose h2 {
-    @apply my-3 pt-3 text-h3 sm:text-h2;
+    @apply text-h3 sm:text-h2 p-1 pl-0 border-b border-gray-200;
   }
-
   .prose h3 {
-    @apply my-3 pt-1 text-h4 sm:text-h3;
+    @apply text-h4 sm:text-h3;
   }
-
   .prose h4 {
-    @apply my-3 text-h5 sm:text-h4;
+    @apply text-h5 sm:text-h4;
   }
-
   .prose h5 {
-    @apply my-3 text-h6 sm:text-h5;
+    @apply text-h6 sm:text-h5;
   }
-
   .prose h6 {
-    @apply my-3 text-h6;
+    @apply text-h6;
   }
-
-  .prose p {
-  }
-
   .prose pre {
+    /* twの背景色は不要なので */
+    @apply !bg-inherit;
   }
-
   .prose pre code {
     @apply p-0;
   }
+  /* インラインコード */
+  .prose p code {
+    @apply font-normal bg-highlight mx-1 my-0 px-2 py-1 rounded text-base;
+  }
 
+  /** ----------------------
+    以下はコピーしただけ
+  */
   .prose blockquote {
-    @apply p-2 bg-blockquote mb-4 border-l-8 border-blockquoteSidebar rounded pl-4;
+    @apply p-2 bg-blockquote mb-4 border-l-8 rounded pl-4;
   }
 
   .prose blockquote > p {
@@ -73,9 +85,4 @@
   /*
    * 移植ここまで
    * ------------------------------------- */
-
-   /** MathJax */
-  .MathJax_Display::-webkit-scrollbar {
-    display: none;
-  }
 }
