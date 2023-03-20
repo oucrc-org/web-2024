@@ -42,6 +42,7 @@ export async function allowOnlyPostingObjectBody(
     }
     return await next(body);
   } catch (e: any) {
+    console.error(e);
     return res.status(constants.HTTP_STATUS_INTERNAL_SERVER_ERROR).json(
       // zodエラー読めるようにしている
       typeof e === 'object'

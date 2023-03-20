@@ -111,9 +111,13 @@ export const ARTICLE_LIST_FIELDS =
 
 // ========================================================
 
+const microCMSWebhookTypes = ['new', 'edit', 'delete'] as const;
+/** `contents.(new|old).status` の値 */
+const microCMSStatusWords = ['PUBLISH', 'DRAFT', 'CLOSED'] as const;
+
 const webhookContent = z.object({
   id: z.string(),
-  status: z.array(z.enum(['PUBLISH', 'DRAFT'])),
+  status: z.array(z.enum(microCMSStatusWords)),
   draftKey: z.string().nullable(),
   /**
    * ジェネリックを付けようとすると
@@ -134,7 +138,7 @@ export const microCMSWebhookBody = z
     api: microCMSEndpointName,
     /** API関連の操作時はnull */
     id: z.string().nullable(),
-    type: z.enum(['new', 'edit', 'delete']),
+    type: z.enum(microCMSWebhookTypes),
     contents: z.object({
       old: webhookContent.nullable(),
       new: webhookContent,
@@ -142,3 +146,33 @@ export const microCMSWebhookBody = z
   })
   .passthrough(); // 将来的な仕様変更でフィールドが増えても有効に
 export type MicroCMSWebhookBody = z.infer<typeof microCMSWebhookBody>;
+
+/** Slack通知で使う CMS操作に対応する日本語 */
+export const microCMSTypeRecord: Record<
+  (typeof microCMSWebhookTypes)[number],
+  string
+> = {
+  new: '作成',
+  edit: '更新',
+  delete: '削除',
+} as const;
+
+/** Slack通知で使う CMS操作に対応する絵文字 */
+export const microCMSTypeEmojiRecord: Record<
+  (typeof microCMSWebhookTypes)[number],
+  string
+> = {
+  new: ':sparkles:', // きらきら
+  edit: ':pencil2:', // 鉛筆
+  delete: ':face_with_peeking_eye:', // 覗き見している顔
+} as const;
+
+/** Slack通知で使う CMS状態に対応する日本語 */
+export const microCMSStatusRecord: Record<
+  (typeof microCMSStatusWords)[number],
+  string
+> = {
+  DRAFT: '下書き',
+  PUBLISH: '公開',
+  CLOSED: '公開終了',
+} as const;
