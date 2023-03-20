@@ -24,7 +24,7 @@ jobs:
         uses: josephduffy/wait-for-netlify-action@v1
         id: wait_for_netlify_preview
         with:
-          site_name: 'oucrc-web-2023'
+          site_name: 'oucrc-web-2024'
           max_timeout: 240
       - name: Lighthouseでページを分析
         id: lighthouse_audit
