@@ -5,8 +5,8 @@ import { envsafe, num, str } from 'envsafe';
  */
 export const clientEnv = envsafe({
   /** アナリティクスを埋め込んだ Tag Manager　のID or アナリティクスのgtag ID */
-  GTAG_ID: str({
-    input: process.env.NEXT_PUBLIC_GTAG_ID,
+  GTM_ID: str({
+    input: process.env.NEXT_PUBLIC_GTM_ID,
     allowEmpty: true,
     default: '',
   }),
