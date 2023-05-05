@@ -4,10 +4,10 @@
 
 ## このリポジトリを実用に移す条件
 
-1. App Routerがベータでなくなること ([公式ドキュメント](https://beta.nextjs.org/docs/app-directory-roadmap)を参照)
-  a. プレビュー機能: 現状ではクラッシュする
-  b. APIルート: `route.ts`での`res.revalidate`ができず無駄に`pages/api`がある
-2. NetlifyがOn-Demand ISRに対応すること
+1. ~~App Routerがベータでなくなること ([公式ドキュメント](https://beta.nextjs.org/docs/app-directory-roadmap)を参照)~~ 解決
+  a. ~~プレビュー機能~~ 解決
+  b. ~~APIルート: `route.ts`での`res.revalidate`ができず無駄に`pages/api`がある~~ 解決
+1. NetlifyがOn-Demand ISRに対応すること
   b. 詳細はIssue参照
 
 ## web-2021との違い
@@ -45,6 +45,8 @@
 
 Netlifyに任せてください。
 
+[pnpm用に環境変数の設定が必要](https://docs.netlify.com/integrations/frameworks/next-js/overview/#pnpm-support)かも。
+
 ## 環境変数
 
 |key|必須/任意|default|説明|
@@ -63,6 +65,13 @@ Netlifyに任せてください。
 |`NEXT_PUBLIC_GTM_ID`|任意||アナリティクスを埋め込んだ Tag ManagerのコンテナID<br>なお、ページ遷移を正しく取得するには、GA4において「拡張計測」をONにする必要がある([ソース](https://zenn.dev/waddy/scraps/940ac10e7c3f94))|
 |`NEXT_PUBLIC_ARTICLE_COUNT_PER_PAGE`|任意|9|一覧における1ページあたりの記事数|
 |`NEXT_PUBLIC_MAX_MEMBER_YEARS`|任意|8|部員紹介で、歴代の部員全員を載せるとビルドに時間がかかる。<br>そのため、この環境変数で対象の年度数を絞れる|
+
+## 開発
+
+```sh
+pnpm i
+pnpm dev
+```
 
 ## License
 

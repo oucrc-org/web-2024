@@ -3,6 +3,7 @@ import { clientEnv } from '@/config/client-env';
 import { parseHtml, parseMarkdown } from '@/utils/content-parser';
 import { buildFilters, client } from './client';
 import { serverEnv } from '@/config/server-env';
+import { MicroCMSQueries } from 'microcms-js-sdk';
 
 /** generateStaticParamsで使用 IDだけを取得 */
 export async function getAllArticleIds({
@@ -63,14 +64,12 @@ export async function getArticles(
  * - `markdown_body`がない場合、`body`は構文ハイライトを追加して上書きされる
  * - `markdown_body`がある場合、`body`はMarkdownのパース結果で上書きされる
  */
-export async function getArticle(contentId: string, draftKey?: string) {
+export async function getArticle(contentId: string, queries?: MicroCMSQueries) {
   return await client
     .get<Article>({
       endpoint: 'article',
       contentId,
-      queries: {
-        draftKey,
-      },
+      queries,
     })
     .then(async (article) => {
       let body = article.body;
@@ -96,7 +95,7 @@ export async function getArticle(contentId: string, draftKey?: string) {
  */
 export async function getOtherArticlesBySameMember(
   articleId: string,
-  limit = 3
+  queries?: MicroCMSQueries
 ) {
   const article = await client.get<Article>({
     endpoint: 'article',
@@ -111,7 +110,7 @@ export async function getOtherArticlesBySameMember(
           [`name[equals]${article.name.id}`, `id[not_equals]${articleId}`],
           'date'
         ),
-        limit,
+        ...queries,
       },
     })
     .catch(() => {
@@ -122,14 +121,18 @@ export async function getOtherArticlesBySameMember(
 /**
  * 部員による他記事の取得
  */
-export async function getArticlesByMember(memberId: string, limit = 6) {
+export async function getArticlesByMember(
+  memberId: string,
+  queries?: MicroCMSQueries
+) {
   return await client
     .getList<Article>({
       endpoint: 'article',
       queries: {
         fields: ARTICLE_LIST_FIELDS,
         filters: buildFilters([`name[equals]${memberId}`], 'date'),
-        limit,
+        limit: 6,
+        ...queries,
       },
     })
     .catch(() => {
@@ -142,7 +145,10 @@ export async function getArticlesByMember(memberId: string, limit = 6) {
  * 旧サイトの`pages/articles/_id.vue`より移植
  * TODO: カテゴリ以外の要素も考慮できるようにする
  */
-export async function getRecommendedArticles(articleId: string, limit = 4) {
+export async function getRecommendedArticles(
+  articleId: string,
+  queries?: MicroCMSQueries
+) {
   const searchQuery: string[] = [`id[not_equals]${articleId}`];
   const article = await client.get<Article>({
     endpoint: 'article',
@@ -158,7 +164,8 @@ export async function getRecommendedArticles(articleId: string, limit = 4) {
       queries: {
         fields: ARTICLE_LIST_FIELDS,
         filters: buildFilters(searchQuery, 'date'),
-        limit,
+        limit: 4,
+        ...queries,
       },
     })
     .catch(() => {

@@ -1,16 +1,15 @@
 import { MicroCMSWebhookBody } from '@/types/micro-cms';
 import { createHmac, timingSafeEqual } from 'crypto';
-import { NextApiRequest } from 'next';
+import { NextRequest } from 'next/server';
 import { serverEnv } from '@/config/server-env';
 
 /**
  * WebhookがMicroCMSから送信されたかを検証する
  * @see https://document.microcms.io/manual/webhook-setting
  */
-export function verifyMicroCmsWebhook(
+export async function verifyMicroCmsWebhook(
   parsedBody: MicroCMSWebhookBody,
-  /** webhookを受け取るAPIルート */
-  request: NextApiRequest
+  request: NextRequest
 ) {
   let secretEnv: string | null = null;
   const { api } = parsedBody;
@@ -30,11 +29,12 @@ export function verifyMicroCmsWebhook(
       'Set required environment variables to verify webhook signature'
     );
   }
-  // nextがbodyをObjectにしてしまうためstringify
+
   const expectedSignature = createHmac('sha256', secretEnv)
-    .update(JSON.stringify(request.body))
+    .update(JSON.stringify(parsedBody))
     .digest('hex');
-  const signature = request.headers['x-microcms-signature'];
+  const signature = request.headers.get('x-microcms-signature');
+
   if (typeof signature !== 'string') {
     throw new Error('Required header x-microcms-signature is not set');
   }
@@ -42,6 +42,7 @@ export function verifyMicroCmsWebhook(
     Buffer.from(signature),
     Buffer.from(expectedSignature)
   );
+
   if (!valid) {
     throw new Error('Could not verify webhook signature');
   }

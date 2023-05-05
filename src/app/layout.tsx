@@ -32,6 +32,8 @@ const ogImageUrl =
  * @see https://beta.nextjs.org/docs/api-reference/metadata#icons
  */
 export const metadata = {
+  // Netlifyなので指定が必要
+  metadataBase: new URL(process.env.URL ?? 'http://localhost:3000'),
   title: { default: siteName, template: `%s - ${siteName}` },
   description,
   icons: {
