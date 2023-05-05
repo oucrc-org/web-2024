@@ -1,12 +1,7 @@
-import type {
-  MicroCMSContentId,
-  MicroCMSImage,
-  MicroCMSDate,
-} from 'microcms-js-sdk';
+import type { MicroCMSImage, MicroCMSListContent } from 'microcms-js-sdk';
 import { z } from 'zod';
 
 type Maybe<T> = T | null;
-type MicroCMSBase = MicroCMSContentId & MicroCMSDate;
 
 export const microCMSEndpoints = ['article', 'news', 'member'] as const;
 export const microCMSEndpointName = z.enum(microCMSEndpoints);
@@ -33,7 +28,7 @@ export type Member = {
   twitter: Maybe<string>;
   github: Maybe<string>;
   youtube: Maybe<string>;
-} & MicroCMSBase;
+} & MicroCMSListContent;
 /** 一覧で無駄なカラムを取得しないように定義 */
 export const MEMBER_LIST_FIELDS = 'id,name,status,avatar,enteryear';
 
@@ -46,7 +41,7 @@ export type Category = {
    * 紛らわしいが、カテゴリ名
    */
   category: string;
-} & MicroCMSBase;
+} & MicroCMSListContent;
 /** 一覧で無駄なカラムを取得しないように定義 */
 export const CATEGORY_LIST_FIELDS = 'id,category';
 
@@ -60,7 +55,7 @@ export type Series = {
    */
   series: string;
   author: Maybe<Member>;
-} & MicroCMSBase;
+} & MicroCMSListContent;
 /** 一覧で無駄なカラムを取得しないように定義 */
 export const SERIES_LIST_FIELDS = 'id,,series';
 /**
@@ -76,7 +71,7 @@ export type News = {
   important: Maybe<boolean>;
   body: string;
   image: Maybe<MicroCMSImage>;
-} & MicroCMSBase;
+} & MicroCMSListContent;
 /** 一覧で無駄なカラムを取得しないように定義 */
 export const NEWS_LIST_FIELDS = 'id,title,date,createdAt';
 
@@ -100,7 +95,7 @@ export type Article = {
   /** 概要の代わりにする */
   twitter_comment: Maybe<string>;
   image: Maybe<MicroCMSImage>;
-} & MicroCMSBase;
+} & MicroCMSListContent;
 
 /**
  * 一覧で無駄なカラムを取得しないように定義

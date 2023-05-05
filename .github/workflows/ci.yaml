@@ -10,14 +10,40 @@ jobs:
     steps:
       - name: チェックアウト
         uses: actions/checkout@v3
+
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           # Netlifyは.nvmrcを検出するため、そちらが変われば適宜変えること
           node-version: 18
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
+
+      # pnpm
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.4.0
+          run_install: false
+
+      # pnpmとキャッシュの併用
+      # https://github.com/pnpm/action-setup#use-cache-to-reduce-installation-time
+      - name: pnpmのストアのパスを取得
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: pnpmのキャッシュ
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: 依存のインストール
+        run: pnpm install
+
       - name: 型チェック
-        run: yarn run typecheck
+        run: pnpm run typecheck
+
       - name: テスト
-        run: yarn run test
+        run: pnpm run test

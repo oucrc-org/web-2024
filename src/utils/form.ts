@@ -4,13 +4,11 @@ import { FormConfig } from '@/types/form';
 /**
  * Googleフォームのnameに合わせてデータを整形してから送信
  * @typeParam {T} zodで作ったフォーム用スキーマの型
- * @param cnfig constに書いてあるnameの対応付け
- * @param formId GoogleフォームのID
- * @param data 送信するデータ
- * @returns
  */
 export async function postToGoogleForm<T extends Record<string, any>>(
-  config: FormConfig<T>,
+  /** constに書いてあるnameの対応付け */
+  config: FormConfig<any>,
+  /** 送信するデータ */
   data: T
 ) {
   const params = new URLSearchParams();
