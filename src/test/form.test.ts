@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import { constants } from 'http2';
 /**
  * APIルートのテストを簡単に書けるパッケージ
