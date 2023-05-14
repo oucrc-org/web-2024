@@ -11,6 +11,13 @@ interface ArticleContentProps {
   article: Article;
 }
 
+type RankingObject = {
+  title: string;
+  bg_class: string;
+  text_class: string;
+  data: Article['id'][];
+};
+
 /**
  * 旧サイトの`components/ArticleContent.vue`を移植
  */
@@ -21,7 +28,7 @@ export default function ArticleContent({ article }: ArticleContentProps) {
    * 暫定的にそのまま移植
    * TODO: ハードコーディングをやめる
    */
-  const ranking = {
+  const ranking: Record<string, RankingObject> = {
     views: {
       title: '2021年アクセスランキング:',
       bg_class: 'bg-yellow-100',
@@ -65,6 +72,13 @@ export default function ArticleContent({ article }: ArticleContentProps) {
       data: ['wnkvw5pd8b1', 'cfykct7kadve', 'h_19frtxx7c'],
     },
   };
+  let rankingResult: RankingObject[] = [];
+  Object.keys(ranking).forEach((key) => {
+    const object = ranking[key];
+    if (object.data.includes(article.id)) {
+      rankingResult.push(object);
+    }
+  });
   /** web-2021よりコピーしたが、インライン数式において半角括弧は対象から外した */
   const mathConfig = `
   if(typeof window !== "undefined" && window.MathJax) {
@@ -139,23 +153,31 @@ export default function ArticleContent({ article }: ArticleContentProps) {
         {article.series && <SeriesButton series={article.series} />}
       </div>
       {/* <!-- ▼ ランキング --> */}
-      <div className="m-8 flex flex-wrap gap-3 sm:mx-16">
-        {Object.entries(ranking).map(([key, value], index) => {
-          return value.data.includes(article.id) ? (
-            <ButtonWithIcon
-              key={index}
-              icon={<AiFillCrown />}
-              className={`${value.bg_class} cursor-default`}
-            >
-              {value.title}
-              <span className="ml-1 font-bold">
-                {value.data.indexOf(article.id) + 1}位
-              </span>
-            </ButtonWithIcon>
-          ) : null;
-        })}
-      </div>
+      {rankingResult.length > 0 && (
+        <div className="m-8 flex flex-wrap gap-3 sm:mx-16">
+          {Object.entries(rankingResult).map(([key, value], index) => {
+            return (
+              <ButtonWithIcon
+                key={index}
+                icon={<AiFillCrown />}
+                className={`${value.bg_class} cursor-default`}
+              >
+                {value.title}
+                <span className="ml-1 font-bold">
+                  {value.data.indexOf(article.id) + 1}位
+                </span>
+              </ButtonWithIcon>
+            );
+          })}
+        </div>
+      )}
       {/* <!-- ▲ ランキング --> */}
+      {article.error && (
+        <div className="alert alert-error inline-block">
+          <b>記事のパースに失敗したため、言語指定が適用されていません:</b>
+          <code>{article.error}</code>
+        </div>
+      )}
       <div
         dangerouslySetInnerHTML={{ __html: article.body }}
         className="prose block w-full max-w-none px-8 text-lg leading-8 tracking-wider sm:px-16"

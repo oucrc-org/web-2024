@@ -5,6 +5,43 @@ import { buildFilters, client } from './client';
 import { serverEnv } from '@/config/server-env';
 import { MicroCMSQueries } from 'microcms-js-sdk';
 
+async function constructArticle(article: Article) {
+  let body = article.body;
+  let error = null;
+  const { markdown_enabled, body_markdown, body_html } = article;
+
+  if (markdown_enabled && body_markdown && body_markdown.length > 0) {
+    try {
+      body = await parseMarkdown(body_markdown);
+    } catch (e) {
+      console.error(e);
+      error = JSON.stringify((e as any).message ?? e, null, '\t');
+      body = body_markdown;
+    }
+  } else if (body_html && body_html.length > 0) {
+    try {
+      body = await parseHtml(body_html);
+    } catch (e) {
+      console.error(e);
+      error = JSON.stringify((e as any).message ?? e, null, '\t');
+      body = body_html;
+    }
+  } else {
+    try {
+      body = await parseHtml(body);
+    } catch (e) {
+      console.error(e);
+      error = JSON.stringify((e as any).message ?? e, null, '\t');
+    }
+  }
+
+  return {
+    ...article,
+    body,
+    error,
+  };
+}
+
 /** generateStaticParamsで使用 IDだけを取得 */
 export async function getAllArticleIds({
   /**
@@ -60,9 +97,7 @@ export async function getArticles(
 }
 
 /**
- * 記事を取得しつつ、本文をパースする
- * - `markdown_body`がない場合、`body`は構文ハイライトを追加して上書きされる
- * - `markdown_body`がある場合、`body`はMarkdownのパース結果で上書きされる
+ * 記事を取得
  */
 export async function getArticle(contentId: string, queries?: MicroCMSQueries) {
   return await client
@@ -71,19 +106,7 @@ export async function getArticle(contentId: string, queries?: MicroCMSQueries) {
       contentId,
       queries,
     })
-    .then(async (article) => {
-      let body = article.body;
-      // MDがある場合はHTMLより優先する
-      if (article.markdown_body && article.markdown_body.length > 0) {
-        body = await parseMarkdown(article.markdown_body);
-      } else {
-        body = await parseHtml(article.body);
-      }
-      return {
-        ...article,
-        body,
-      };
-    })
+    .then(async (article) => await constructArticle(article))
     .catch(() => {
       return null;
     });
