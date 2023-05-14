@@ -156,6 +156,12 @@ export default function ArticleContent({ article }: ArticleContentProps) {
         })}
       </div>
       {/* <!-- ▲ ランキング --> */}
+      {article.error && (
+        <div className="alert alert-error inline-block">
+          <b>記事のパースに失敗したため、言語指定が適用されていません:</b>
+          <code>{article.error}</code>
+        </div>
+      )}
       <div
         dangerouslySetInnerHTML={{ __html: article.body }}
         className="prose block w-full max-w-none px-8 text-lg leading-8 tracking-wider sm:px-16"

@@ -106,6 +106,9 @@ export type Article = {
   /** 概要の代わりにする */
   twitter_comment: Maybe<string>;
   image: Maybe<MicroCMSImage>;
+
+  /** パース失敗時に理由が入る */
+  error: string | null;
 } & MicroCMSListContent;
 
 /**

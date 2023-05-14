@@ -62,9 +62,9 @@
   }
   .prose div[data-filename]::before {
     content: attr(data-filename);
-    @apply absolute top-0 right-0 py-1 px-2 bg-black;
+    @apply absolute top-0 left-0 py-1 px-2 bg-black;
     @apply text-sm text-white font-mono;
-    @apply rounded-bl-lg rounded-tr-lg;
+    @apply rounded-tl-lg rounded-br-lg;
   }
   /* インラインコード */
   .prose p code {

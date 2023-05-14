@@ -7,21 +7,31 @@ import { MicroCMSQueries } from 'microcms-js-sdk';
 
 async function constructArticle(article: Article) {
   let body = article.body;
-  // 本文の表示優先順位: MD、新エディタ、旧エディタ
-  if (
-    article.markdown_enabled &&
-    article.body_markdown &&
-    article.body_markdown.length > 0
-  ) {
-    body = await parseMarkdown(article.body_markdown);
-  } else if (article.body_html && article.body_html.length > 0) {
-    body = await parseHtml(article.body_html);
-  } else {
-    body = await parseHtml(article.body);
+  let error = null;
+  const { markdown_enabled, body_markdown, body_html } = article;
+
+  if (markdown_enabled && body_markdown && body_markdown.length > 0) {
+    try {
+      body = await parseMarkdown(body_markdown);
+    } catch (e) {
+      console.error(e);
+      error = JSON.stringify((e as any).message ?? e, null, '\t');
+      body = body_markdown;
+    }
+  } else if (body_html && body_html.length > 0) {
+    try {
+      body = await parseHtml(body_html);
+    } catch (e) {
+      console.error(e);
+      error = JSON.stringify((e as any).message ?? e, null, '\t');
+      body = body_html;
+    }
   }
+
   return {
     ...article,
     body,
+    error,
   };
 }
 
