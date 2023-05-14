@@ -4,8 +4,8 @@ import '@/styles/globals.css';
 import fontStyles from '../styles/font.module.css';
 import { Noto_Sans_JP } from 'next/font/google';
 import { clientEnv } from '@/config/client-env';
-import ReactHotToast from '@/components/client/ReactHotToast';
 import Drawer from '@/components/Drawer';
+import { Toaster } from 'react-hot-toast';
 
 const notoSansJP = Noto_Sans_JP({
   weight: ['400', '700'],
@@ -94,7 +94,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div className="flex min-h-screen flex-col">
           {/* @ts-expect-error Server Component */}
           <Drawer>{children}</Drawer>
-          <ReactHotToast />
+          <Toaster />
         </div>
       </body>
     </html>
