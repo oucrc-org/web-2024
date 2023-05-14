@@ -6,6 +6,7 @@ import { Noto_Sans_JP } from 'next/font/google';
 import { clientEnv } from '@/config/client-env';
 import Drawer from '@/components/Drawer';
 import { Toaster } from 'react-hot-toast';
+import TwitterWidgetsScript from '@/components/script/TwitterWidgetsScript';
 
 const notoSansJP = Noto_Sans_JP({
   weight: ['400', '700'],
@@ -74,6 +75,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
     <html lang="ja" data-theme="oucrc" className={`${notoSansJP.variable}`}>
       {/* theme定義はtailwind.config.js参照 */}
       <body className={fontStyles.font}>
+        <TwitterWidgetsScript />
         {gtmId && gtmId !== '' && (
           <>
             <Script

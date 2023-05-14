@@ -24,7 +24,7 @@ export default function Pagination({
     );
   };
   return (
-    <div className="mx-auto pt-2 pb-16">
+    <div className="mx-auto">
       <div className="btn-group flex-wrap">
         {pageNumber > 1 && (
           <Link href={`${path}/${pageNumber - 1}`} className="btn-md btn">

@@ -4,8 +4,8 @@ import DoubleLineButton from './DoubleLineButton';
 
 export default function Contact() {
   return (
-    <div className="z-10 flex min-h-screen flex-col items-center gap-8 bg-white md:flex-row">
-      <div className="z-10 flex flex-col gap-y-8 bg-white px-6 py-8 shadow-2xl">
+    <div className="z-10 flex min-h-screen flex-col items-center gap-8 md:flex-row">
+      <div className="z-10 flex flex-col gap-y-8 px-6 py-8 shadow-2xl">
         <h2 className="text-3xl font-bold tracking-wider text-secondary">
           お問い合わせ
         </h2>

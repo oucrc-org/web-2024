@@ -98,7 +98,7 @@ export default function ArticleContent({ article }: ArticleContentProps) {
   }`;
 
   return (
-    <section className="row-span-2 bg-white pb-12 lg:col-span-2 lg:shadow-xl">
+    <>
       {/* TODO: MathJax@3系で動かない原因を調査 */}
       <Script
         async
@@ -109,12 +109,6 @@ export default function ArticleContent({ article }: ArticleContentProps) {
         id="mathjax_config"
         type="text/x-mathjax-config"
         dangerouslySetInnerHTML={{ __html: mathConfig }}
-      />
-      {/* ツイート埋め込み対応 */}
-      <Script
-        async
-        strategy="afterInteractive"
-        src="https://platform.twitter.com/widgets.js"
       />
       {article.image ? (
         <Image
@@ -182,6 +176,6 @@ export default function ArticleContent({ article }: ArticleContentProps) {
         dangerouslySetInnerHTML={{ __html: article.body }}
         className="prose block w-full max-w-none px-8 text-lg leading-8 tracking-wider sm:px-16"
       ></div>
-    </section>
+    </>
   );
 }

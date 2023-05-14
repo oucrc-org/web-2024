@@ -1,4 +1,4 @@
-import { envsafe, num, str } from 'envsafe';
+import { bool, envsafe, num, str } from 'envsafe';
 
 /**
  * クライアントサイドで使用可能な環境変数
@@ -21,5 +21,11 @@ export const clientEnv = envsafe({
     input: process.env.NEXT_PUBLIC_MAX_MEMBER_YEARS,
     allowEmpty: true,
     default: 8,
+  }),
+  /** 所謂検索避けをするならtrue */
+  NOINDEX: bool({
+    input: process.env.NEXT_PUBLIC_NOINDEX,
+    allowEmpty: true,
+    default: false,
   }),
 });

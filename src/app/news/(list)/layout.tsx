@@ -3,9 +3,13 @@ import Script from 'next/script';
 import { ReactNode } from 'react';
 
 export const revalidate = 3600;
+export const metadata = {
+  title: 'お知らせ',
+  description: 'OUCRC（岡山大学電子計算機研究会）のからのお知らせ一覧です！',
+};
 
 /**
- * お知らせページ共通レイアウト
+ * お知らせ一覧ページ共通レイアウト
  */
 export default async function NewsLayout({
   children,

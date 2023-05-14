@@ -10,10 +10,10 @@ import {
 } from '@/utils/micro-cms';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 import MemberInfo from '@/components/MemberInfo';
+import TwoColumnLayout from '@/components/layout/TwoColumnLayout';
 
 import 'highlight.js/styles/androidstudio.css';
 
-/** articles/layout.tsxの更新間隔を上書き */
 export const revalidate = 600;
 
 type Params = {
@@ -82,10 +82,9 @@ export default async function ArticlePageLayout({
     notFound();
   }
   return (
-    <>
-      <div className="grid-cols-3 gap-8 pb-10 lg:grid xl:gap-12">
-        {children}
-        <section className="border-t border-divider bg-white px-8 pt-16 sm:px-16 md:px-24 lg:border-none lg:px-0 lg:pt-0 lg:shadow-xl">
+    <TwoColumnLayout
+      sidebarChildren={
+        <>
           <MemberInfo member={article.name} />
           {/* <!-- ▼ 同部員の他の記事 --> */}
           <Suspense fallback={<LoadingSkeleton />}>
@@ -97,8 +96,10 @@ export default async function ArticlePageLayout({
             {/* @ts-expect-error Server Component */}
             <RecommendedArticles articleId={articleId} />
           </Suspense>
-        </section>
-      </div>
-    </>
+        </>
+      }
+    >
+      {children}
+    </TwoColumnLayout>
   );
 }

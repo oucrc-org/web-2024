@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import { clientEnv } from '@/config/client-env';
 import { getPastTermYears } from '@/utils/micro-cms';
 

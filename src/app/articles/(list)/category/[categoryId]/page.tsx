@@ -34,12 +34,10 @@ export default async function ArticleCategoryIndexPage({
   }
 
   return (
-    <>
-      <ArticleList
-        data={articles}
-        pageNumber={1}
-        paginationPath={`/articles/category/${categoryId}`}
-      />
-    </>
+    <ArticleList
+      data={articles}
+      pageNumber={1}
+      paginationPath={`/articles/category/${categoryId}`}
+    />
   );
 }
