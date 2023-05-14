@@ -8,7 +8,11 @@ import { MicroCMSQueries } from 'microcms-js-sdk';
 async function constructArticle(article: Article) {
   let body = article.body;
   // 本文の表示優先順位: MD、新エディタ、旧エディタ
-  if (article.body_markdown && article.body_markdown.length > 0) {
+  if (
+    article.markdown_enabled &&
+    article.body_markdown &&
+    article.body_markdown.length > 0
+  ) {
     body = await parseMarkdown(article.body_markdown);
   } else if (article.body_html && article.body_html.length > 0) {
     body = await parseHtml(article.body_html);

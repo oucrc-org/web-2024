@@ -99,7 +99,9 @@ export type Article = {
   body: string;
   /** 新エディタのHTML */
   body_html: Maybe<string>;
-  /** MD。記入されていればbodyより優先 */
+  /** MDを使うか否か */
+  markdown_enabled: boolean;
+  /** MD */
   body_markdown: Maybe<string>;
   /** 概要の代わりにする */
   twitter_comment: Maybe<string>;
