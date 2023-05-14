@@ -26,6 +26,13 @@ async function constructArticle(article: Article) {
       error = JSON.stringify((e as any).message ?? e, null, '\t');
       body = body_html;
     }
+  } else {
+    try {
+      body = await parseHtml(body);
+    } catch (e) {
+      console.error(e);
+      error = JSON.stringify((e as any).message ?? e, null, '\t');
+    }
   }
 
   return {
