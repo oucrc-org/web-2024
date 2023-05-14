@@ -4,9 +4,9 @@ import { Suspense, ReactNode } from 'react';
 import LoadingSkeleton from '@/components/LoadingSkeleton';
 
 /**
- * 記事ページ共通レイアウト
+ * 記事一覧ページネーションページ共通レイアウト
  */
-export default async function ArticleLayout({
+export default async function ArticleListPaginationLayout({
   children,
 }: {
   children: ReactNode;

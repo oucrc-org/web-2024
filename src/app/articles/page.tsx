@@ -2,6 +2,9 @@ import { getArticles } from '@/utils/micro-cms';
 import ArticleList from '@/components/ArticleList';
 import CategoryMenu from '@/components/CategoryMenu';
 import SeriesMenu from '@/components/SeriesMenu';
+import OneColumnLayout from '@/components/layout/OneColumnLayout';
+
+export const revalidate = 3600;
 
 export const metadata = {
   title: '記事一覧',
@@ -12,7 +15,7 @@ export const metadata = {
 export default async function ArticlePage() {
   const articles = await getArticles(1);
   return (
-    <>
+    <OneColumnLayout>
       {/* @ts-expect-error Server Component */}
       <CategoryMenu />
       {/* @ts-expect-error Server Component */}
@@ -23,6 +26,6 @@ export default async function ArticlePage() {
         // articles, newsは`/p`がある
         paginationPath={`/articles/p`}
       />
-    </>
+    </OneColumnLayout>
   );
 }

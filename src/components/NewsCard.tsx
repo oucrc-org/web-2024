@@ -1,6 +1,5 @@
 import { ComponentPropsWithoutRef } from 'react';
 import Link from 'next/link';
-import { twMerge } from 'tailwind-merge';
 import { News } from '@/types/micro-cms';
 import { formatDate } from '@/utils/date';
 
@@ -11,7 +10,7 @@ interface NewsCardProps extends ComponentPropsWithoutRef<'div'> {
 export default function NewsCard({ news, className, ...props }: NewsCardProps) {
   const date = news.date ?? news.createdAt;
   return (
-    <div className={twMerge('bg-white', className)} {...props}>
+    <div {...props}>
       <Link href={`/news/${news.id}`}>
         <div className="flex items-center justify-between p-3 py-5">
           <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">

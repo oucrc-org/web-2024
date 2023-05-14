@@ -1,8 +1,11 @@
+import OneColumnLayout from '@/components/layout/OneColumnLayout';
+import TwoColumnLayout from '@/components/layout/TwoColumnLayout';
 import NewsContent from '@/components/NewsContent';
-import TwitterWidgetsScript from '@/components/script/TwitterWidgetsScript';
 import { getAllNewsIds, getNews } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+
+export const revalidate = 600;
 
 type Params = {
   params: { newsId: string };
@@ -40,9 +43,8 @@ export default async function NewsPage({ params: { newsId } }: Params) {
     notFound();
   }
   return (
-    <div className="pt-16">
-      <TwitterWidgetsScript />
-      <NewsContent news={news} />
-    </div>
+    <OneColumnLayout>
+      <NewsContent news={news} />;
+    </OneColumnLayout>
   );
 }

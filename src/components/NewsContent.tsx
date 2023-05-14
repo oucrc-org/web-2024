@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { News } from '@/types/micro-cms';
 import { formatDate } from '@/utils/date';
+import Link from 'next/link';
 
 interface NewsContentProps {
   news: News;
@@ -11,7 +12,13 @@ interface NewsContentProps {
  */
 export default function NewsContent({ news }: NewsContentProps) {
   return (
-    <section className="flex flex-col gap-y-6 bg-white lg:shadow-xl">
+    <section className="flex flex-col gap-y-6">
+      <nav>
+        <Link href="/news" className="btn-outline btn gap-2">
+          <span>«</span>
+          {`一覧に戻る`}
+        </Link>
+      </nav>
       {news.image ? (
         <Image
           src={news.image.url}

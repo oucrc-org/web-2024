@@ -18,7 +18,7 @@ export default function ArticleCard({
   ...props
 }: ArticleCardProps) {
   return (
-    <div className={twMerge('bg-white text-center', className)} {...props}>
+    <div className={twMerge('text-center', className)} {...props}>
       <Link
         href={`/articles/${article.id}`}
         className="flex h-full w-full flex-col items-center gap-y-3 transition duration-500 ease-in-out hover:scale-101"
