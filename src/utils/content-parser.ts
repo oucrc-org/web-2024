@@ -15,8 +15,8 @@ import dart from 'highlight.js/lib/languages/dart';
 import remarkGfm from 'remark-gfm';
 
 /**
- * HTMLのコードにhljsの変形を適用する SSR対応
- * コンポーネントにhljsのCSSが必要
+ * HTMLをパースし、コードに適切なclassを付与する
+ * 表示にはhighlight.jsのCSSが必要
  * HTMLにTeXを混ぜていてややこしいため、数式はクライアントサイドで描画する
  *
  * @see https://dev.classmethod.jp/articles/2020-04-15-conv-html-use-rehype/

@@ -5,6 +5,22 @@ import { buildFilters, client } from './client';
 import { serverEnv } from '@/config/server-env';
 import { MicroCMSQueries } from 'microcms-js-sdk';
 
+async function constructArticle(article: Article) {
+  let body = article.body;
+  // 本文の表示優先順位: MD、新エディタ、旧エディタ
+  if (article.body_markdown && article.body_markdown.length > 0) {
+    body = await parseMarkdown(article.body_markdown);
+  } else if (article.body_html && article.body_html.length > 0) {
+    body = await parseHtml(article.body_html);
+  } else {
+    body = await parseHtml(article.body);
+  }
+  return {
+    ...article,
+    body,
+  };
+}
+
 /** generateStaticParamsで使用 IDだけを取得 */
 export async function getAllArticleIds({
   /**
@@ -60,9 +76,7 @@ export async function getArticles(
 }
 
 /**
- * 記事を取得しつつ、本文をパースする
- * - `markdown_body`がない場合、`body`は構文ハイライトを追加して上書きされる
- * - `markdown_body`がある場合、`body`はMarkdownのパース結果で上書きされる
+ * 記事を取得
  */
 export async function getArticle(contentId: string, queries?: MicroCMSQueries) {
   return await client
@@ -71,19 +85,7 @@ export async function getArticle(contentId: string, queries?: MicroCMSQueries) {
       contentId,
       queries,
     })
-    .then(async (article) => {
-      let body = article.body;
-      // MDがある場合はHTMLより優先する
-      if (article.markdown_body && article.markdown_body.length > 0) {
-        body = await parseMarkdown(article.markdown_body);
-      } else {
-        body = await parseHtml(article.body);
-      }
-      return {
-        ...article,
-        body,
-      };
-    })
+    .then(async (article) => await constructArticle(article))
     .catch(() => {
       return null;
     });

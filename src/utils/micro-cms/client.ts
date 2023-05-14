@@ -18,9 +18,7 @@ const promiseThrottle = new PromiseThrottle({
  */
 const handler: ProxyHandler<typeof _client> = {
   get: (target, action: keyof typeof _client) => (args: any) => {
-    // @ts-ignore
-    const throttledRequest = promiseThrottle.add(() => target[action](args));
-    return throttledRequest;
+    return promiseThrottle.add(() => (target[action] as any)(args));
   },
 };
 

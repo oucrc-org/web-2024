@@ -43,12 +43,28 @@
   .prose h6 {
     @apply text-h6;
   }
+
+  /* コードブロック */
   .prose pre {
     /* twの背景色は不要なので */
     @apply !bg-inherit;
   }
   .prose pre code {
-    @apply p-0;
+    @apply !p-4;
+  }
+
+  /* ファイル名 */
+  .prose div[data-filename] {
+    @apply relative;
+  }
+  .prose div[data-filename] pre code {
+    @apply !pt-8;
+  }
+  .prose div[data-filename]::before {
+    content: attr(data-filename);
+    @apply absolute top-0 right-0 py-1 px-2 bg-black;
+    @apply text-sm text-white font-mono;
+    @apply rounded-bl-lg rounded-tr-lg;
   }
   /* インラインコード */
   .prose p code {

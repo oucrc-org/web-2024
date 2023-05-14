@@ -1,6 +1,7 @@
 import type { MicroCMSImage, MicroCMSListContent } from 'microcms-js-sdk';
 import { z } from 'zod';
 
+/** ここはCMSにおける空欄の挙動に合わせること */
 type Maybe<T> = T | null;
 
 export const microCMSEndpoints = ['article', 'news', 'member'] as const;
@@ -88,10 +89,18 @@ export type Article = {
   name: Member;
   category: Maybe<Category>;
   series: Maybe<Series>;
-  /** HTML。`markdown_body`がある場合、Markdownのパース結果で上書きされる */
+  /**
+   * 記事本文のHTML
+   * 以下の条件のもと、microCMSのレスポンス中の`body`を上書きして再代入する
+   *  1. `body_markdown`が空でない場合、「内容（Markdown）」のパース結果
+   *  2. `body_html` が空でない場合、「内容（新エディタ）」のHTML
+   *  3. 上記の条件が満たされない場合、「内容」のHTML
+   */
   body: string;
+  /** 新エディタのHTML */
+  body_html: Maybe<string>;
   /** MD。記入されていればbodyより優先 */
-  markdown_body: Maybe<string>;
+  body_markdown: Maybe<string>;
   /** 概要の代わりにする */
   twitter_comment: Maybe<string>;
   image: Maybe<MicroCMSImage>;
