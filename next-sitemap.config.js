@@ -1,5 +1,5 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: 'https://oucrc.net',
-  generateRobotsTxt: true,
+  generateRobotsTxt: false,
 };

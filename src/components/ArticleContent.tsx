@@ -110,12 +110,6 @@ export default function ArticleContent({ article }: ArticleContentProps) {
         type="text/x-mathjax-config"
         dangerouslySetInnerHTML={{ __html: mathConfig }}
       />
-      {/* ツイート埋め込み対応 */}
-      <Script
-        async
-        strategy="afterInteractive"
-        src="https://platform.twitter.com/widgets.js"
-      />
       {article.image ? (
         <Image
           src={article.image.url}

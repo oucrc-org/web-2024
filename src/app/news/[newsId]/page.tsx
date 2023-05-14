@@ -1,4 +1,5 @@
 import NewsContent from '@/components/NewsContent';
+import TwitterWidgetsScript from '@/components/script/TwitterWidgetsScript';
 import { getAllNewsIds, getNews } from '@/utils/micro-cms';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -40,6 +41,7 @@ export default async function NewsPage({ params: { newsId } }: Params) {
   }
   return (
     <div className="pt-16">
+      <TwitterWidgetsScript />
       <NewsContent news={news} />
     </div>
   );
