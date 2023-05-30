@@ -2,6 +2,7 @@ import { notFound, redirect } from 'next/navigation';
 import ArticleContent from '@/components/ArticleContent';
 import { getArticle } from '@/utils/micro-cms';
 import PreviewExitButton from '@/components/PreviewExitButton';
+import TwoColumnLayout from '@/components/layout/TwoColumnLayout';
 
 /** draftKeyが不変でも内容の変化を反映する */
 export const dynamic = 'force-dynamic';
@@ -25,9 +26,9 @@ export default async function ArticlePage({
     notFound();
   }
   return (
-    <>
+    <TwoColumnLayout>
       {draftKey && <PreviewExitButton articleId={articleId} />}
       <ArticleContent article={article} />
-    </>
+    </TwoColumnLayout>
   );
 }
