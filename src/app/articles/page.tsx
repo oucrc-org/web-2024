@@ -16,9 +16,8 @@ export default async function ArticlePage() {
   const articles = await getArticles(1);
   return (
     <OneColumnLayout>
-      {/* @ts-expect-error Server Component */}
       <CategoryMenu />
-      {/* @ts-expect-error Server Component */}
+
       <SeriesMenu />
       <ArticleList
         data={articles}

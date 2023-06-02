@@ -39,7 +39,6 @@ export default async function NewsIndexPage({
 
   return (
     <Suspense fallback={<LoadingSkeleton />}>
-      {/* @ts-expect-error Server Component */}
       <NewsList pageNumber={pageNumber} />
     </Suspense>
   );

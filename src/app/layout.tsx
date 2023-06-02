@@ -37,32 +37,22 @@ export const metadata = {
   metadataBase: new URL(process.env.URL ?? 'http://localhost:3000'),
   title: { default: siteName, template: `%s - ${siteName}` },
   description,
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
-  },
   openGraph: {
     type: 'website',
     locale: 'ja_JP',
     siteName,
     description,
-    images: [
-      {
-        url: ogImageUrl,
-      },
-    ],
   },
   verification: {
     google: 'gUJca8xJ_QAdQ02BNBQRL7jCS53EgM8BWQZqA7zbSQU',
   },
   twitter: {
-    card: 'summary_large_image',
     title: siteName,
     description,
     site: '@oucrc',
     creator: '@oucrc',
     creatorId: '551682037', // 不変のTwitterユーザID
-    images: [ogImageUrl],
+    card: 'summary_large_image', // 画像が配置されていてもこれは必要らしい
   },
 };
 
@@ -94,7 +84,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </>
         )}
         <div className="flex min-h-screen flex-col">
-          {/* @ts-expect-error Server Component */}
           <Drawer>{children}</Drawer>
           <Toaster />
         </div>

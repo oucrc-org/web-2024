@@ -97,7 +97,6 @@ export default async function MemberPage({ params: { memberId } }: Params) {
       {/* <!-- ▲ 自己紹介画像 --> */}
       {/* <!-- ▼ この人が書いた記事 --> */}
       <Suspense fallback={<LoadingSkeleton />}>
-        {/* @ts-expect-error Server Component */}
         <ArticlesByMember memberId={memberId} />
       </Suspense>
       {/* <!-- ▲ この人が書いた記事 --> */}

@@ -14,11 +14,9 @@ export default async function ArticleListPaginationLayout({
   return (
     <>
       <Suspense fallback={<LoadingSkeleton />}>
-        {/* @ts-expect-error Server Component */}
         <CategoryMenu />
       </Suspense>
       <Suspense fallback={<LoadingSkeleton />}>
-        {/* @ts-expect-error Server Component */}
         <SeriesMenu />
       </Suspense>
       <div className="flex flex-col gap-y-6 pt-8">{children}</div>
