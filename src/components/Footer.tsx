@@ -14,6 +14,17 @@ export default function Footer() {
       </Link>
       <div className="text-center text-sm text-white">
         &copy; 2023 OUCRC All rights reserved
+        <br />
+        <small>
+          {`Code and license info is available on `}
+          <a
+            href="https://github.com/oucrc-org/web-2024#readme"
+            target="_blank"
+            className="underline"
+          >
+            GitHub
+          </a>
+        </small>
       </div>
     </div>
   );
