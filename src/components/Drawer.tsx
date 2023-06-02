@@ -105,7 +105,6 @@ export default async function Drawer({ children }: DrawerProps) {
                 </a>
                 <ul className="rounded-box right-0 z-50 bg-white p-2 shadow">
                   <Suspense fallback={<LoadingSkeleton />}>
-                    {/* @ts-expect-error Server Component */}
                     <CategoryLinks />
                   </Suspense>
                 </ul>
@@ -126,7 +125,6 @@ export default async function Drawer({ children }: DrawerProps) {
         <ul className="menu w-80 bg-base-100 p-4">
           <CommonLinks />
           <Suspense fallback={<LoadingSkeleton />}>
-            {/* @ts-expect-error Server Component */}
             <CategoryLinks />
           </Suspense>
         </ul>

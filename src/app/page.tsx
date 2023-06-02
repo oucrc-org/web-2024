@@ -112,7 +112,6 @@ export default async function Page() {
             </div>
             <div className="px-3 lg:col-span-3">
               <Suspense fallback={<LoadingSkeleton />}>
-                {/* @ts-expect-error Server Component */}
                 <NewsList pageNumber={1} enablePagination={false} />
               </Suspense>
               <div className="flex justify-end pt-4">

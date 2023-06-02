@@ -18,11 +18,9 @@ export default async function CategoryLayout({
   return (
     <>
       <Suspense fallback={<LoadingSkeleton />}>
-        {/* @ts-expect-error Server Component */}
         <CategoryMenu />
       </Suspense>
       <Suspense fallback={<LoadingSkeleton />}>
-        {/* @ts-expect-error Server Component */}
         <SeriesMenu currentSeriesId={seriesId} />
       </Suspense>
       {children}

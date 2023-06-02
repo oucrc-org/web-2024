@@ -84,7 +84,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </>
         )}
         <div className="flex min-h-screen flex-col">
-          {/* @ts-expect-error Server Component */}
           <Drawer>{children}</Drawer>
           <Toaster />
         </div>

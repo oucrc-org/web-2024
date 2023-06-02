@@ -92,12 +92,10 @@ export default async function ArticlePage({ params: { articleId } }: Params) {
           <MemberInfo member={article.name} />
           {/* <!-- ▼ 同部員の他の記事 --> */}
           <Suspense fallback={<LoadingSkeleton />}>
-            {/* @ts-expect-error Server Component */}
             <OtherArticles articleId={articleId} />
           </Suspense>
           {/* <!-- ▼ 最新のオススメ記事 --> */}
           <Suspense fallback={<LoadingSkeleton />}>
-            {/* @ts-expect-error Server Component */}
             <RecommendedArticles articleId={articleId} />
           </Suspense>
         </>
