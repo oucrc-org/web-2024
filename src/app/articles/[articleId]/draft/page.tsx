@@ -1,16 +1,20 @@
+import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
+import { generateArticleMetadata, getArticleDraft } from '@/utils/micro-cms';
 import ArticleContent from '@/components/ArticleContent';
-import { getArticle } from '@/utils/micro-cms';
 import PreviewExitButton from '@/components/PreviewExitButton';
-import TwoColumnLayout from '@/components/layout/TwoColumnLayout';
-
-/** draftKeyが不変でも内容の変化を反映する */
-export const dynamic = 'force-dynamic';
 
 type Params = {
   params: { articleId: string };
   searchParams: { draftKey: string | string[] };
 };
+
+export async function generateMetadata({
+  params: { articleId },
+  searchParams: { draftKey },
+}: Params): Promise<Metadata | void> {
+  return await generateArticleMetadata(articleId, draftKey);
+}
 
 /** プレビュー時にはこちらが使われる */
 export default async function ArticlePage({
@@ -21,14 +25,14 @@ export default async function ArticlePage({
   if (typeof draftKey !== 'string' || draftKey === '') {
     redirect(`/articles/${articleId}`);
   }
-  const article = await getArticle(articleId, { draftKey });
+  const article = await getArticleDraft(articleId, { draftKey });
   if (!article) {
     notFound();
   }
   return (
-    <TwoColumnLayout>
+    <>
       {draftKey && <PreviewExitButton articleId={articleId} />}
       <ArticleContent article={article} />
-    </TwoColumnLayout>
+    </>
   );
 }

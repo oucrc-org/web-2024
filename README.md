@@ -1,14 +1,14 @@
 # web-2024
 
-[web-2021](https://github.com/oucrc-org/web-2021)のNext.jsバージョンだが、App RouterとNetlifyの組み合わせによる様々な弊害により実用ができない。仕方なく「Slackに通知するやつ」として運用している。
+[web-2021](https://github.com/oucrc-org/web-2021)のNext.jsにおける実装
 
 ## このリポジトリを実用に移す条件
 
-1. ~~App Routerがベータでなくなること ([公式ドキュメント](https://beta.nextjs.org/docs/app-directory-roadmap)を参照)~~ 解決
-  a. ~~プレビュー機能~~ 解決
-  b. ~~APIルート: `route.ts`での`res.revalidate`ができず無駄に`pages/api`がある~~ 解決
-1. NetlifyがOn-Demand ISRに対応すること
-  b. 詳細はIssue参照
+- ~~App Routerがベータでなくなること ([公式ドキュメント](https://beta.nextjs.org/docs/app-directory-roadmap)を参照)~~ 解決
+  - ~~プレビュー機能~~ 解決
+  - ~~APIルート: `route.ts`での`res.revalidate`ができず無駄に`pages/api`がある~~ 解決
+- NetlifyがOn-Demand ISRに対応すること
+  - 詳細は #31 参照
 
 ## web-2021との違い
 
@@ -22,16 +22,6 @@
 - ~~記事投稿後、ビルドをトリガーする必要がなくなり、待ち時間がゼロになりました~~ [Netlifyの対応待ち](https://github.com/netlify/next-runtime/issues/1288)
   - ~~公開直後は404になる場合があります~~
   - ~~一覧の2ページ目以降の更新がすぐに行われない場合があります~~
-- ~~公開前にプレビューを表示できるようになりました~~ [App Routerの対応待ち](https://beta.nextjs.org/docs/app-directory-roadmap#other)
-- Markdownで記事を書けるようになりました
-  - ほとんどの人は使わないだろうからオプショナルにしています。MDを書いた場合はリッチエディタより優先されます
-  - Markdownの場合、GitHub Flavored機能が使える他、シンタックスハイライトの言語を指定できます
-- リッチエディタでもMDでも、シンタックスハイライトがサーバーサイドで行われるようになりました
-  - 記事表示の時点でハイライトが適用されます
-  - MathJaxはクライアントサイドのままです
-    - インライン数式において、半角括弧をパース対象から外しました
-    - 旧サイトでインライン数式がパースされておらず、移植すると今度は余計にパースされたため
-- 広報への通知が「本文、コメント、記事URL」のツイート用URLを含むようになりました
 
 ### 部員
 
