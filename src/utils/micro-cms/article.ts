@@ -1,9 +1,10 @@
+import { Metadata } from 'next';
+import { MicroCMSQueries } from 'microcms-js-sdk';
 import { Article, ARTICLE_LIST_FIELDS } from '@/types/micro-cms';
 import { clientEnv } from '@/config/client-env';
 import { parseHtml, parseMarkdown } from '@/utils/content-parser';
-import { buildFilters, client } from './client';
 import { serverEnv } from '@/config/server-env';
-import { MicroCMSQueries } from 'microcms-js-sdk';
+import { buildFilters, client } from './client';
 
 async function constructArticle(article: Article) {
   let body = article.body;
@@ -41,7 +42,6 @@ async function constructArticle(article: Article) {
     error,
   };
 }
-
 /** generateStaticParamsで使用 IDだけを取得 */
 export async function getAllArticleIds({
   /**
@@ -105,6 +105,31 @@ export async function getArticle(contentId: string, queries?: MicroCMSQueries) {
       endpoint: 'article',
       contentId,
       queries,
+    })
+    .then(async (article) => await constructArticle(article))
+    .catch(() => {
+      return null;
+    });
+}
+
+/**
+ * 記事のプレビューを取得
+ * 結果は例外的にキャッシュされない
+ */
+export async function getArticleDraft(
+  contentId: string,
+  { draftKey, ...queries }: MicroCMSQueries
+) {
+  return await client
+    .get<Article>({
+      endpoint: 'article',
+      contentId,
+      queries: {
+        draftKey,
+        ...queries,
+      },
+      // draftKeyが不変でも内容は変わるためキャッシュを無視
+      customRequestInit: { cache: 'no-store' },
     })
     .then(async (article) => await constructArticle(article))
     .catch(() => {
@@ -194,4 +219,33 @@ export async function getRecommendedArticles(
     .catch(() => {
       return null;
     });
+}
+
+/** 記事ページのメタデータを生成 */
+export async function generateArticleMetadata(
+  articleId: string,
+  draftKey?: string | string[]
+): Promise<Metadata | void> {
+  let article: Article | null = null;
+  const isDraft = typeof draftKey === 'string';
+  if (isDraft) {
+    article = await getArticleDraft(articleId, { draftKey });
+  } else {
+    article = await getArticle(articleId);
+  }
+  if (article) {
+    const { title, body, twitter_comment, image } = article;
+    const prefixedTitle = isDraft ? `[プレビュー] ${title}` : title;
+    // TODO: twitter_commentがない場合HTMLが混入する対策
+    const description = twitter_comment ?? body.slice(0, 140);
+    const metadata: Metadata = { title: prefixedTitle, description };
+    if (image) {
+      const { url, width, height } = image;
+      return {
+        ...metadata,
+        openGraph: { images: [{ url, width, height }] },
+      };
+    }
+    return metadata;
+  }
 }
